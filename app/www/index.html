@@ -1,0 +1,1803 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Crtež PVC prozora</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: Arial, Helvetica, sans-serif; background: #f3f3f3; color: #111; }
+  header { background: #2e2e2e; color: #fff; padding: 14px 16px; font-size: 18px; font-weight: bold; border-bottom: 4px solid #e8b020; letter-spacing: .3px; }
+  main { padding: 12px; max-width: 900px; margin: 0 auto; }
+  .card { background: #fff; border-radius: 12px; padding: 16px; margin-bottom: 14px; box-shadow: 0 1px 2px rgba(0,0,0,.06), 0 4px 14px rgba(0,0,0,.04); border: 1px solid #e0e0e0; }
+  h2 { font-size: 15px; margin: 0 0 12px; color: #111; text-transform: uppercase; letter-spacing: .6px; }
+  input:focus, select:focus { outline: none; border-color: #e8b020; box-shadow: 0 0 0 3px rgba(232,176,32,.35); }
+  input[type=checkbox] { accent-color: #e8b020; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  label { display: block; font-size: 13px; color: #444; margin-bottom: 3px; }
+  input, select { width: 100%; padding: 10px; font-size: 16px; border: 1px solid #c4c4c4; border-radius: 6px; background: #fff; }
+  .full { grid-column: 1 / -1; }
+  button { padding: 12px 16px; font-size: 16px; border: 2px solid #c99a1a; border-radius: 8px; background: #e8b020; color: #1a1a1a; font-weight: 700; cursor: pointer; margin: 4px 4px 0 0; }
+  button:hover { filter: brightness(1.05); }
+  button.secondary { background: #fff; color: #2e2e2e; border: 2px solid #2e2e2e; font-weight: 600; }
+  .err { color: #333333; font-size: 14px; margin-top: 8px; white-space: pre-line; }
+  .drawing { overflow-x: auto; background: #fff; }
+  .drawing svg { width: 100%; height: auto; display: block; }
+  .summary { font-size: 14px; line-height: 1.6; }
+  .hidden { display: none; }
+  .sim-wrap svg { width: 100%; height: auto; display: block; }
+  .legend3d { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 10px 0; }
+  .legend3d .chip { font-size: 13px; font-weight: 700; padding: 5px 10px; border-radius: 999px; border: 2px solid #e8b020; }
+  .legend3d .chip.on { background: #2e2e2e; color: #fff; }
+  .legend3d .chip.off { background: #fff; color: #888; border-style: dashed; }
+  .section-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px;
+    color: #9a7412; border-bottom: 2px solid #e8b020; padding-bottom: 4px; margin-top: 8px; }
+  body.dark .section-title { color: #e8b020; border-bottom-color: #e8b020; }
+  body.dark { background: #1f1f1f; color: #eee; }
+  body.dark header { background: #2e2e2e; }
+  body.dark .card { background: #1a1a1a; border-color: #2e2e2e; box-shadow: none; }
+  body.dark h2 { color: #e8b020; }
+  body.dark label { color: #bdbdbd; }
+  body.dark input, body.dark select { background: #242424; color: #fff; border-color: #3a3a3a; }
+  body.dark button.secondary { background: #1a1a1a; color: #fff; border-color: #e8b020; }
+  body.dark .summary, body.dark .summary b { color: #ddd; }
+  body.dark #warnings { color: #999999 !important; }
+  body.dark .drawing { background: #fff; border-radius: 8px; padding: 6px; }
+  .view-wrap { border-radius: 10px; overflow: hidden; }
+  .view-vignette { position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0) 55%, rgba(0,0,0,.45) 100%); }
+  .report-only { display: none; }
+  .offer-print { display: none; }
+  .offer-h { font-size: 20px; margin: 0 0 6px 0; color: #2e2e2e; }
+  .offer-buyer, .offer-no { font-size: 12px; color: #2e2e2e; margin-bottom: 4mm; }
+  .offer-no { text-align: right; }
+  .offer-terms { font-size: 11px; color: #2e2e2e; margin-top: 4mm; border-top: 1px solid #e8b020; padding-top: 2mm; }
+  .offer-head { display: flex; gap: 12px; align-items: center; border-bottom: 3px solid #e8b020; padding-bottom: 6px; margin-bottom: 8px; color: #2e2e2e; }
+  .offer-firm { font-weight: 700; font-size: 16px; }
+  .offer-meta, .offer-date { font-size: 11px; color: #2e2e2e; }
+  .offer-date { margin-left: auto; text-align: right; }
+  .offer-block { break-inside: avoid; margin-bottom: 6mm; border-top: 1px solid #e8b020; padding-top: 3mm; }
+  .offer-cap { font-size: 12px; color: #2e2e2e; margin-bottom: 2mm; }
+  .offer-num { display: inline-block; background: #e8b020; color: #2e2e2e; font-weight: 700; padding: 0 6px; border-radius: 4px; }
+  .offer-sub { font-size: 11px; color: #555; }
+  .offer-sum, .offer-total { font-size: 13px; color: #2e2e2e; margin-top: 4mm; break-inside: avoid; }
+  .offer-sum table tr:last-child { border-top: 2px solid #e8b020; }
+  @media print {
+    body.print-offer > header, body.print-offer > main { display: none !important; }
+    body.print-offer .offer-print { display: block !important; }
+  }
+  @media print {
+    header, #inputs, #pricelistCard, #btnRow { display: none !important; }
+    .report-only { display: block !important; }
+    body { background: #fff; }
+    main { padding: 0; max-width: none; }
+    .card { box-shadow: none; padding: 0; margin: 0 0 16px 0; background: #fff; break-inside: avoid; }
+    @page { size: A4; margin: 10mm; }
+    #resultCard { break-inside: auto !important; }
+    #drawing svg { width: 100%; height: auto; max-height: 100mm; }
+    #simCard { display: block !important; margin-top: 6mm !important; break-inside: avoid; }
+    #simCard .sim-wrap svg { width: 100%; height: auto; max-height: 100mm; }
+    #simCard .sim-controls { display: none !important; }
+    #section { break-before: page; }
+    .drawing svg { width: 100%; height: auto; }
+    .report-only h1 { font-size: 20px; margin: 0 0 4px 0; color: #000; }
+    .section-title, h2 { color: #000 !important; border-color: #000 !important; }
+    .report-only p { margin: 0; font-size: 12px; color: #333; }
+    #reportHead { border-bottom: 2px solid #000; padding-bottom: 8px; margin-bottom: 14px; }
+  }
+</style>
+</head>
+<body>
+<header><img id="logo" alt="Logo" style="display:none;height:34px;vertical-align:middle;margin-right:10px"><span id="firmName">Crtež PVC prozora</span> <button id="themeBtn" class="secondary" style="float:right;padding:6px 10px;font-size:13px;margin:0">Tamna tema</button></header>
+<main>
+
+  <div class="report-only" id="reportHead">
+    <h1>DUO TIM – predračun</h1>
+    <img id="reportLogo" alt="" style="display:none;height:44px;margin-bottom:6px">
+    <p id="reportFirm" style="font-weight:700"></p>
+    <p id="reportMeta"></p>
+  </div>
+
+  <details class="card hidden" id="addedBox" style="padding:10px 16px">
+    <summary style="cursor:pointer;font-weight:700">Dodati prozori (<span id="addedCount">0</span>)</summary>
+    <div id="addedList" style="font-size:14px;margin-top:8px;line-height:1.6"></div>
+  </details>
+  <div class="card" id="inputs">
+    <h2>Unesi dimenzije (mm)</h2>
+      <div class="full section-title">Dimenzije i model</div>
+    <div class="grid">
+      <div class="full">
+        <label for="model">Model prozora (gotov tip)</label>
+        <select id="model">
+          <option value="">Ručno podešavanje</option>
+          <option value="dv">Dvokrilni 1400 × 1000 (krilo 2 na kip, komarnik)</option>
+          <option value="jd">Jednokrilni 900 × 1200</option>
+          <option value="dvk">Dvokrilni sa kipom i roletnom 1400 × 1000</option>
+          <option value="balk">Balkonska vrata 800 × 2200 (jednokrilna)</option>
+        </select>
+      </div>
+      <div>
+        <label for="hinge">Otvaranje jednokrilnog: strana šarki</label>
+        <select id="hinge">
+          <option value="L" selected>Levo</option>
+          <option value="R">Desno</option>
+        </select>
+      </div>
+      <div>
+        <label for="w">Širina (mm)</label>
+        <input id="w" type="number" inputmode="numeric" placeholder="obavezno" min="400" max="3000">
+      </div>
+      <div>
+        <label for="h">Visina (mm)</label>
+        <input id="h" type="number" inputmode="numeric" placeholder="obavezno" min="400" max="3000">
+      </div>
+      <div>
+        <label for="dimD">Dubina (mm)</label>
+        <input id="dimD" type="number" inputmode="numeric" placeholder="obavezno" min="50" max="500">
+      </div>
+      <div class="full">
+        <label><input id="opening" type="checkbox" style="width:auto"> Uneo sam mere ugradnog otvora (zida), ne mere prozora</label>
+      </div>
+      <div>
+        <label for="gap">Zazor po strani (mm)</label>
+        <input id="gap" type="number" inputmode="numeric" value="6" min="0" max="30">
+      </div>
+      <div class="full section-title" id="krilaTitle">Krila i otvaranje</div>
+      <div>
+        <label for="leaves">Broj krila</label>
+        <select id="leaves">
+          <option value="2" selected>2 krila</option>
+          <option value="1">1 krilo</option>
+          <option value="3">3 krila (srednje fiksno)</option>
+        </select>
+      </div>
+      <div>
+        <label for="open1">Krilo 1 se otvara</label>
+        <select id="open1">
+          <option value="krilo" selected>Okretanje (krilo)</option>
+          <option value="kip">Na kip (samo gornja ivica)</option>
+          <option value="tilt">Gornja i bočna (tilt-turn)</option>
+        </select>
+      </div>
+      <div id="open2wrap">
+        <label for="open2">Krilo 2 se otvara</label>
+        <select id="open2">
+          <option value="krilo">Okretanje (krilo)</option>
+          <option value="kip">Na kip (samo gornja ivica)</option>
+          <option value="tilt" selected>Gornja i bočna (tilt-turn)</option>
+        </select>
+      </div>
+      <div class="full section-title">Profili i ispuna</div>
+      <div>
+        <label for="frame">Profil okvira (mm)</label>
+        <input id="frame" type="number" inputmode="numeric" value="70" min="50" max="120">
+      </div>
+      <div>
+        <label for="sash">Profil krila (mm)</label>
+        <input id="sash" type="number" inputmode="numeric" value="70" min="50" max="120">
+      </div>
+      <div class="full">
+        <label for="glazing">Ispuna</label>
+        <select id="glazing">
+          <option value="Staklo 24 mm (4-16-4, Low-E, argon)">Dvoslojno 24 mm (4-16-4, Low-E, argon)</option>
+          <option value="Staklo 32 mm (4-10-4-10-4, Low-E, argon)">Troslojno 32 mm (4-10-4-10-4, Low-E, argon)</option>
+        </select>
+      </div>
+      <div class="full">
+        <label for="system">Sistem profila</label>
+        <select id="system"></select>
+      </div>
+      <div class="full">
+        <label for="color">Boja profila</label>
+        <select id="color"><option value="bela">Bela</option><option value="zlatni-hrast">Zlatni hrast</option><option value="orah">Orah</option><option value="tamni-hrast">Tamni hrast</option><option value="antracit">Antracit</option><option value="braon">Braon</option><option value="antracit-jednostrani">Jednostrani antracit</option></select>
+      </div>
+      <div class="full section-title">Roletna</div>
+      <div>
+        <label><input id="roll" type="checkbox" style="width:auto"> Roletna</label>
+      </div>
+      <div>
+        <label for="rollBox">Visina kasete (mm)</label>
+        <input id="rollBox" type="number" inputmode="numeric" value="150" min="100" max="400">
+      </div>
+      <div>
+        <label for="rollW">Roletna – širina platna (mm)</label>
+        <input id="rollW" type="number" inputmode="numeric" placeholder="auto: širina − 20" min="100" max="3000">
+      </div>
+      <div>
+        <label for="rollH">Roletna – spust platna (mm)</label>
+        <input id="rollH" type="number" inputmode="numeric" placeholder="auto: visina + 150" min="100" max="4000">
+      </div>
+      <div class="full section-title">Komarnik</div>
+      <div>
+        <label><input id="mesh" type="checkbox" style="width:auto"> Komarnik (mreža)</label>
+      </div>
+      <div>
+        <label><input id="meshFix" type="checkbox" checked style="width:auto"> Fiksni</label>
+        <label><input id="meshRolo" type="checkbox" style="width:auto"> Rolo</label>
+        <label><input id="meshPlise" type="checkbox" style="width:auto"> Plisé</label>
+      </div>
+      <div>
+        <label for="meshW">Komarnik – širina krila (mm)</label>
+        <input id="meshW" type="number" inputmode="numeric" placeholder="auto: krilo − 20" min="100" max="3000">
+      </div>
+      <div>
+        <label for="meshH">Komarnik – visina (mm)</label>
+        <input id="meshH" type="number" inputmode="numeric" placeholder="auto: otvor − 20" min="100" max="3000">
+      </div>
+      <div class="full section-title">
+        <label style="text-transform:none;letter-spacing:0;font-weight:normal;font-size:14px;margin:0"><input id="okapnica" type="checkbox" style="width:auto"> Okapnica (ispod prozora, po širini)</label>
+      </div>
+      <div>
+        <label for="okapMat">Materijal okapnice</label>
+        <select id="okapMat"><option value="pvc">PVC</option><option value="alu">ALU</option></select>
+      </div>
+      <div>
+        <label for="okapW">Širina okapnice</label>
+        <select id="okapW"><option value="10">10 cm</option><option value="15">15 cm</option><option value="20">20 cm</option><option value="25">25 cm</option><option value="35">35 cm</option></select>
+      </div>
+    </div>
+    <div id="errors" class="err"></div>
+    <div id="warnings" style="font-size:14px;color:#444444;white-space:pre-line;margin-top:6px"></div>
+    <div>
+      <button id="btnDraw">Napravi crtež</button>
+      <button id="btnDoor" class="secondary">Vrata</button>
+      <button id="btnAddNext" class="secondary">Dodaj još prozora</button>
+      <button id="btnSvg" class="secondary">Sačuvaj SVG</button>
+      <button id="btnPrint" class="secondary">Štampaj predračun / PDF</button>
+      <span id="printerRow" class="hidden">
+        <label for="printer" style="display:inline">Štampač:</label>
+        <select id="printer" style="width:auto;display:inline-block"></select>
+      </span>
+      
+      <div id="printMsg" style="font-size:13px;color:#555;margin-top:6px"></div>
+      <button id="btnSaveCfg" class="secondary">Sačuvaj konfiguraciju</button>
+      <button id="btnLoadCfg" class="secondary">Učitaj poslednju</button>
+    </div>
+  </div>
+
+  <div class="card hidden" id="resultCard">
+    <h2>Crtež</h2>
+    <div class="drawing" id="drawing"></div>
+    <div class="hidden" id="simCard" style="margin-top:12px">
+      <h2>Simulacija na fasadi</h2>
+      <div id="legendSim" class="legend3d"></div>
+      <div class="sim-wrap" id="sim"></div>
+      <div class="grid sim-controls" style="margin-top:10px">
+        <div>
+          <label for="simOpen">Otvaranje krila (°): <span id="simOpenVal">0</span></label>
+          <input id="simOpen" type="range" min="0" max="90" value="0" style="padding:0">
+        </div>
+        <div>
+          <label for="simRoll">Roletna spuštena (%)</label>
+          <input id="simRoll" type="range" min="0" max="100" value="0" style="padding:0">
+        </div>
+      </div>
+      <div class="summary-note sim-controls" style="font-size:13px;color:#555;margin-top:6px">Šematska simulacija, nije u razmeri sa fasadom.</div>
+    </div>
+    <div class="drawing" id="section" style="margin-top:12px"></div>
+  </div>
+
+  <div class="card hidden" id="summaryCard">
+    <h2>Dimenzije i površina</h2>
+    <div class="summary" id="summary"></div>
+  </div>
+
+  <div class="card" id="pricelistCard">
+    <h2>Cenovnik</h2>
+    <div class="grid">
+      <div>
+        <label for="plWin">Prozor po m² (bela boja)</label>
+        <input id="plWin" type="number" inputmode="decimal" min="0" step="0.001">
+      </div>
+      <div>
+        <label for="plRoll">Roletna po m² platna</label>
+        <input id="plRoll" type="number" inputmode="decimal" min="0" step="0.001">
+      </div>
+      <div>
+        <label for="plDoor">Vrata po m²</label>
+        <input id="plDoor" type="number" inputmode="decimal" min="0" step="0.001">
+      </div>
+      <div>
+        <label for="plPdv">PDV stopa (%)</label>
+        <input id="plPdv" type="number" inputmode="decimal" min="0" step="0.5">
+      </div>
+      <div>
+        <label for="plMesh">Komarnik fiksni po m²</label>
+        <input id="plMesh" type="number" inputmode="decimal" min="0" step="0.001">
+      </div>
+      <div>
+        <label for="plMeshRolo">Komarnik rolo po m²</label>
+        <input id="plMeshRolo" type="number" inputmode="decimal" min="0" step="0.001">
+      </div>
+      <div>
+        <label for="plMeshPlise">Komarnik plisé po m²</label>
+        <input id="plMeshPlise" type="number" inputmode="decimal" min="0" step="0.001">
+      </div>
+      <div>
+      </div>
+      <div id="plOkapBox" class="grid" style="grid-column:1/-1"></div>
+      <h2 style="margin-top:14px">Cene po m² za boje profila</h2>
+      <div id="plColorBox" class="grid"></div>
+      <div>
+        <label for="plCur">Valuta</label>
+        <input id="plCur" type="text">
+      </div>
+    </div>
+    <h2 id="plSysTitle" style="margin-top:14px;display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none">
+      <span>Dodatak po sistemu profila (%)</span><span id="plSysArrow" style="margin-left:auto">▸</span>
+    </h2>
+    <div id="plSysBody" style="display:none">
+      <label style="display:flex;align-items:center;gap:8px;margin:6px 0">
+        <input id="plSysOn" type="checkbox" checked style="width:auto"> Primeni dodatak po sistemu profila
+      </label>
+      <div id="plSystems" class="grid"></div>
+    </div>
+    <div style="margin-top:10px">
+      <button id="plSave">Sačuvaj cenovnik</button>
+      <button id="plReset" class="secondary">Vrati podrazumevane</button>
+      <button id="plExport" class="secondary">Izvezi cenovnik u fajl</button>
+      <button id="plImport" class="secondary">Uvezi cenovnik iz fajla</button>
+      <input id="plImportFile" type="file" accept=".json,application/json" style="display:none">
+    </div>
+    <div id="plMsg" style="font-size:13px;color:#555;margin-top:6px"></div>
+  </div>
+
+  <div class="card hidden" id="cartCard">
+    <h2>Ponuda (više stavki)</h2>
+    <div class="grid" style="margin-bottom:8px">
+      <div><label for="itemType">Vrsta otvora</label><select id="itemType"><option value="prozor">Prozor</option><option value="vrata">Vrata</option></select></div>
+      <div><label for="itemRoom">Prostorija / oznaka</label><input id="itemRoom" placeholder="npr. dnevna soba"></div>
+    </div>
+    <details style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:700">Podaci za predračun / fakturu</summary>
+      <div class="grid" style="margin-top:8px">
+        <div><label for="mBuyer">Kupac (ime / firma)</label><input id="mBuyer"></div>
+        <div><label for="mAddr">Adresa kupca</label><input id="mAddr"></div>
+        <div><label for="mPib">PIB / JMBG</label><input id="mPib"></div>
+        <div><label for="mNo">Broj predračuna</label><input id="mNo"></div>
+        <div><label for="mDate">Važi do</label><input id="mDate" type="date"></div>
+        <div><label for="mDisc">Popust na ponudu (%)</label><input id="mDisc" type="number" value="0" min="0" max="100" step="0.1"></div>
+        <div><label for="mMont">Montaža po m² (bez PDV)</label><input id="mMont" type="number" value="0" min="0" step="0.01"></div>
+        <div><label for="mMontKom">Montaža po komadu (bez PDV)</label><input id="mMontKom" type="number" value="0" min="0" step="0.01"></div>
+        <div><label for="mTrans">Transport, paušal (bez PDV)</label><input id="mTrans" type="number" value="0" min="0" step="0.01"></div>
+        <div><label for="mAdv">Avans (%)</label><input id="mAdv" type="number" value="0" min="0" max="100" step="1"></div>
+        <div class="full"><label for="mRok">Rok isporuke i način plaćanja</label><input id="mRok" placeholder="npr. rok 30 dana, avans 50%, ostatak pri montaži"></div>
+      </div>
+    </details>
+    <div class="summary" id="cartList"></div>
+    <div style="margin-top:10px">
+      <button id="btnAddItem">Dodaj stavku u ponudu</button>
+      <button id="btnClearCart" class="secondary">Obriši ponudu</button>
+      <button id="btnPrintOffer">Štampaj objekat (crteži u razmeri)</button>
+    </div>
+    <div class="summary" id="cartTotal" style="margin-top:12px;font-size:17px"></div>
+    <div class="summary" id="objSummary" style="margin-top:12px"></div>
+  </div>
+
+  <div class="card hidden" id="priceCard">
+    <h2>Kalkulator cene</h2>
+    <div class="grid">
+      <div>
+        <label for="qty">Broj komada</label>
+        <input id="qty" type="number" inputmode="numeric" value="1" min="1" step="1">
+      </div>
+    </div>
+    <div class="summary" id="priceOut" style="margin-top:12px"></div>
+  </div>
+
+</main>
+<div id="offerPrint" class="offer-print"></div>
+
+<script src="data/profiles.js"></script>
+<script src="data/pricelist.js"></script>
+<script src="data/company.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  var $ = function (id) { return document.getElementById(id); };
+  var lastSvg = "";
+
+  function round1(n) { return Math.round(n * 10) / 10; }
+  function round2(n) { return Math.round(n * 100) / 100; }
+  function round3(n) { return Math.round(n * 1000) / 1000; }
+
+  function escapeXml(s) {
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
+
+  function readParams() {
+    var isOpen = $("opening").checked;
+    var gapIn = isOpen ? (parseFloat($("gap").value) || 0) : 0;
+    var rawW = parseFloat($("w").value), rawH = parseFloat($("h").value);
+    var leavesN = parseInt($("leaves").value, 10);
+    var o1 = $("open1").value, o2 = leavesN >= 2 ? $("open2").value : o1;
+    var topOpen = function (v) { return v === "kip" || v === "tilt"; };
+    var meshLeaves = leavesN === 3
+      ? [topOpen(o1), false, topOpen(o2)]
+      : leavesN === 2
+        ? [topOpen(o1), topOpen(o2)]
+        : [topOpen(o1)];
+    return {
+      opens: leavesN === 3 ? [o1, "fiks", o2] : leavesN === 2 ? [o1, o2] : [o1],
+      meshLeaves: meshLeaves,
+      tilt: meshLeaves,
+      W: rawW - 2 * gapIn,
+      H: rawH - 2 * gapIn,
+      isOpening: isOpen,
+      openW: rawW,
+      openH: rawH,
+      gap: gapIn,
+      F: parseFloat($("frame").value),
+      S: parseFloat($("sash").value),
+      leaves: parseInt($("leaves").value, 10),
+      hinge: $("hinge").value,
+      D: parseFloat($("dimD").value),
+      glazing: $("glazing").value || "",
+      roll: $("roll").checked,
+      rollBox: parseFloat($("rollBox").value),
+      mesh: $("mesh").checked,
+      okapnica: $("okapnica").checked,
+      okapMat: $("okapMat").value,
+      color: $("color").value,
+      okapW: $("okapW").value,
+      meshTypes: [["fiksni", "meshFix"], ["rolo", "meshRolo"], ["plise", "meshPlise"]].filter(function (x) { return $(x[1]).checked; }).map(function (x) { return x[0]; }),
+      system: currentSystem(),
+      depth: currentSystem() ? currentSystem().frame : 70,
+      sashDepth: currentSystem() ? (currentSystem().sash || currentSystem().frame) : 70,
+      rollW: optNum("rollW"),
+      rollH: optNum("rollH"),
+      meshW: optNum("meshW"),
+      meshH: optNum("meshH")
+    };
+  }
+
+  // Prazno polje = null (koristi se automatska vrednost)
+  function optNum(id) {
+    var v = parseFloat($(id).value);
+    return isNaN(v) ? null : v;
+  }
+
+  var COLOR_LIST = [["zlatni-hrast", "Zlatni hrast"], ["orah", "Orah"], ["tamni-hrast", "Tamni hrast"], ["antracit", "Antracit"], ["braon", "Braon"], ["antracit-jednostrani", "Jednostrani antracit"]];
+  function colorPriceFor(pl, c) {
+    if (c === "bela" || !c) return pl.win || 0;
+    return (pl.colorPrices || {})[c] || 0;
+  }
+  var OKAP_MATS = [["pvc", "PVC"], ["alu", "ALU"]];
+  var OKAP_SIZES = [10, 15, 20, 25, 35];
+  function okapBoxIds() {
+    var ids = [];
+    OKAP_MATS.forEach(function (m) { OKAP_SIZES.forEach(function (w) { ids.push([m[0], w]); }); });
+    return ids;
+  }
+  function syncOkapDetails() {
+    var on = $("okapnica").checked;
+    $("okapMat").closest("div").style.display = on ? "" : "none";
+    $("okapW").closest("div").style.display = on ? "" : "none";
+  }
+  $("okapnica").addEventListener("change", syncOkapDetails);
+  syncOkapDetails();
+
+  var MESH_NAMES = { fiksni: "fiksni", rolo: "rolo", plise: "plisé" };
+  function meshLabel(p) {
+    var names = (p.meshTypes || []).map(function (t) { return MESH_NAMES[t].toUpperCase(); });
+    return names.length ? names.join(" + ") : "NIJE IZABRANA VRSTA";
+  }
+  function meshPriceFor(pl, t) {
+    if (t === "rolo") return pl.meshRolo || 0;
+    if (t === "plise") return pl.meshPlise || 0;
+    return pl.mesh || 0;
+  }
+
+  // Efektivne dimenzije roletne i komarnika (ručne ili automatske)
+  function effRoll(p) {
+    return {
+      w: p.rollW != null ? p.rollW : p.W - 20,
+      h: p.rollH != null ? p.rollH : p.H + 150
+    };
+  }
+  function effMesh(p, leafW, oh) {
+    return {
+      w: p.meshW != null ? p.meshW : leafW - 20,
+      h: p.meshH != null ? p.meshH : oh - 20
+    };
+  }
+
+  function currentSystem() {
+    var db = window.PROFILE_DB || [];
+    var id = $("system").value;
+    for (var i = 0; i < db.length; i++) if (db[i].id === id) return db[i];
+    return null;
+  }
+
+  function fillSystems() {
+    var sel = $("system");
+    var db = window.PROFILE_DB || [];
+    sel.innerHTML = "";
+    db.forEach(function (s) {
+      var o = document.createElement("option");
+      o.value = s.id;
+      o.textContent = s.brand + " · " + s.name + " (" + s.frame + " mm)";
+      sel.appendChild(o);
+    });
+  }
+  fillSystems();
+
+  function validate(p) {
+    var e = [];
+    if (!(p.W >= 400 && p.W <= 3000)) e.push("Širina je obavezna (400 do 3000 mm).");
+    if (!(p.H >= 400 && p.H <= 3000)) e.push("Visina je obavezna (400 do 3000 mm).");
+    if (!(p.D >= 50 && p.D <= 500)) e.push("Dubina je obavezna (50 do 500 mm).");
+    if (!(p.F >= 50 && p.F <= 120)) e.push("Profil okvira mora biti između 50 i 120 mm.");
+    if (!(p.S >= 50 && p.S <= 120)) e.push("Profil krila mora biti između 50 i 120 mm.");
+    if (e.length) return e;
+    var ow = p.W - 2 * p.F, oh = p.H - 2 * p.F;
+    var leafW = ow / p.leaves;
+    if (leafW - 2 * p.S < 100) e.push("Krilo je preusko za zadati profil.");
+    if (oh - 2 * p.S < 100) e.push("Prozor je prenizak za zadati profil.");
+    if (p.roll && !(p.rollBox >= 100 && p.rollBox <= 400)) e.push("Visina kasete mora biti između 100 i 400 mm.");
+    [["rollW", "Širina platna roletne"], ["rollH", "Spust roletne"], ["meshW", "Širina komarnika"], ["meshH", "Visina komarnika"]].forEach(function (f) {
+      var v = p[f[0]];
+      if (v != null && !(v >= 100 && v <= 4000)) e.push(f[1] + " mora biti između 100 i 4000 mm.");
+    });
+    return e;
+  }
+
+  // Kota horizontalna: linija na yLine, pomoćne linije od yObj do yLine
+  function dimH(x1, x2, yLine, yObj, label, fs) {
+    var t = 10, s = "";
+    s += '<line x1="' + x1 + '" y1="' + yObj + '" x2="' + x1 + '" y2="' + (yLine - 8) + '"/>';
+    s += '<line x1="' + x2 + '" y1="' + yObj + '" x2="' + x2 + '" y2="' + (yLine - 8) + '"/>';
+    s += '<line x1="' + x1 + '" y1="' + yLine + '" x2="' + x2 + '" y2="' + yLine + '"/>';
+    s += '<line x1="' + (x1 - t) + '" y1="' + (yLine + t) + '" x2="' + (x1 + t) + '" y2="' + (yLine - t) + '"/>';
+    s += '<line x1="' + (x2 - t) + '" y1="' + (yLine + t) + '" x2="' + (x2 + t) + '" y2="' + (yLine - t) + '"/>';
+    s += '<text x="' + ((x1 + x2) / 2) + '" y="' + (yLine - 12) + '" font-size="' + fs + '" font-weight="bold" text-anchor="middle" stroke="none" fill="#000">' + escapeXml(label) + '</text>';
+    return '<g stroke="#000" stroke-width="2" fill="none">' + s + '</g>';
+  }
+
+  // Kota vertikalna: linija na xLine, pomoćne linije od xObj, tekst na textX
+  function dimV(y1, y2, xLine, xObj, textX, label, fs) {
+    var t = 10, s = "";
+    var dir = xLine > xObj ? 8 : -8;
+    s += '<line x1="' + xObj + '" y1="' + y1 + '" x2="' + (xLine + dir) + '" y2="' + y1 + '"/>';
+    s += '<line x1="' + xObj + '" y1="' + y2 + '" x2="' + (xLine + dir) + '" y2="' + y2 + '"/>';
+    s += '<line x1="' + xLine + '" y1="' + y1 + '" x2="' + xLine + '" y2="' + y2 + '"/>';
+    s += '<line x1="' + (xLine - t) + '" y1="' + (y1 + t) + '" x2="' + (xLine + t) + '" y2="' + (y1 - t) + '"/>';
+    s += '<line x1="' + (xLine - t) + '" y1="' + (y2 + t) + '" x2="' + (xLine + t) + '" y2="' + (y2 - t) + '"/>';
+    var my = (y1 + y2) / 2;
+    var text = '<text x="' + textX + '" y="' + my + '" font-size="' + fs + '" font-weight="bold" text-anchor="middle" fill="#000" transform="rotate(-90,' + textX + ',' + my + ')">' + escapeXml(label) + '</text>';
+    return '<g stroke="#000" stroke-width="2" fill="none">' + s + '</g>' + text;
+  }
+
+  // fiksno krilo (bez kvake i šarki): samo okvir i staklo
+  function fixedLeafSVG(lx, ly, lw, lh, fs, s) {
+    var out = '<rect x="' + lx + '" y="' + ly + '" width="' + lw + '" height="' + lh + '" fill="#e6e6e6" stroke="#000" stroke-width="2"/>';
+    out += '<rect x="' + (lx + s) + '" y="' + (ly + s) + '" width="' + (lw - 2 * s) + '" height="' + (lh - 2 * s) + '" fill="url(#glassG)" stroke="#000" stroke-width="2"/>';
+    out += '<text x="' + (lx + lw / 2) + '" y="' + (ly + lh / 2) + '" font-size="' + Math.round(fs * 0.8) + '" font-weight="bold" text-anchor="middle">FIKSNO</text>';
+    return out;
+  }
+
+  function leafSVG(p, i, lx, ly, lw, lh, hingeSide, fs) {
+    var s = p.S, out = "";
+    var hx = hingeSide === "L" ? lx : lx + lw;
+    var handleX = hingeSide === "L" ? lx + lw - s / 2 : lx + s / 2;
+    var gx = lx + s, gy = ly + s, gw = lw - 2 * s, gh = lh - 2 * s;
+
+    out += '<rect x="' + lx + '" y="' + ly + '" width="' + lw + '" height="' + lh + '" fill="#e6e6e6" stroke="#000" stroke-width="2"/>';
+    out += '<rect x="' + gx + '" y="' + gy + '" width="' + gw + '" height="' + gh + '" fill="url(#glassG)" stroke="#000" stroke-width="2"/>';
+    // odsjaji na staklu (dijagonale)
+    out += '<g stroke="#fff" stroke-width="' + Math.max(4, fs * 0.12) + '" opacity="0.7" stroke-linecap="round">'
+        + '<line x1="' + (gx + gw * 0.15) + '" y1="' + (gy + gh * 0.82) + '" x2="' + (gx + gw * 0.42) + '" y2="' + (gy + gh * 0.55) + '"/>'
+        + '<line x1="' + (gx + gw * 0.5) + '" y1="' + (gy + gh * 0.9) + '" x2="' + (gx + gw * 0.8) + '" y2="' + (gy + gh * 0.6) + '"/>'
+        + '</g>';
+
+    // šarke na strani šarki
+    var hw = 10, hh = 50;
+    [0.12, 0.5, 0.88].forEach(function (f) {
+      var hy = ly + lh * f - hh / 2;
+      var hxRect = hingeSide === "L" ? lx - hw / 2 + 1 : lx + lw - hw / 2 - 1;
+      out += '<rect x="' + hxRect + '" y="' + hy + '" width="' + hw + '" height="' + hh + '" fill="#444"/>';
+    });
+
+    // kvaka
+    var khh = 70, khw = 18;
+    out += '<rect x="' + (handleX - khw / 2) + '" y="' + (ly + lh / 2 - khh / 2) + '" width="' + khw + '" height="' + khh + '" fill="#333" stroke="#000"/>';
+
+    // smer otvaranja (isprekidano)
+    var ty = ly + lh / 2;
+    out += '<g stroke="#000" stroke-width="2" stroke-dasharray="20,12" fill="none">'
+        + '<line x1="' + hx + '" y1="' + ly + '" x2="' + handleX + '" y2="' + ty + '"/>'
+        + '<line x1="' + hx + '" y1="' + (ly + lh) + '" x2="' + handleX + '" y2="' + ty + '"/>'
+        + '</g>';
+
+    // oznake krila i stakla
+    var cx = gx + gw / 2;
+    out += '<text x="' + cx + '" y="' + (gy + gh * 0.3) + '" font-size="' + Math.round(fs * 0.9) + '" font-weight="bold" text-anchor="middle">KRILO ' + (i + 1) + '</text>';
+    out += '<text x="' + cx + '" y="' + (gy + gh * 0.3 + fs * 1.1) + '" font-size="' + Math.round(fs * 0.75) + '" text-anchor="middle" fill="#333">staklo ' + Math.round(gw) + ' × ' + Math.round(gh) + '</text>';
+    return out;
+  }
+
+  // Gornja (kip) oznaka za tilt-turn krilo: šarke na gornjoj ivici i crtkana linija od donjih uglova ka gornjoj sredini
+  function topOverlaySVG(lx, ly, lw, lh, fs) {
+    var out = "", cx = lx + lw / 2;
+    [0.2, 0.5, 0.8].forEach(function (f) {
+      out += '<rect x="' + (lx + lw * f - 25) + '" y="' + (ly + lh - 11) + '" width="50" height="10" fill="#444"/>';
+    });
+    out += '<g stroke="#000" stroke-width="2" stroke-dasharray="6,6" fill="none">'
+        + '<line x1="' + lx + '" y1="' + ly + '" x2="' + cx + '" y2="' + (ly + lh) + '"/>'
+        + '<line x1="' + (lx + lw) + '" y1="' + ly + '" x2="' + cx + '" y2="' + (ly + lh) + '"/>'
+        + '</g>';
+    return out;
+  }
+
+  function openName(v) {
+    if (v === "kip") return "na kip (gornja)";
+    if (v === "tilt") return "tilt-turn (gornja + bočna)";
+    return "okretanje (bočna)";
+  }
+
+  // Krilo koje se otvara „na kip": šarke na gornjoj ivici, oznaka otvaranja od donjih uglova ka gornjoj sredini
+  function tiltLeafSVG(p, i, lx, ly, lw, lh, fs) {
+    var s = p.S, out = "";
+    var gx = lx + s, gy = ly + s, gw = lw - 2 * s, gh = lh - 2 * s;
+    out += '<rect x="' + lx + '" y="' + ly + '" width="' + lw + '" height="' + lh + '" fill="#e6e6e6" stroke="#000" stroke-width="2"/>';
+    out += '<rect x="' + gx + '" y="' + gy + '" width="' + gw + '" height="' + gh + '" fill="url(#glassG)" stroke="#000" stroke-width="2"/>';
+    out += '<g stroke="#fff" stroke-width="' + Math.max(4, fs * 0.12) + '" opacity="0.7" stroke-linecap="round">'
+        + '<line x1="' + (gx + gw * 0.15) + '" y1="' + (gy + gh * 0.82) + '" x2="' + (gx + gw * 0.42) + '" y2="' + (gy + gh * 0.55) + '"/>'
+        + '<line x1="' + (gx + gw * 0.5) + '" y1="' + (gy + gh * 0.9) + '" x2="' + (gx + gw * 0.8) + '" y2="' + (gy + gh * 0.6) + '"/>'
+        + '</g>';
+    // šarke na donjoj ivici
+    [0.2, 0.5, 0.8].forEach(function (f) {
+      out += '<rect x="' + (lx + lw * f - 25) + '" y="' + (ly + lh - 11) + '" width="50" height="10" fill="#444"/>';
+    });
+    // kvaka pri gornjoj ivici
+    out += '<rect x="' + (lx + lw / 2 - 35) + '" y="' + (ly + s / 2 - 9) + '" width="70" height="18" fill="#333" stroke="#000"/>';
+    // oznaka otvaranja: od gornjih uglova ka donjoj sredini
+    var cx = lx + lw / 2;
+    out += '<g stroke="#000" stroke-width="2" stroke-dasharray="20,12" fill="none">'
+        + '<line x1="' + lx + '" y1="' + ly + '" x2="' + cx + '" y2="' + (ly + lh) + '"/>'
+        + '<line x1="' + (lx + lw) + '" y1="' + ly + '" x2="' + cx + '" y2="' + (ly + lh) + '"/>'
+        + '</g>';
+    var tx = gx + gw / 2;
+    out += '<text x="' + tx + '" y="' + (gy + gh * 0.3) + '" font-size="' + Math.round(fs * 0.9) + '" font-weight="bold" text-anchor="middle">KRILO ' + (i + 1) + '</text>';
+    out += '<text x="' + tx + '" y="' + (gy + gh * 0.3 + fs * 1.1) + '" font-size="' + Math.round(fs * 0.75) + '" text-anchor="middle" fill="#333">na kip · staklo ' + Math.round(gw) + ' × ' + Math.round(gh) + '</text>';
+    return out;
+  }
+
+  function buildDrawing(p) {
+    var W = p.W, H = p.H, F = p.F, S = p.S;
+    var ow = W - 2 * F, oh = H - 2 * F;
+    var leafW = ow / p.leaves;
+    var fs = Math.max(28, Math.round(W / 40));
+    var M = Math.round(W * 0.14) + 90;          // margina za kote
+    var dy = p.roll ? p.rollBox : 0;             // dodatni prostor za kasetu
+    var TM = M + dy;                             // gornja margina
+    var blockH = 150;
+    var blockY = H + TM + 30 + Math.round(M * 0.45);   // ispod kota (staklo, okapnica), bez preklapanja
+    var vbW = W + 2 * M, vbH = blockY + blockH + 20;
+
+    var b = "";
+    // roletna kaseta (iznad okvira)
+    if (p.roll) {
+      b += '<rect x="0" y="' + (-dy) + '" width="' + W + '" height="' + dy + '" fill="#8a8a8a" stroke="#000" stroke-width="3"/>';
+      b += '<text x="' + (W / 2) + '" y="' + (-dy / 2 + fs * 0.35) + '" font-size="' + Math.round(fs * 0.8) + '" font-weight="bold" text-anchor="middle" fill="#000">ROLETNA KASETA ' + W + ' × ' + dy + '</text>';
+    }
+    b += '<rect x="0" y="0" width="' + W + '" height="' + H + '" fill="url(#frameG)" stroke="#000" stroke-width="3"/>';
+    b += '<rect x="' + F + '" y="' + F + '" width="' + ow + '" height="' + oh + '" fill="#fff" stroke="#000" stroke-width="2"/>';
+
+    var hinges = p.leaves === 3 ? ["L", "", "R"] : p.leaves === 2 ? ["L", "R"] : [p.hinge];
+    for (var i = 0; i < p.leaves; i++) {
+      if (p.opens[i] === "kip") {
+        b += tiltLeafSVG(p, i, F + i * leafW, F, leafW, oh, fs);
+      } else if (p.opens[i] === "fiks") {
+        b += fixedLeafSVG(F + i * leafW, F, leafW, oh, fs, S);
+      } else {
+        b += leafSVG(p, i, F + i * leafW, F, leafW, oh, hinges[i], fs);
+        if (p.opens[i] === "tilt") b += topOverlaySVG(F + i * leafW, F, leafW, oh, fs);
+      }
+    }
+
+    // komarnik: isprekidani obris unutar svakog krila
+    if (p.mesh) {
+      var em = effMesh(p, leafW, oh);
+      for (var k = 0; k < p.leaves; k++) {
+        if (!p.meshLeaves[k]) continue;   // komarnik samo na krilu koje se otvara na kip
+        var mx = F + k * leafW + (leafW - em.w) / 2, my = F + (oh - em.h) / 2;
+        b += '<rect x="' + mx + '" y="' + my + '" width="' + em.w + '" height="' + em.h + '" fill="none" stroke="#222222" stroke-width="3" stroke-dasharray="14,8"/>';
+        b += '<text x="' + (mx + em.w / 2) + '" y="' + (my + 30) + '" font-size="' + Math.round(fs * 0.7) + '" text-anchor="middle" fill="#222222" font-weight="bold">KOMARNIK ' + meshLabel(p) + ' ' + Math.round(em.w) + ' × ' + Math.round(em.h) + '</text>';
+      }
+    }
+
+    // dimenzije stakla po krilu (dole), visina stakla (desno), kaseta roletne (levo), okapnica (dole)
+    var glassLeafW = leafW - 2 * S, glassLeafH = oh - 2 * S;
+    for (var gi = 0; gi < p.leaves; gi++) {
+      var gx1 = F + gi * leafW + S, gx2 = F + (gi + 1) * leafW - S;
+      b += dimH(gx1, gx2, H + M * 0.3, H, Math.round(glassLeafW) + " mm (staklo)", Math.round(fs * 0.8));
+    }
+    b += dimV(F + S, H - F - S, W + M * 0.45 + 90, W - F, W + M * 0.45 + 126, Math.round(glassLeafH) + " mm (staklo)", Math.round(fs * 0.8));
+    if (p.roll) {
+      b += dimV(-dy, 0, -M * 0.45 - 60, 0, -M * 0.45 - 84, "kaseta " + dy + " mm", Math.round(fs * 0.8));
+    }
+    if (p.okapnica) {
+      b += dimH(0, W, H + M * 0.6, H, "okapnica " + W + " mm", Math.round(fs * 0.8));
+    }
+
+    // sredina prozora: da li ima komarnik i roletnu
+    (function () {
+      var lines = [
+        "KOMARNIK: " + (p.mesh ? "DA (" + meshLabel(p) + ")" : "NE"),
+        "ROLETNA: " + (p.roll ? "DA" : "NE")
+      ];
+      var lfs = Math.round(fs * 0.8), lh = lfs * 1.5;
+      var maxLen = Math.max.apply(null, lines.map(function (t) { return t.length; }));
+      var bw = maxLen * lfs * 0.62 + 36, bh = lines.length * lh + 16;
+      var cx = W / 2, cy = H / 2;
+      b += '<rect x="' + (cx - bw / 2) + '" y="' + (cy - bh / 2) + '" width="' + bw + '" height="' + bh + '" rx="8" fill="#fff" stroke="#000" stroke-width="2" opacity="0.92"/>';
+      lines.forEach(function (t, k) {
+        b += '<text x="' + cx + '" y="' + (cy - bh / 2 + 16 + lh * k + lfs * 0.8) + '" font-size="' + lfs + '" font-weight="bold" text-anchor="middle" fill="#000">' + escapeXml(t) + '</text>';
+      });
+    })();
+
+    // kote gore: ukupna širina (red 1) i širine krila (red 2), iznad kasete
+    b += dimH(0, W, -M * 0.45 - dy, 0, W + " mm", fs);
+    if (p.leaves >= 2) {
+      for (var li = 0; li < p.leaves; li++) {
+        b += dimH(F + li * leafW, F + (li + 1) * leafW, -M * 0.2 - dy, 0, Math.round(leafW) + " mm", fs);
+      }
+    }
+    // kota desno: visina
+    b += dimV(0, H, W + M * 0.45, W, W + M * 0.45 + 36, H + " mm", fs);
+    // kota levo: profil okvira
+    b += dimV(0, F, -M * 0.45, 0, -M * 0.45 - 34, F + " mm (okvir)", Math.round(fs * 0.8));
+
+    var glassW = leafW - 2 * S, glassH = oh - 2 * S;
+    var title = (p.leaves === 3 ? "Trokrilni" : p.leaves === 2 ? "Dvokrilni" : "Jednokrilni") + " PVC prozor";
+
+    var out = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + vbW + ' ' + vbH + '" width="' + vbW + '" height="' + vbH + '" font-family="Arial, Helvetica, sans-serif">';
+    out += '<defs>'
+      + '<linearGradient id="glassG" x1="0" y1="0" x2="1" y2="1">'
+      + '<stop offset="0" stop-color="#f0f0f0"/><stop offset="0.55" stop-color="#e2e2e2"/><stop offset="1" stop-color="#d0d0d0"/>'
+      + '</linearGradient>'
+      + '<linearGradient id="frameG" x1="0" y1="0" x2="0" y2="1">'
+      + '<stop offset="0" stop-color="#f7f7f7"/><stop offset="1" stop-color="#d6d6d6"/>'
+      + '</linearGradient>'
+      + '</defs>';
+    out += '<rect x="0" y="0" width="' + vbW + '" height="' + vbH + '" fill="#fff"/>';
+    out += '<g transform="translate(' + M + ',' + TM + ')">' + b + '</g>';
+
+    // naslovni blok
+    out += '<rect x="20" y="' + blockY + '" width="' + (vbW - 40) + '" height="' + blockH + '" fill="none" stroke="#000" stroke-width="3"/>';
+    out += '<text x="40" y="' + (blockY + 45) + '" font-size="' + Math.round(fs * 1.1) + '" font-weight="bold">' + escapeXml(title + " " + W + " × " + H + " mm") + '</text>';
+    out += '<text x="40" y="' + (blockY + 85) + '" font-size="' + Math.round(fs * 0.75) + '">Pogled (elevacija) · Mere u mm · Krilo ' + Math.round(leafW) + ' mm · Staklo ' + Math.round(glassW) + ' × ' + Math.round(glassH) + ' mm</text>';
+    out += '<text x="40" y="' + (blockY + 120) + '" font-size="' + Math.round(fs * 0.7) + '" fill="#333">Okvir ' + F + ' mm · Krilo ' + S + ' mm · Ispuna: ' + escapeXml(p.glazing) + '</text>';
+    // dodatna polja za potpis i datum
+    var today = new Date().toLocaleDateString("sr-RS");
+    var rx = vbW - 40;
+    out += '<text x="' + rx + '" y="' + (blockY + 45) + '" font-size="' + Math.round(fs * 0.7) + '" text-anchor="end" fill="#333">Datum: ' + today + '</text>';
+    out += '<text x="' + rx + '" y="' + (blockY + 85) + '" font-size="' + Math.round(fs * 0.7) + '" text-anchor="end" fill="#333">Kupac: ______________________</text>';
+    out += '<text x="' + rx + '" y="' + (blockY + 120) + '" font-size="' + Math.round(fs * 0.7) + '" text-anchor="end" fill="#333">Crtao: ______________________</text>';
+    if (p.isOpening) {
+      out += '<text x="40" y="' + (blockY + 140) + '" font-size="' + Math.round(fs * 0.6) + '" fill="#555">Ugradni otvor ' + p.openW + ' × ' + p.openH + ' mm, zazor ' + p.gap + ' mm po strani</text>';
+    }
+    out += '</svg>';
+    return out;
+  }
+
+  // Upozorenja stolarske prakse (nisu greške, samo saveti za proveru)
+  function warnings(p) {
+    var w = [];
+    var ow = p.W - 2 * p.F, oh = p.H - 2 * p.F;
+    var leafW = ow / p.leaves;
+    if (leafW > 1400) w.push("Krilo je šire od 1400 mm: proveri maksimalne dimenzije izabranog sistema.");
+    if (oh > 2450) w.push("Krilo je više od 2450 mm: proveri maksimalne dimenzije izabranog sistema.");
+    if (p.isOpening && p.gap < 5) w.push("Zazor je manji od 5 mm: PVC se širi i skuplja sa temperaturom, pa je uobičajeno 5–10 mm po strani.");
+    if (p.isOpening && p.gap > 15) w.push("Zazor je veći od 15 mm: proveri da li je prozor dovoljno pokriven ugradnom penom i letvicama.");
+    return w;
+  }
+
+  // Šematski preseci u mm: bočni (okvir, krilo, staklo, komarnik, kvaka) i gornji (kaseta roletne)
+  function buildSection(p) {
+    var F = p.F, S = p.S, D = p.depth || 70, SD = p.sashDepth || S;
+    var GT = 24, sx = 2;                       // staklo 24 mm, razmera 2 px po mm
+    var mesh = p.mesh && p.meshLeaves && p.meshLeaves.some(Boolean);
+    var lock = p.leaves >= 1;
+    function R(x, y, w, h, fill) { return '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" fill="' + fill + '" stroke="#000" stroke-width="1.5"/>'; }
+    function T(x, y, t, anchor) { return '<text x="' + x + '" y="' + y + '" font-size="13" text-anchor="' + (anchor || "start") + '" fill="#000">' + escapeXml(t) + '</text>'; }
+    function L(x1, y1, x2, y2) { return '<line x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '" stroke="#222222" stroke-width="2"/>'; }
+    // bočni presek: x = širina profila, z = dubina (dole = spolja)
+    var ox = 60, oy = 40;
+    var a = '<g transform="translate(' + ox + ',' + oy + ') scale(' + sx + ')">';
+    var zc = D / 2;
+    a += R(0, 0, F, D, "#d6d6d6");                                     // okvir
+    a += R(F, (D - SD) / 2, S, SD, "#f5f5f5");                          // krilo
+    a += R(F + S / 2 - 3, zc - GT / 2, 6, GT, "#e2e2e2");               // staklo (24 mm)
+    if (mesh) a += '<rect x="' + (F + S * 0.2) + '" y="' + ((D + SD) / 2 + 10) + '" width="' + (S * 0.6) + '" height="3" fill="#222222"/>';
+    if (lock) a += R(F + S, zc - 14, 14, 28, "#333");                     // brava (kvaka) na ivici krila
+    a += '</g>';
+    a += T(ox, oy - 12, "Bočni presek (okvir " + F + " · krilo " + S + " · dubina " + D + " mm)");
+    a += T(ox + (F + S + 14) * sx + 6, oy + (zc * sx) - 10, "brava (kvaka)");
+    a += T(ox + (F * sx) / 2, oy + D * sx + 34, "okvir", "middle");
+    a += T(ox + (F + S / 2) * sx, oy + D * sx + 62, "krilo + staklo " + GT + " mm", "middle");
+    if (mesh) a += T(ox + (F + S) * sx + 6, oy + ((D + SD) / 2 + 10) * sx + 4, "komarnik");
+    var svgA = a;
+
+    // gornji presek: z = dubina (horizontalno), y = visina (vertikalno, gore je kaseta)
+    var oy2 = 40, ox2 = 60 + 470, rb = p.roll ? p.rollBox : 0, zBox = 150;
+    var b = '<g transform="translate(' + ox2 + ',' + oy2 + ') scale(' + sx + ')">';
+    if (p.roll) b += R(0, 0, zBox, rb, "#8a8a8a");                      // kaseta roletne
+    var yF = rb;
+    b += R(0, yF, D, F, "#d6d6d6");                                     // gornji okvir
+    b += R((D - SD) / 2, yF + F, SD, S, "#f5f5f5");                     // krilo
+    b += R(zc - GT / 2, yF + F + S / 2 - 3, GT, 6, "#e2e2e2");          // staklo
+    if (mesh) b += '<rect x="' + ((D + SD) / 2 + 10) + '" y="' + (yF + F + S * 0.2) + '" width="3" height="' + (S * 0.6) + '" fill="#222222"/>';
+    if (p.roll) b += '<line x1="' + (zBox + 6) + '" y1="' + (rb) + '" x2="' + (zBox + 6) + '" y2="' + (yF) + '" stroke="#555" stroke-width="2" stroke-dasharray="6,4"/>';
+    b += '</g>';
+    b += T(ox2, oy2 - 12, "Gornji presek" + (p.roll ? " (roletna kaseta " + rb + " mm)" : ""));
+    var txt = '';
+    if (p.roll) txt += T(ox2 + (zBox * sx) / 2, oy2 + (rb * sx) / 2 + 4, "kaseta", "middle");
+    if (mesh) txt += T(ox2 + ((D + SD) / 2 + 14) * sx, oy2 + (yF + F + S / 2) * sx + 4, "komarnik");
+    var svgB = b + txt;
+
+    var w = ox2 + Math.max(D, zBox) * sx + 120, h = oy + (D * sx) + 70 + Math.max(0, rb * sx) + 60;
+    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + Math.max(w, 900) + ' ' + Math.max(h, 360) + '" width="100%" font-family="Arial, Helvetica, sans-serif">'
+      + '<rect x="0" y="0" width="100%" height="100%" fill="#fff"/>' + svgA + svgB + '</svg>';
+  }
+
+  // Šematska simulacija prozora na sivoj fasadi (mm), sa otvaranjem krila i roletnom
+  function buildSimulation(p, deg, rollPct) {
+    var W = p.W, H = p.H, F = p.F, S = p.S, n = p.leaves;
+    var rb = p.roll ? (p.rollBox || 150) : 0;
+    var a = deg * Math.PI / 180;
+    var ow = W - 2 * F, oh = H - 2 * F, leafW = ow / n;
+    var hinges = n === 3 ? ["L", "", "R"] : n === 2 ? ["L", "R"] : [p.hinge];
+    var R = function (x, y, w, h, attrs) {
+      return '<rect x="' + x + '" y="' + y + '" width="' + Math.max(0, w) + '" height="' + Math.max(0, h) + '" ' + (attrs || "") + '/>';
+    };
+    var top = -(rb + 300), bottom = H + 600;
+    var out = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="-500 ' + top + ' ' + (W + 1000) + ' ' + (bottom - top) + '">';
+    out += '<defs>'
+      + '<pattern id="simPlaster" width="200" height="120" patternUnits="userSpaceOnUse"><rect width="200" height="120" fill="#b8b8b8"/><rect y="118" width="200" height="3" fill="#a6a6a6"/></pattern>'
+      + '<pattern id="simMesh" width="14" height="14" patternUnits="userSpaceOnUse"><path d="M0 0H14M0 0V14" stroke="#3a3a3a" stroke-width="2" fill="none"/></pattern>'
+      + '<pattern id="simFabric" width="18" height="18" patternUnits="userSpaceOnUse"><rect width="18" height="18" fill="#cfcfcf"/><path d="M0 9H18" stroke="#b4b4b4" stroke-width="2"/></pattern>'
+      + '</defs>';
+    out += R(-500, top, W + 1000, bottom - top, 'fill="url(#simPlaster)"');
+    out += R(-20, -20, W + 40, H + 40, 'fill="#8e8e8e"');              // sjena otvora
+    if (rb) out += R(0, -rb, W, rb, 'fill="#8a8a8a" stroke="#222" stroke-width="5"'); // kaseta
+    out += R(0, 0, W, H, 'fill="#f4f4f4" stroke="#222" stroke-width="6"');             // okvir
+    out += R(F, F, ow, oh, 'fill="#e4e4e4"');
+    for (var i = 0; i < n; i++) {
+      var x0 = F + i * leafW, side = hinges[i] || "", opn = (p.opens && p.opens[i]) || "krilo";
+      var fixed = side === "" || opn === "fiks";
+      var tiltL = !fixed && (opn === "kip" || opn === "tilt");
+      var mesh = !!(p.mesh && p.meshLeaves && p.meshLeaves[i]);
+      var lx = x0, lw = leafW, ly = F, lh = oh;
+      if (tiltL) {
+        lh = oh * Math.cos(Math.min(a, 15 * Math.PI / 180));
+        ly = opn === "kip" ? F : F + oh - lh;
+      } else if (!fixed) {
+        lw = leafW * Math.cos(a);
+        lx = side === "R" ? x0 + leafW - lw : x0;
+      }
+      var ins = Math.min(S, lw / 3, lh / 3), gx = lx + ins, gy = ly + ins, gw = lw - 2 * ins, gh = lh - 2 * ins;
+      out += R(lx, ly, lw, lh, 'fill="#f8f8f8" stroke="#333" stroke-width="4"');
+      out += R(gx, gy, gw, gh, 'fill="#dcdcdc"');
+      if (gw > 40 && gh > 40) {
+        out += '<polygon points="' + gx + ',' + (gy + gh * 0.7) + ' ' + (gx + gw * 0.45) + ',' + gy + ' ' + (gx + gw * 0.6) + ',' + gy + ' ' + gx + ',' + (gy + gh * 0.9) + '" fill="#fff" opacity=".45"/>';
+      }
+      if (mesh) {
+        out += R(gx, gy, gw, gh, 'fill="url(#simMesh)" opacity=".85"');
+        out += R(gx, gy, gw, gh, 'fill="none" stroke="#333" stroke-width="6"');
+      }
+      if (!fixed && !tiltL) {
+        // šarke na strani oslonca
+        var hxp = side === "L" ? lx : lx + lw;
+        [0.12, 0.5, 0.88].forEach(function (f) { out += R(hxp - 8, F + oh * f - 40, 16, 80, 'fill="#666"'); });
+        // kvaka na slobodnoj ivici, uvek vidljiva
+        var kx = side === "L" ? lx + lw - ins - 16 : lx + ins - 16;
+        out += R(kx, ly + lh / 2 - 80, 32, 160, 'fill="#1c1c1c" stroke="#000" stroke-width="2"');
+      }
+      if (tiltL) {
+        out += R(lx + lw / 2 - 80, ly + lh - ins - 36, 160, 32, 'fill="#1c1c1c" stroke="#000" stroke-width="2"');
+      }
+    }
+    out += R(-40, H, W + 80, 40, 'fill="#d2d2d2" stroke="#333" stroke-width="4"'); // klupčica
+    if (p.roll) {
+      var len = Math.max(30, H * rollPct / 100);
+      out += R(0, 0, W, len, 'fill="url(#simFabric)" stroke="#444" stroke-width="3"');
+      if (rb) out += '<text x="' + (W / 2) + '" y="' + (-rb / 2 + 18) + '" font-size="56" text-anchor="middle" fill="#fff">ROLETNA</text>';
+    }
+    if (p.mesh && p.meshLeaves && p.meshLeaves.some(Boolean)) {
+      out += '<text x="' + (W / 2) + '" y="' + (H + 120) + '" font-size="56" text-anchor="middle" fill="#fff" stroke="#000" stroke-width="2">KOMARNIK</text>';
+    }
+    out += '</svg>';
+    return out;
+  }
+
+  function draw() {
+    var p = readParams();
+    var errs = validate(p);
+    $("errors").textContent = errs.join("\n");
+    $("warnings").textContent = errs.length ? "" : warnings(p).join("\n");
+    if (errs.length) {
+      $("resultCard").classList.add("hidden");
+      $("summaryCard").classList.add("hidden");
+      lastSvg = "";
+      return;
+    }
+    lastSvg = buildDrawing(p);
+    $("drawing").innerHTML = lastSvg;
+    $("section").innerHTML = buildSection(p);
+    $("resultCard").classList.remove("hidden");
+
+    var ow = p.W - 2 * p.F, oh = p.H - 2 * p.F;
+    var leafW = ow / p.leaves;
+    var gw = leafW - 2 * p.S, gh = oh - 2 * p.S;
+    var area = (p.W / 1000) * (p.H / 1000);
+    var glassArea = p.leaves * (gw / 1000) * (gh / 1000);
+
+    var sum = "";
+    sum += "<b>Ukupne dimenzije prozora:</b> " + p.W + " × " + p.H + " mm<br>";
+    if (p.isOpening) sum += "<b>Ugradni otvor:</b> " + p.openW + " × " + p.openH + " mm (zazor " + p.gap + " mm po strani)<br>";
+    sum += "<b>Broj krila:</b> " + p.leaves + "<br>";
+    sum += "<b>Širina krila:</b> " + round1(leafW) + " mm<br>";
+    sum += "<b>Staklo po krilu:</b> " + round1(gw) + " × " + round1(gh) + " mm<br>";
+    sum += "<b>Površina stakla:</b> " + round2(glassArea) + " m²<br>";
+    sum += "<b>Površina prozora:</b> " + round2(area) + " m²<br>";
+    sum += "<b>Profil okvira / krila:</b> " + p.F + " / " + p.S + " mm<br>";
+    sum += "<b>Ispuna:</b> " + escapeXml(p.glazing) + "<br>";
+    if (p.system) {
+      sum += "<b>Sistem:</b> " + escapeXml(p.system.brand + " " + p.system.name) + ", dubina okvira " + p.depth + " mm, krila " + p.sashDepth + " mm" + (p.system.maxGlazing ? ", max staklo " + p.system.maxGlazing + " mm" : "") + "<br>";
+    }
+    if (p.roll) {
+      var er = effRoll(p);
+      sum += "<b>Roletna kaseta:</b> " + p.W + " × " + p.rollBox + " mm (iznad prozora)<br>";
+      sum += "<b>Roletna platno:</b> " + round1(er.w) + " × " + round1(er.h) + " mm" + (p.rollW == null && p.rollH == null ? " (automatski, proveriti pri merenju)" : "") + "<br>";
+    }
+    if (p.mesh) {
+      var em = effMesh(p, leafW, oh);
+      sum += "<b>Komarnik (" + meshLabel(p) + "):</b> " + p.meshLeaves.filter(Boolean).length + " × " + round1(em.w) + " × " + round1(em.h) + " mm (samo krilo na kip)" + (p.meshW == null && p.meshH == null ? " (automatski, 20 mm manji od krila i otvora)" : "") + "<br>";
+    }
+    $("summary").innerHTML = sum;
+    $("summaryCard").classList.remove("hidden");
+    $("simCard").classList.remove("hidden");
+    renderSim(p);
+    $("priceCard").classList.remove("hidden");
+    $("cartCard").classList.remove("hidden");
+    recalcPrice();
+  }
+
+  // Sačuvane vrednosti forme (konfiguracija prozora)
+  var CFG_KEY = "crtez-prozora-konfiguracija";
+  var CFG_IDS = ["w", "h", "dimD", "opening", "gap", "leaves", "hinge", "frame", "sash", "glazing", "system",
+                 "roll", "rollBox", "rollW", "rollH", "mesh", "meshW", "meshH", "meshFix", "meshRolo", "meshPlise", "okapnica", "okapMat", "okapW", "color", "qty"];
+  function saveConfig() {
+    var cfg = {};
+    CFG_IDS.forEach(function (id) {
+      var el = $(id);
+      cfg[id] = el.type === "checkbox" ? el.checked : el.value;
+    });
+    try {
+      localStorage.setItem(CFG_KEY, JSON.stringify(cfg));
+      $("printMsg").textContent = "Konfiguracija je sačuvana.";
+    } catch (e) { $("printMsg").textContent = "Ne mogu da sačuvam konfiguraciju u ovom pregledaču."; }
+  }
+  function loadConfig() {
+    var cfg = null;
+    try { cfg = JSON.parse(localStorage.getItem(CFG_KEY) || "null"); } catch (e) { cfg = null; }
+    if (!cfg) { $("printMsg").textContent = "Nema sačuvane konfiguracije."; return; }
+    CFG_IDS.forEach(function (id) {
+      if (cfg[id] === undefined) return;
+      var el = $(id);
+      if (el.type === "checkbox") el.checked = !!cfg[id]; else el.value = cfg[id];
+    });
+    $("printMsg").textContent = "Učitana je poslednja konfiguracija.";
+    draw();
+  }
+  $("btnSaveCfg").addEventListener("click", saveConfig);
+  $("btnLoadCfg").addEventListener("click", loadConfig);
+
+  // Površine u m² (spoljne mere prozora, platno roletne i mreža komarnika)
+  function recalcPrice() {
+    var out = $("priceOut");
+    if ($("priceCard").classList.contains("hidden")) return;
+    var p = readParams();
+    if (validate(p).length) { out.textContent = "Prvo unesi ispravne dimenzije."; return; }
+    var pl = getPricelist();
+    var sysPct = (pl.sysOn !== false && p.system && pl.systems[p.system.id]) ? pl.systems[p.system.id] : 0;
+    var colorKey = p.color || "bela";
+    var pWin = colorPriceFor(pl, colorKey) * (1 + sysPct / 100);
+    var pRoll = pl.roll || 0;
+    var meshTypeList = p.mesh ? (p.meshTypes || []) : [];
+    var meshPrices = meshTypeList.map(function (t) { return meshPriceFor(pl, t); });
+    var pMesh = meshPrices.reduce(function (a, b) { return a + b; }, 0);
+    var qty = Math.max(1, parseInt($("qty").value, 10) || 1);
+    var cur = pl.currency || "";
+
+    var areaWin = (p.W / 1000) * (p.H / 1000);
+    var ow = p.W - 2 * p.F, oh = p.H - 2 * p.F;
+    var leafW = ow / p.leaves;
+    var er = effRoll(p), em = effMesh(p, leafW, oh);
+    var areaRoll = p.roll ? (er.w / 1000) * (er.h / 1000) : 0;
+    var meshCount = p.mesh ? p.meshLeaves.filter(Boolean).length : 0;
+    var areaMesh = meshCount * (em.w / 1000) * (em.h / 1000);
+
+    var costWin = areaWin * pWin;
+    var costRoll = areaRoll * pRoll;
+    var costMesh = areaMesh * pMesh;
+    var lenOkap = p.okapnica ? p.W / 1000 : 0;
+    var pOkap = (pl.okapPrices || {})[p.okapMat + "-" + p.okapW] || 0;
+    var costOkap = lenOkap * pOkap;
+    var perUnit = costWin + costRoll + costMesh + costOkap;
+    var total = perUnit * qty;
+    window.__lastPrice = { perUnit: perUnit, cur: cur };
+    var tag = $("price3d");
+    if (tag) {
+      tag.style.display = "block";
+      tag.textContent = "Cena: " + (Math.round(total * 100) / 100).toLocaleString("sr-RS", { minimumFractionDigits: 2 }) + " " + cur + (qty > 1 ? " (" + qty + " kom)" : "");
+    }
+
+    function fmt(n) { return (Math.round(n * 100) / 100).toLocaleString("sr-RS", { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+
+    var h = "";
+    h += "<b>Prozor (osnovna cena, " + escapeXml(colorKey === "bela" ? "bela" : (COLOR_LIST.filter(function (c) { return c[0] === colorKey; })[0] || [colorKey, colorKey])[1].toLowerCase()) + "):</b> " + round3(areaWin).toFixed(3) + " m² × " + round3(pWin).toFixed(3) + " = " + fmt(costWin) + " " + escapeXml(cur) + "<br>";
+    if (p.roll) h += "<b>Dodatno – roletna:</b> " + round3(areaRoll).toFixed(3) + " m² × " + round3(pRoll).toFixed(3) + " = " + fmt(costRoll) + " " + escapeXml(cur) + "<br>";
+    if (p.okapnica) h += "<b>Dodatno – okapnica " + (p.okapMat === "alu" ? "ALU" : "PVC") + " " + p.okapW + " cm:</b> " + round3(lenOkap).toFixed(3) + " m × " + round3(pOkap).toFixed(3) + " = " + fmt(costOkap) + " " + escapeXml(cur) + "<br>";
+    meshTypeList.forEach(function (t, i) {
+      h += "<b>Dodatno – komarnik " + MESH_NAMES[t] + ":</b> " + round3(areaMesh).toFixed(3) + " m² × " + round3(meshPrices[i]).toFixed(3) + " = " + fmt(areaMesh * meshPrices[i]) + " " + escapeXml(cur) + "<br>";
+    });
+    h += "<b>Cena po komadu:</b> " + fmt(perUnit) + " " + escapeXml(cur) + "<br>";
+    h += "<b>Ukupno (" + qty + " kom):</b> <span style=\"font-size:18px\">" + fmt(total) + " " + escapeXml(cur) + "</span>";
+    h += "<div style=\"font-size:12px;color:#555;margin-top:6px\">Površina prozora računa se po spoljnim merama. Roletna i komarnik: ručno unete dimenzije, a ako su prazne, automatske (vidi polja u formi).</div>";
+    out.innerHTML = h;
+  }
+
+  $("qty").addEventListener("input", recalcPrice);
+
+  // ---------- automatsko osvežavanje crteža i 3D modela pri izmenama ----------
+  ["w", "h", "dimD", "frame", "sash", "gap", "hinge", "open1", "open2", "rollBox", "rollW", "rollH",
+   "meshW", "meshH", "system", "glazing"].forEach(function (id) {
+    $(id).addEventListener("input", function () { if (lastSvg) draw(); });
+  });
+
+  // ---------- gotovi modeli prozora ----------
+  var MODELS = {
+    dv:   { w: 1400, h: 1000, leaves: "2", open1: "krilo", open2: "tilt",  mesh: true,  roll: false },
+    jd:   { w: 900,  h: 1200, leaves: "1", open1: "krilo", open2: "krilo", mesh: false, roll: false },
+    dvk:  { w: 1400, h: 1000, leaves: "2", open1: "tilt",  open2: "tilt",   mesh: true,  roll: true  },
+    balk: { w: 800,  h: 2200, leaves: "1", open1: "krilo", open2: "krilo", mesh: false, roll: false },
+    v_j1:  { w: 900,  h: 2100, leaves: "1", open1: "krilo", open2: "krilo", mesh: false, roll: false },
+    v_d2:  { w: 1600, h: 2100, leaves: "2", open1: "krilo", open2: "krilo", mesh: false, roll: false },
+    v_bd2: { w: 1400, h: 2200, leaves: "2", open1: "krilo", open2: "krilo", mesh: true,  roll: false }
+  };
+  function applyModel(m) {
+    $("w").value = m.w;
+    $("h").value = m.h;
+    $("leaves").value = m.leaves;
+    $("open1").value = m.open1;
+    $("open2").value = m.open2;
+    $("mesh").checked = m.mesh;
+    $("roll").checked = m.roll;
+    syncLeafUI();
+    draw();
+  }
+  $("model").addEventListener("change", function () {
+    var m = MODELS[$("model").value];
+    if (!m) return;
+    $("itemType").value = "prozor";
+    applyModel(m);
+  });
+
+  // ---------- vidljivost krila 2 i komarnika ----------
+  function syncLeafUI() {
+    var two = $("leaves").value !== "1";
+    $("open2wrap").style.display = two ? "" : "none";
+  }
+  $("leaves").addEventListener("change", function () { syncLeafUI(); if (lastSvg) draw(); });
+  ["open1", "open2"].forEach(function (id) {
+    $(id).addEventListener("change", function () { if (lastSvg) draw(); });
+  });
+  syncLeafUI();
+
+  // ---------- štampa objekta: crteži u istoj razmeri, bez zbijanja na jednu stranu ----------
+  var LOGO_GOLD = "#e8b020", LOGO_DARK = "#2e2e2e";
+  function buildObjectPrint() {
+    var c = window.COMPANY || {};
+    var items = cart.filter(function (it) { return it.p; });
+    var svgs = items.map(function (it) { return buildDrawing(it.p); });
+    var widths = svgs.map(function (sv) {
+      var m = /viewBox="0 0 ([\d.]+) ([\d.]+)"/.exec(sv);
+      return m ? parseFloat(m[1]) : 1000;
+    });
+    var maxW = widths.length ? Math.max.apply(null, widths) : 1000;
+    var target = 176;                              // mm: širina najvećeg crteža na A4
+    var blocks = cart.map(function (it, i) {
+      var idx = items.indexOf(it), svg = "";
+      if (idx >= 0) {
+        var mm = widths[idx] * target / maxW;    // ista razmera za sve crteže
+        svg = svgs[idx].replace("<svg", '<svg style="display:block;width:' + mm.toFixed(1) + 'mm;height:auto"');
+      }
+      return '<div class="offer-block">' +
+        '<div class="offer-cap"><span class="offer-num">' + (i + 1) + '</span> ' + escapeXml(it.desc) +
+        '<br><span class="offer-sub">' + it.qty + ' kom × ' + fmtMoney(it.unit, it.cur) + ' = ' + fmtMoney(it.sub, it.cur) + '</span></div>' +
+        svg + '</div>';
+    }).join("");
+    var head = '<div class="offer-head">' +
+      (c.logo ? '<img src="' + c.logo + '" style="height:44px" alt="">' : '') +
+      '<div><div class="offer-firm">' + escapeXml(c.name || "") + '</div>' +
+      '<div class="offer-meta">' + escapeXml([c.subtitle, c.address, "tel. " + (c.phones || []).join(", "), c.email].filter(Boolean).join(" · ")) + '</div></div>' +
+      '<div class="offer-date">Datum: ' + new Date().toLocaleDateString("sr-RS") + '</div></div>';
+    var buyer = '<div class="offer-buyer"><b>Kupac:</b> ' + escapeXml(numText("mBuyer")) + '<br>' + escapeXml(numText("mAddr")) +
+      (numText("mPib") ? '<br>PIB: ' + escapeXml(numText("mPib")) : '') + '</div>' +
+      '<div class="offer-no">Predračun br. ' + escapeXml(numText("mNo") || "—") + (numText("mDate") ? '<br>Važi do: ' + escapeXml(numText("mDate")) : '') + '</div>';
+    return '<h1 class="offer-h">DUO TIM – predračun</h1>' + head + buyer + blocks + '<div class="offer-sum">' + $("objSummary").innerHTML + '</div>' +
+      '<div class="offer-total">' + totalsHtml(calcTotals()) + '</div>' + termsHtml();
+  }
+
+  $("btnPrintOffer").addEventListener("click", function () {
+    if (!cart.length) { $("printMsg").textContent = "Ponuda je prazna."; return; }
+    $("offerPrint").innerHTML = buildObjectPrint();
+    document.body.classList.add("print-offer");
+    var done = function () { document.body.classList.remove("print-offer"); window.removeEventListener("afterprint", done); };
+    window.addEventListener("afterprint", done);
+    if (window.electronAPI) {
+      var name = $("printer") ? $("printer").value : "";
+      $("printMsg").textContent = "Štampam objekat …";
+      var job = name ? window.electronAPI.printSilent(name) : window.electronAPI.printDefault();
+      job.then(function (res) {
+        $("printMsg").textContent = res.ok ? "Poslato na štampač." : "Štampanje nije uspelo: " + (res.reason || "nepoznata greška");
+        done();
+      });
+      return;
+    }
+    window.print();
+  });
+
+  // ---------- ponuda: više stavki i ukupan zbir ----------
+  var CART_KEY = "crtez-prozora-ponuda";
+  var cart = [];
+  try { cart = JSON.parse(localStorage.getItem(CART_KEY) || "[]") || []; } catch (e) { cart = []; }
+
+  function saveCart() { try { localStorage.setItem(CART_KEY, JSON.stringify(cart)); } catch (e) {} }
+
+  function fmtMoney(n, cur) {
+    return (Math.round(n * 100) / 100).toLocaleString("sr-RS", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " " + (cur || "");
+  }
+
+  function renderAdded() {
+    var box = $("addedBox");
+    if (!cart.length) { box.classList.add("hidden"); return; }
+    box.classList.remove("hidden");
+    $("addedCount").textContent = cart.length;
+    $("addedList").innerHTML = cart.map(function (it, i) {
+      return "<div>" + (i + 1) + ". " + escapeXml(it.desc) + " · " + it.qty + " kom</div>";
+    }).join("");
+  }
+
+  function renderCart() {
+    renderAdded();
+    var list = $("cartList");
+    if (!cart.length) {
+      list.textContent = "Ponuda je prazna. Napravi crtež i dodaj stavku.";
+      renderTotals();
+      return;
+    }
+    list.innerHTML = "";
+    cart.forEach(function (it, i) {
+      var row = document.createElement("div");
+      row.style.cssText = "display:flex;justify-content:space-between;gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid #e0e0e0;flex-wrap:wrap";
+      var t = document.createElement("div");
+      t.style.flex = "1 1 240px";
+      t.innerHTML = "<b>" + (i + 1) + ". " + escapeXml(it.desc) + "</b>";
+      var ed = document.createElement("div");
+      ed.style.cssText = "display:flex;gap:6px;align-items:center;font-size:13px;flex-wrap:wrap";
+      ed.innerHTML = 'kom <input type="number" min="1" step="1" value="' + it.qty + '" style="width:70px;padding:4px"> ' +
+        'cena <input type="number" min="0" step="0.01" value="' + it.unit + '" style="width:110px;padding:4px"> ' +
+        'popust <input type="number" min="0" max="100" step="0.1" value="' + (it.disc || 0) + '" style="width:70px;padding:4px"> % = <b>' + fmtMoney(it.sub, it.cur) + '</b>';
+      var ins = ed.querySelectorAll("input"), subEl = ed.querySelector("b");
+      var upd = function () { it.sub = it.unit * it.qty * (1 - (it.disc || 0) / 100); subEl.textContent = fmtMoney(it.sub, it.cur); saveCart(); renderTotals(); };
+      ins[2].addEventListener("input", function () { it.disc = Math.min(100, Math.max(0, parseFloat(this.value) || 0)); upd(); });
+      ins[0].addEventListener("input", function () { it.qty = Math.max(1, parseInt(this.value, 10) || 1); upd(); });
+      ins[1].addEventListener("input", function () { it.unit = parseFloat(this.value) || 0; upd(); });
+      var del = document.createElement("button");
+      del.className = "secondary"; del.textContent = "Ukloni"; del.style.padding = "6px 10px"; del.style.fontSize = "13px";
+      del.addEventListener("click", function () { cart.splice(i, 1); saveCart(); renderCart(); });
+      row.appendChild(t); row.appendChild(ed); row.appendChild(del);
+      list.appendChild(row);
+    });
+    renderTotals();
+  }
+
+  function numOf(id) { return parseFloat($(id).value) || 0; }
+  function numText(id) { return ($(id).value || "").trim(); }
+  function termsHtml() {
+    var rok = numText("mRok");
+    return '<div class="offer-terms"><b>Uslovi:</b> ' + escapeXml(rok || "—") +
+      (numText("mDate") ? '<br>Ponuda važi do ' + escapeXml(numText("mDate")) + '.' : '') + '</div>';
+  }
+  // Cene u cenovniku i u stavkama su bez PDV-a; PDV se dodaje na osnovicu posle popusta, montaže i transporta
+  function calcTotals() {
+    var cur = cart.length ? cart[0].cur : "";
+    var gross0 = 0, itemDisc = 0, sub = 0, area = 0, pieces = 0;
+    cart.forEach(function (it) {
+      gross0 += it.unit * it.qty;
+      itemDisc += it.unit * it.qty * (it.disc || 0) / 100;
+      sub += it.sub;
+      area += (it.area || 0) * it.qty;
+      pieces += it.qty;
+    });
+    var disc = sub * numOf("mDisc") / 100;
+    var mont = area * numOf("mMont") + pieces * numOf("mMontKom");
+    var trans = numOf("mTrans");
+    var net = sub - disc + mont + trans;
+    var pdvPct = getPricelist().pdv || 0;
+    var pdv = net * pdvPct / 100;
+    var gross = net + pdv;
+    return { cur: cur, gross0: gross0, itemDisc: itemDisc, sub: sub, disc: disc, mont: mont, trans: trans, area: area, pieces: pieces, net: net, pdvPct: pdvPct, pdv: pdv, total: gross, gross: gross, adv: gross * numOf("mAdv") / 100 };
+  }
+  function totalsHtml(t) {
+    var f = function (n) { return fmtMoney(n, t.cur); };
+    var rows = '<tr><td>Vrednost stavki</td><td align="right">' + f(t.gross0) + '</td></tr>';
+    if (t.itemDisc) rows += '<tr><td>Popust na stavke</td><td align="right">-' + f(t.itemDisc) + '</td></tr>';
+    if (t.disc) rows += '<tr><td>Popust na ponudu (' + numOf("mDisc") + '%)</td><td align="right">-' + f(t.disc) + '</td></tr>';
+    if (t.mont) rows += '<tr><td>Montaža (' + t.area.toFixed(2) + ' m², ' + t.pieces + ' kom)</td><td align="right">' + f(t.mont) + '</td></tr>';
+    if (t.trans) rows += '<tr><td>Transport</td><td align="right">' + f(t.trans) + '</td></tr>';
+    rows += '<tr><td>Osnovica bez PDV</td><td align="right">' + f(t.net) + '</td></tr>';
+    rows += '<tr><td>PDV ' + t.pdvPct + '%</td><td align="right">' + f(t.pdv) + '</td></tr>';
+    rows += '<tr style="font-weight:700;border-top:2px solid #e8b020"><td>Ukupno sa PDV</td><td align="right">' + f(t.gross) + '</td></tr>';
+    if (t.adv) rows += '<tr><td>Avans (' + numOf("mAdv") + '%)</td><td align="right">' + f(t.adv) + '</td></tr>';
+    return '<table style="width:100%;border-collapse:collapse;font-size:14px">' + rows + '</table>';
+  }
+  function renderTotals() {
+    if (!cart.length) { $("cartTotal").innerHTML = ""; $("objSummary").innerHTML = ""; return; }
+    $("cartTotal").innerHTML = totalsHtml(calcTotals());
+    renderObjSummary();
+  }
+
+  // Sažetak celog objekta: broj komada, m² i iznos po vrsti (prozor/vrata, krilnost)
+  var LEAF_NAMES = { 1: "jednokrilni", 2: "dvokrilni", 3: "trokrilni" };
+  function renderObjSummary() {
+    var box = $("objSummary");
+    if (!cart.length) { box.innerHTML = ""; return; }
+    var g = {}, order = [], cur = "", pcs = 0, area = 0, sum = 0;
+    cart.forEach(function (it) {
+      var type = it.type === "vrata" ? "Vrata" : "Prozor";
+      var key = type + "|" + (it.leaves || 0);
+      if (!g[key]) { g[key] = { label: type + " · " + (LEAF_NAMES[it.leaves] || "krilnost nepoznata"), n: 0, a: 0, s: 0 }; order.push(key); }
+      g[key].n += it.qty; g[key].a += (it.area || 0) * it.qty; g[key].s += it.sub;
+      pcs += it.qty; area += (it.area || 0) * it.qty; sum += it.sub; cur = it.cur;
+    });
+    var rows = order.map(function (k) {
+      var x = g[k];
+      return '<tr><td>' + escapeXml(x.label) + '</td><td align="right">' + x.n + '</td><td align="right">' + x.a.toFixed(3) + '</td><td align="right">' + fmtMoney(x.s, cur) + '</td></tr>';
+    }).join("");
+    box.innerHTML = '<b>Sažetak objekta</b>' +
+      '<table style="width:100%;border-collapse:collapse;font-size:14px;margin-top:6px">' +
+      '<tr style="font-weight:700"><td>Vrsta</td><td align="right">Kom</td><td align="right">m²</td><td align="right">Iznos</td></tr>' +
+      rows +
+      '<tr style="font-weight:700;border-top:2px solid #2e2e2e"><td>Ukupno</td><td align="right">' + pcs + '</td><td align="right">' + area.toFixed(3) + '</td><td align="right">' + fmtMoney(sum, cur) + '</td></tr>' +
+      '</table>';
+  }
+
+  $("btnAddItem").addEventListener("click", function () {
+    if (!lastSvg) draw();
+    if (!lastSvg) return;
+    recalcPrice();
+    var lp = window.__lastPrice;
+    if (!lp) return;
+    var p = readParams();
+    var qty = Math.max(1, parseInt($("qty").value, 10) || 1);
+    var desc = p.W + " × " + p.H + " mm · " + (p.leaves === 3 ? "trokrilni" : p.leaves === 2 ? "dvokrilni" : "jednokrilni") +
+      " · krilo 1: " + openName(p.opens[0]) +
+      (p.leaves === 2 ? ", krilo 2: " + openName(p.opens[1]) : "") +
+      (p.mesh && p.meshLeaves.some(Boolean) ? " · komarnik (" + p.meshLeaves.filter(Boolean).length + " kr.)" : "") +
+      (p.roll ? " · roletna" : "");
+    var type = $("itemType").value, room = $("itemRoom").value.trim();
+    var area = p.W * p.H / 1e6;                   // m² spoljnih mera
+    var unit = type === "vrata" ? area * (getPricelist().door || 0) : lp.perUnit;
+    var label = (room ? room + " · " : "") + (type === "vrata" ? "vrata " : "prozor ") + desc;
+    cart.push({ p: p, type: type, room: room, leaves: p.leaves, area: area, desc: label, qty: qty, unit: unit, sub: unit * qty, cur: lp.cur });
+    saveCart();
+    renderCart();
+    $("cartCard").classList.remove("hidden");
+  });
+
+  // Dodaj još prozora: prozor ide u ponudu, prethodni se sklapa u listu, forma ostaje za sledeći
+  $("btnAddNext").addEventListener("click", function () {
+    if (!lastSvg) draw();
+    if (!lastSvg) return;
+    var before = cart.length;
+    $("btnAddItem").click();
+    if (cart.length === before) return;
+    $("w").value = ""; $("h").value = "";        // dubina, zazor i ostalo ostaju
+    lastSvg = "";
+    $("drawing").innerHTML = ""; $("section").innerHTML = "";
+    ["resultCard", "simCard", "summaryCard", "priceCard"].forEach(function (id) { $(id).classList.add("hidden"); });
+    $("errors").textContent = "";
+    $("w").focus();
+  });
+
+  $("btnClearCart").addEventListener("click", function () {
+    cart = []; saveCart(); renderCart();
+  });
+
+  // podaci za predračun pamte se u pregledaču
+  var META_KEY = "crtez-prozora-meta";
+  var META_IDS = ["mBuyer", "mAddr", "mPib", "mNo", "mDate", "mDisc", "mMont", "mMontKom", "mTrans", "mAdv", "mRok"];
+  function saveMeta() {
+    var o = {}; META_IDS.forEach(function (id) { o[id] = $(id).value; });
+    try { localStorage.setItem(META_KEY, JSON.stringify(o)); } catch (e) {}
+  }
+  try {
+    var savedMeta = JSON.parse(localStorage.getItem(META_KEY) || "null");
+    if (savedMeta) META_IDS.forEach(function (id) { if (savedMeta[id] !== undefined) $(id).value = savedMeta[id]; });
+  } catch (e) {}
+  META_IDS.forEach(function (id) { $(id).addEventListener("input", function () { saveMeta(); renderTotals(); }); });
+  renderCart();
+
+  // ---------- sklapanje sekcija Roletna i Komarnik (sklopljeno po defaultu) ----------
+  (function setupCollapsibles() {
+    function make(titleText, checkId, ids) {
+      var title = Array.prototype.find.call(document.querySelectorAll(".section-title"), function (t) {
+        return t.textContent.indexOf(titleText) === 0;
+      });
+      if (!title) return;
+      // prekidač se prebacuje u naslov sekcije, pored naziva
+      var wrap = $(checkId).closest("div");
+      title.style.display = "flex";
+      title.style.alignItems = "center";
+      title.style.gap = "10px";
+      title.appendChild(wrap);
+      wrap.style.textTransform = "none";
+      wrap.style.letterSpacing = "0";
+      wrap.style.fontSize = "14px";
+      wrap.style.fontWeight = "normal";
+      wrap.style.color = "inherit";
+      wrap.style.margin = "0";
+      wrap.style.borderBottom = "none";
+      wrap.addEventListener("click", function (e) { e.stopPropagation(); });
+      var arrow = document.createElement("span");
+      arrow.style.marginLeft = "auto";
+      title.appendChild(arrow);
+      title.style.cursor = "pointer";
+      title.style.userSelect = "none";
+      var details = ids.map(function (id) { return $(id).closest("div"); });
+      var expanded = false;
+      function apply() {
+        details.forEach(function (d) { d.style.display = expanded ? "" : "none"; });
+        arrow.textContent = expanded ? "▾" : "▸";
+      }
+      title.addEventListener("click", function () {
+        // bez štikliranja sekcija ostaje sklopljena
+        expanded = $(checkId).checked && !expanded;
+        apply();
+      });
+      $(checkId).addEventListener("change", function () { expanded = $(checkId).checked; apply(); });
+      apply();
+      // stanje za programski postavljene vrednosti (modeli, verzija 3d)
+      return function sync() { expanded = $(checkId).checked; apply(); };
+    }
+    var syncRoll = make("Roletna", "roll", ["rollBox", "rollW", "rollH"]);
+    var syncMesh = make("Komarnik", "mesh", ["meshFix", "meshW", "meshH"]);
+    window.__syncCollapsibles = function () {
+      if (syncRoll) syncRoll();
+      if (syncMesh) syncMesh();
+    };
+  })();
+
+  // ---------- podaci firme ----------
+  (function () {
+    var c = window.COMPANY;
+    if (!c) return;
+    $("firmName").textContent = c.name + " · Predračun i simulacija";
+    document.title = c.name + " – Predračun i simulacija";
+    if (c.logo) {
+      var logo = $("logo"), rlogo = $("reportLogo");
+      logo.onload = function () { logo.style.display = "inline-block"; };
+      rlogo.onload = function () { rlogo.style.display = "block"; };
+      logo.src = c.logo;
+      rlogo.src = c.logo;
+    }
+    $("reportFirm").textContent = c.name + " – " + c.subtitle + "  ·  " + c.address + "  ·  tel. " + c.phones.join(", ") + "  ·  " + c.email;
+  })();
+
+  // ---------- tema (svetla / tamna) ----------
+  var THEME_KEY = "crtez-prozora-tema";
+  function applyTheme(dark) {
+    document.body.classList.toggle("dark", dark);
+    $("themeBtn").textContent = dark ? "Svetla tema" : "Tamna tema";
+    var cc = window.COMPANY || {};
+    var src = cc.logoDark || cc.logo; // svetla (bela) verzija, zaglavlje je tamno u obe teme
+    if (src && $("logo").getAttribute("src") !== src) $("logo").src = src;
+    try { localStorage.setItem(THEME_KEY, dark ? "dark" : "light"); } catch (e) {}
+  }
+  $("themeBtn").addEventListener("click", function () {
+    applyTheme(!document.body.classList.contains("dark"));
+  });
+  try { applyTheme(localStorage.getItem(THEME_KEY) === "dark"); } catch (e) { applyTheme(false); }
+
+  // Promena opcija odmah osvežava crtež i 3D model (ako su već prikazani)
+  ["roll", "mesh", "opening", "meshFix", "meshRolo", "meshPlise", "okapnica", "okapMat", "okapW", "color", "glazing"].forEach(function (id) {
+    $(id).addEventListener("change", function () { if (lastSvg) draw(); });
+  });
+
+  // sekcije Krila i otvaranje, Profili i ispuna: sklopljene po defaultu, dimenzije ostaju vidljive
+  (function setupPlainCollapse() {
+    ["Krila i otvaranje", "Profili i ispuna"].forEach(function (titleText) {
+      var title = Array.prototype.find.call(document.querySelectorAll(".section-title"), function (t) {
+        return t.textContent.indexOf(titleText) === 0;
+      });
+      if (!title) return;
+      var details = [];
+      var n = title.nextElementSibling;
+      while (n && !n.classList.contains("section-title")) { details.push(n); n = n.nextElementSibling; }
+      var arrow = document.createElement("span");
+      arrow.style.marginLeft = "auto";
+      title.style.display = "flex";
+      title.style.alignItems = "center";
+      title.appendChild(arrow);
+      title.style.cursor = "pointer";
+      title.style.userSelect = "none";
+      var open = false;
+      function apply() {
+        details.forEach(function (d) { d.style.display = open ? "" : "none"; });
+        arrow.textContent = open ? "▾" : "▸";
+      }
+      title.addEventListener("click", function () { open = !open; apply(); });
+      apply();
+    });
+  })();
+
+  // dugme Poništi uz štiklirane roletnu, komarnik i okapnicu: vraća na početno stanje, cene ostaju
+  (function setupUndo() {
+    function findTitle(t) {
+      return Array.prototype.find.call(document.querySelectorAll(".section-title"), function (x) { return x.textContent.trim().indexOf(t) === 0; });
+    }
+    function addUndo(titleText, checkId, reset) {
+      var title = findTitle(titleText), chk = $(checkId);
+      if (!title || !chk) return;
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.textContent = "Poništi";
+      btn.className = "secondary";
+      btn.style.cssText = "margin-left:8px;padding:2px 10px;font-size:12px;text-transform:none;letter-spacing:0";
+      btn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        chk.checked = false;
+        reset();
+        chk.dispatchEvent(new Event("change"));
+      });
+      title.appendChild(btn);
+      function sync() { btn.style.display = chk.checked ? "" : "none"; }
+      chk.addEventListener("change", sync);
+      setInterval(sync, 300);   // i programski postavljene vrednosti (modeli)
+      sync();
+    }
+    addUndo("Roletna", "roll", function () { $("rollW").value = ""; $("rollH").value = ""; });
+    addUndo("Komarnik", "mesh", function () {
+      $("meshW").value = ""; $("meshH").value = "";
+      $("meshFix").checked = true; $("meshRolo").checked = false; $("meshPlise").checked = false;
+    });
+    addUndo("Okapnica", "okapnica", function () { $("okapMat").value = "pvc"; $("okapW").value = "10"; });
+  })();
+
+  // strelica za prikaz/sklapanje dodatka po sistemu profila (sklopljeno po defaultu)
+  (function setupSysToggle() {
+    var title = $("plSysTitle"), body = $("plSysBody"), arrow = $("plSysArrow");
+    if (!title) return;
+    var open = false;
+    function apply() { body.style.display = open ? "" : "none"; arrow.textContent = open ? "▾" : "▸"; }
+    title.addEventListener("click", function () { open = !open; apply(); });
+    apply();
+  })();
+
+  // cenovnik: sklopljen po defaultu, otvara se klikom na naslov (ne zauzima mesto)
+  (function setupPricelistToggle() {
+    var card = $("pricelistCard");
+    var h = card.querySelector("h2");
+    if (!h) return;
+    var body = document.createElement("div");
+    body.id = "plBody";
+    while (h.nextSibling) body.appendChild(h.nextSibling);
+    card.appendChild(body);
+    var arrow = document.createElement("span");
+    arrow.style.marginLeft = "10px";
+    h.appendChild(arrow);
+    h.style.cursor = "pointer";
+    h.style.userSelect = "none";
+    var open = false;
+    function apply() { body.style.display = open ? "" : "none"; arrow.textContent = open ? "▾" : "▸"; }
+    h.addEventListener("click", function () { open = !open; apply(); });
+    apply();
+  })();
+
+  // ---------- cenovnik ----------
+  var PL_KEY = "crtez-prozora-cenovnik";
+
+  function defaultPricelist() {
+    var d = window.PRICELIST_DEFAULT || { currency: "", win: 0, roll: 0, mesh: 0, systems: {} };
+    return JSON.parse(JSON.stringify(d));
+  }
+
+  function getPricelist() {
+    var base = defaultPricelist();
+    var saved = null;
+    try { saved = JSON.parse(localStorage.getItem(PL_KEY) || "null"); } catch (e) { saved = null; }
+    if (!saved && window.__plMem) saved = window.__plMem;   // rezerva kad localStorage nije dostupan
+    if (saved) {
+      ["currency", "win", "roll", "door", "pdv", "mesh", "meshRolo", "meshPlise"].forEach(function (k) { if (saved[k] !== undefined) base[k] = saved[k]; });
+      if (saved.sysOn !== undefined) base.sysOn = !!saved.sysOn;
+      if (saved.okapPrices) base.okapPrices = saved.okapPrices;
+      if (saved.colorPrices) base.colorPrices = saved.colorPrices;
+      if (saved.systems) Object.keys(saved.systems).forEach(function (k) { base.systems[k] = saved.systems[k]; });
+    }
+    if (base.meshRolo === undefined) base.meshRolo = base.mesh;
+    if (base.meshPlise === undefined) base.meshPlise = base.mesh;
+    if (!base.okapPrices) base.okapPrices = {};
+    if (!base.colorPrices) base.colorPrices = {};
+    return base;
+  }
+
+  function renderPricelist() {
+    var pl = getPricelist();
+    $("plWin").value = pl.win;
+    $("plRoll").value = pl.roll;
+    $("plDoor").value = pl.door || 0;
+    $("plPdv").value = (pl.pdv != null ? pl.pdv : 20);
+    $("plMesh").value = pl.mesh;
+    $("plMeshRolo").value = pl.meshRolo;
+    $("plMeshPlise").value = pl.meshPlise;
+    var colBox = $("plColorBox");
+    colBox.innerHTML = "";
+    COLOR_LIST.forEach(function (c) {
+      var wrap = document.createElement("div");
+      var lab = document.createElement("label");
+      lab.setAttribute("for", "plCol_" + c[0]);
+      lab.textContent = c[1] + " po m²";
+      var inp = document.createElement("input");
+      inp.type = "number"; inp.inputMode = "decimal"; inp.min = "0"; inp.step = "0.001"; inp.id = "plCol_" + c[0];
+      var v = (pl.colorPrices || {})[c[0]];
+      inp.value = v !== undefined ? v : 0;
+      wrap.appendChild(lab); wrap.appendChild(inp);
+      colBox.appendChild(wrap);
+    });
+    var okBox = $("plOkapBox");
+    okBox.innerHTML = "";
+    okapBoxIds().forEach(function (k) {
+      var wrap = document.createElement("div");
+      var lab = document.createElement("label");
+      var id = "plOk_" + k[0] + "_" + k[1];
+      lab.setAttribute("for", id);
+      lab.textContent = "Okapnica " + (k[0] === "alu" ? "ALU" : "PVC") + " " + k[1] + " cm po dužnom metru";
+      var inp = document.createElement("input");
+      inp.type = "number"; inp.inputMode = "decimal"; inp.min = "0"; inp.step = "0.001"; inp.id = id;
+      var v = (pl.okapPrices || {})[k[0] + "-" + k[1]];
+      inp.value = v !== undefined ? v : 0;
+      wrap.appendChild(lab); wrap.appendChild(inp);
+      okBox.appendChild(wrap);
+    });
+    $("plCur").value = pl.currency;
+    $("plSysOn").checked = pl.sysOn !== false;
+    var box = $("plSystems");
+    box.innerHTML = "";
+    (window.PROFILE_DB || []).forEach(function (s) {
+      var wrap = document.createElement("div");
+      var lab = document.createElement("label");
+      lab.setAttribute("for", "pl_" + s.id);
+      lab.textContent = s.brand + " · " + s.name;
+      var inp = document.createElement("input");
+      inp.type = "number"; inp.step = "0.1"; inp.id = "pl_" + s.id;
+      inp.value = pl.systems[s.id] !== undefined ? pl.systems[s.id] : 0;
+      wrap.appendChild(lab); wrap.appendChild(inp);
+      box.appendChild(wrap);
+    });
+  }
+
+  function readColorBox() {
+    var out = {};
+    COLOR_LIST.forEach(function (c) {
+      var el = $("plCol_" + c[0]);
+      out[c[0]] = el ? (parseFloat(el.value) || 0) : 0;
+    });
+    return out;
+  }
+
+  function readOkapBox() {
+    var out = {};
+    okapBoxIds().forEach(function (k) {
+      var el = $("plOk_" + k[0] + "_" + k[1]);
+      out[k[0] + "-" + k[1]] = el ? (parseFloat(el.value) || 0) : 0;
+    });
+    return out;
+  }
+
+  function savePricelist() {
+    var systems = {};
+    (window.PROFILE_DB || []).forEach(function (s) {
+      systems[s.id] = parseFloat($("pl_" + s.id).value) || 0;
+    });
+    var pl = {
+      currency: $("plCur").value,
+      win: parseFloat($("plWin").value) || 0,
+      roll: parseFloat($("plRoll").value) || 0,
+      door: parseFloat($("plDoor").value) || 0,
+      pdv: parseFloat($("plPdv").value) || 0,
+      mesh: parseFloat($("plMesh").value) || 0,
+      meshRolo: parseFloat($("plMeshRolo").value) || 0,
+      meshPlise: parseFloat($("plMeshPlise").value) || 0,
+      okapPrices: readOkapBox(),
+      colorPrices: readColorBox(),
+      sysOn: $("plSysOn").checked,
+      systems: systems
+    };
+    try {
+      localStorage.setItem(PL_KEY, JSON.stringify(pl));
+      $("plMsg").textContent = "Cenovnik je sačuvan.";
+    } catch (e) {
+      $("plMsg").textContent = "Ne mogu da sačuvam u pregledaču; cene važe dok je stranica otvorena.";
+      window.__plMem = pl;
+    }
+    renderPricelist();
+    recalcPrice();
+  }
+
+  // Automatsko čuvanje cenovnika pri svakoj izmeni (unosi se samo jednom)
+  function autoSavePricelist() {
+    var systems = {};
+    (window.PROFILE_DB || []).forEach(function (s) {
+      var el = $("pl_" + s.id);
+      systems[s.id] = el ? (parseFloat(el.value) || 0) : 0;
+    });
+    var pl = {
+      currency: $("plCur").value,
+      win: parseFloat($("plWin").value) || 0,
+      roll: parseFloat($("plRoll").value) || 0,
+      door: parseFloat($("plDoor").value) || 0,
+      pdv: parseFloat($("plPdv").value) || 0,
+      mesh: parseFloat($("plMesh").value) || 0,
+      meshRolo: parseFloat($("plMeshRolo").value) || 0,
+      meshPlise: parseFloat($("plMeshPlise").value) || 0,
+      okapPrices: readOkapBox(),
+      colorPrices: readColorBox(),
+      sysOn: $("plSysOn").checked,
+      systems: systems
+    };
+    try {
+      localStorage.setItem(PL_KEY, JSON.stringify(pl));
+      $("plMsg").textContent = "Cenovnik je automatski sačuvan.";
+    } catch (e) {
+      window.__plMem = pl;
+      $("plMsg").textContent = "Cene važe dok je aplikacija otvorena (pregledač ne dozvoljava čuvanje).";
+    }
+    recalcPrice();
+  }
+  $("pricelistCard").addEventListener("input", autoSavePricelist);
+
+  $("plSave").addEventListener("click", savePricelist);
+  $("plReset").addEventListener("click", function () {
+    try { localStorage.removeItem(PL_KEY); } catch (e) {}
+    window.__plMem = null;
+    $("plMsg").textContent = "Vraćene su podrazumevane cene.";
+    renderPricelist();
+    recalcPrice();
+  });
+  // Izvoz i uvoz cenovnika u JSON fajl (cenovnik ostaje i kad se promeni pregledač ili telefon)
+  $("plExport").addEventListener("click", function () {
+    var pl = getPricelist();
+    var blob = new Blob([JSON.stringify(pl, null, 2)], { type: "application/json" });
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "cenovnik-" + new Date().toISOString().slice(0, 10) + ".json";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+    $("plMsg").textContent = "Cenovnik je izvezen u fajl.";
+  });
+  $("plImport").addEventListener("click", function () { $("plImportFile").click(); });
+  $("plImportFile").addEventListener("change", function () {
+    var f = this.files && this.files[0];
+    this.value = "";
+    if (!f) return;
+    var reader = new FileReader();
+    reader.onload = function () {
+      var obj;
+      try { obj = JSON.parse(reader.result); } catch (e) { obj = null; }
+      if (!obj || typeof obj !== "object" || obj.win === undefined || obj.roll === undefined) {
+        $("plMsg").textContent = "Fajl nije ispravan cenovnik.";
+        return;
+      }
+      try { localStorage.setItem(PL_KEY, JSON.stringify(obj)); } catch (e) { window.__plMem = obj; }
+      renderPricelist();
+      recalcPrice();
+      $("plMsg").textContent = "Cenovnik je uvezen iz fajla.";
+    };
+    reader.readAsText(f);
+  });
+
+  renderPricelist();
+
+  var lastSimP = null;
+  function renderSim(par) {
+    if (par) lastSimP = par;
+    if (!lastSimP) return;
+    var deg = +$("simOpen").value, rp = +$("simRoll").value;
+    $("simOpenVal").textContent = deg;
+    $("sim").innerHTML = buildSimulation(lastSimP, deg, rp);
+    var hasMesh = !!(lastSimP.mesh && lastSimP.meshLeaves && lastSimP.meshLeaves.some(Boolean));
+    var chip = function (on, text) { return '<span class="chip ' + (on ? "on" : "off") + '">' + text + '</span>'; };
+    $("legendSim").innerHTML = chip(hasMesh, "Komarnik: " + (hasMesh ? "DA" : "NE"))
+      + chip(!!lastSimP.roll, "Roletna: " + (lastSimP.roll ? "DA" : "NE"))
+      + chip(true, "Brava (kvaka): DA");
+  }
+  $("simOpen").addEventListener("input", function () { renderSim(); });
+  $("simRoll").addEventListener("input", function () { renderSim(); });
+
+  function saveSvg() {
+    if (!lastSvg) draw();
+    if (!lastSvg) return;
+    var p = readParams();
+    var blob = new Blob([lastSvg], { type: "image/svg+xml" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = "prozor_" + p.W + "x" + p.H + ".svg";
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function () { URL.revokeObjectURL(url); a.remove(); }, 1000);
+  }
+
+  $("btnDraw").addEventListener("click", draw);
+  $("btnDoor").addEventListener("click", function () { $("itemType").value = "vrata"; draw(); });
+  $("btnSvg").addEventListener("click", saveSvg);
+  function prepareReport() {
+    if (!lastSvg) draw();
+    if (!lastSvg) return false;
+    var p = readParams();
+    var now = new Date().toLocaleString("sr-RS");
+    var sys = p.system ? (p.system.brand + " " + p.system.name) : "–";
+    $("reportMeta").textContent = "Datum: " + now + "  ·  Dimenzije: " + p.W + " × " + p.H + " mm  ·  Krila: " + p.leaves + "  ·  Sistem: " + sys;
+    return true;
+  }
+
+  // ---------- štampač: u Electron verziji bira se lista, u pregledaču se otvara sistemski dijalog ----------
+  var PRINTER_KEY = "crtez-prozora-stampac";
+  if (window.electronAPI) {
+    $("printerRow").classList.remove("hidden");
+    window.electronAPI.getPrinters().then(function (list) {
+      var sel = $("printer");
+      sel.innerHTML = "";
+      var saved = null;
+      try { saved = localStorage.getItem(PRINTER_KEY); } catch (e) {}
+      if (!list.length) {
+        var none = document.createElement("option");
+        none.value = ""; none.textContent = "Nema instaliranih štampača";
+        sel.appendChild(none);
+      }
+      list.forEach(function (pr) {
+        var o = document.createElement("option");
+        o.value = pr.name;
+        o.textContent = pr.displayName + (pr.isDefault ? " (podrazumevani)" : "");
+        if ((saved && saved === pr.name) || (!saved && pr.isDefault)) o.selected = true;
+        sel.appendChild(o);
+      });
+      sel.addEventListener("change", function () {
+        try { localStorage.setItem(PRINTER_KEY, sel.value); } catch (e) {}
+      });
+    });
+  }
+
+  $("btnPrint").addEventListener("click", function () {
+    if (!prepareReport()) return;
+    if (window.electronAPI) {
+      var name = $("printer") ? $("printer").value : "";
+      $("printMsg").textContent = "Štampam …";
+      var job = name ? window.electronAPI.printSilent(name) : window.electronAPI.printDefault();
+      job.then(function (res) {
+        $("printMsg").textContent = res.ok ? "Poslato na štampač." : "Štampanje nije uspelo: " + (res.reason || "nepoznata greška");
+      });
+      return;
+    }
+    window.print();
+  });
+
+})();
+</script>
+</body>
+</html>

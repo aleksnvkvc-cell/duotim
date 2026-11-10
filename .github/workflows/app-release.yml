@@ -1,0 +1,36 @@
+name: Izdanje aplikacije (Windows)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "app/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Instalacija zavisnosti
+        run: npm ci
+
+      - name: Verzija = 1.0.<broj pokretanja>
+        shell: bash
+        run: npm version "1.0.${{ github.run_number }}" --no-git-tag-version
+
+      - name: Pravljenje instalatera i objava izdanja
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx electron-builder --win nsis --publish always

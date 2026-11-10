@@ -1,0 +1,56 @@
+{
+  "name": "pvc-prozor-kalkulator-3d",
+  "version": "1.0.0",
+  "description": "Kalkulator i 3D prikaz PVC prozora",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build:win": "electron-builder --win nsis"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "electron": "^45.2.1",
+    "electron-builder": "^26.18.0"
+  },
+  "build": {
+    "appId": "rs.duotim.pvc-prozor-kalkulator-3d",
+    "productName": "PVC prozor – Kalkulator i 3D",
+    "files": [
+      "main.js",
+      "preload.js",
+      "www/**/*",
+      "!**/*.map"
+    ],
+    "win": {
+      "target": "nsis",
+      "signAndEditExecutable": true,
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true
+    },
+    "electronLanguages": [
+      "en-US",
+      "sr",
+      "sr-Latn"
+    ],
+    "compression": "maximum",
+    "publish": {
+      "provider": "github",
+      "owner": "aleksnvkvc-cell",
+      "repo": "duotim",
+      "releaseType": "release"
+    }
+  },
+  "overrides": {
+    "minimatch": "^11.0.4",
+    "rimraf": "^6.1.3",
+    "glob": "^14.0.3"
+  },
+  "dependencies": {
+    "electron-updater": "^6.8.11"
+  }
+}
