@@ -560,11 +560,32 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:1
 })();
 </script>
 <script>
-  document.getElementById('upitForm').addEventListener('submit', function (e) {
+  // Formspree: upisati ID forme (npr. "xabcdwzy") kad se napravi nalog. Dok je prazno, forma otvara mejl.
+  var FORMSPREE_ID = "";
+  var form = document.getElementById('upitForm');
+  var msg = document.createElement('p');
+  msg.setAttribute('role', 'status');
+  msg.style.marginTop = '10px';
+  form.appendChild(msg);
+  form.addEventListener('submit', function (e) {
     e.preventDefault();
     var f = e.target;
-    var body = 'Ime: ' + f.ime.value + '\nTelefon: ' + f.telefon.value + '\n\n' + f.poruka.value;
-    window.location.href = 'mailto:duotimstolarija@gmail.com?subject=' + encodeURIComponent('Upit sa sajta') + '&body=' + encodeURIComponent(body);
+    if (!FORMSPREE_ID) {
+      var body = 'Ime: ' + f.ime.value + '\nTelefon: ' + f.telefon.value + '\n\n' + f.poruka.value;
+      window.location.href = 'mailto:duotimstolarija@gmail.com?subject=' + encodeURIComponent('Upit sa sajta') + '&body=' + encodeURIComponent(body);
+      return;
+    }
+    msg.textContent = 'Šaljemo...';
+    fetch('https://formspree.io/f/' + FORMSPREE_ID, {
+      method: 'POST',
+      headers: { 'Accept': 'application/json' },
+      body: new FormData(f)
+    }).then(function (r) {
+      if (r.ok) { f.reset(); msg.textContent = 'Hvala, upit je poslat. Javimo se u najkraćem roku.'; }
+      else { msg.textContent = 'Upit nije poslat. Pozovite nas na 065 276 4244.'; }
+    }).catch(function () {
+      msg.textContent = 'Upit nije poslat. Pozovite nas na 065 276 4244.';
+    });
   });
 </script>
 </body>
