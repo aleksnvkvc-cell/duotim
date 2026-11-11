@@ -122,8 +122,10 @@
     #pageNav { display: none !important; }
     #pageMain, #pageGallery { display: block !important; }
   }
-  /* verzija za klijente: cenovnik je samo za vlasnika */
+  .client-only { display: none; }
+  /* verzija za klijente: cenovnik je samo za vlasnika; zahtev za ponudu je samo za klijente */
   #navPricelist, #pagePricelist { display: none !important; }
+  .client-only { display: inline-block !important; }
 </style>
 </head>
 <body>
@@ -299,6 +301,7 @@
         <select id="printer" style="width:auto;display:inline-block"></select>
       </span>
       <button id="btnPrint" class="secondary">Štampaj predračun / PDF</button>
+      <button id="btnRequest" class="client-only">Pošalji zahtev</button>
     </div>
   </div>
 
@@ -2533,6 +2536,18 @@ console.warn( 'Scripts "build/three.js" and "build/three.min.js" are deprecated 
       });
     });
   }
+
+  // Zahtev za ponudu: otvara mejl sa dimenzijama i stavkama (samo web verzija za klijente)
+  $("btnRequest").addEventListener("click", function () {
+    var parts = [];
+    var sum = $("summary") ? $("summary").innerText.trim() : "";
+    var cart = $("cartList") ? $("cartList").innerText.trim() : "";
+    if (sum) parts.push("Dimenzije:\n" + sum);
+    if (cart) parts.push("Stavke:\n" + cart);
+    parts.push("Ime i telefon:");
+    var body = parts.join("\n\n");
+    window.location.href = "mailto:duotimstolarija@gmail.com?subject=" + encodeURIComponent("Zahtev za ponudu") + "&body=" + encodeURIComponent(body);
+  });
 
   $("btnPrint").addEventListener("click", function () {
     if (!prepareReport()) return;
