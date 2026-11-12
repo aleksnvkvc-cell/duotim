@@ -57,6 +57,13 @@
     setMenu(false);
   });
 
+  // tapping anywhere outside the open menu closes it
+  document.addEventListener('click', function (e) {
+    if (!mobileNav.classList.contains('open')) return;
+    if (mobileNav.contains(e.target) || menuBtn.contains(e.target)) return;
+    setMenu(false);
+  });
+
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') setMenu(false);
   });
@@ -153,5 +160,172 @@
       var top = window.scrollY + target.getBoundingClientRect().top - headerH - pad;
       window.scrollTo({ top: Math.max(0, top), behavior: 'auto' });
     }
+  }
+})();
+
+// touch: swipe right on any subpage returns to the main page
+(function () {
+  var isHome = /(^|\/)index\.html$/.test(location.pathname) || location.pathname.replace(/\/+$/, '') === '' || /\/duotim$/.test(location.pathname);
+  if (isHome) return;
+  var sx = 0, sy = 0, st = 0, tracking = false;
+  document.addEventListener('touchstart', function (e) {
+    if (e.touches.length !== 1) { tracking = false; return; }
+    // ignore swipes that start inside horizontally scrollable content (tables, maps, galleries)
+    if (e.target.closest && e.target.closest('.map, .lightbox, .lb, pre, table, .tiles-scroll')) { tracking = false; return; }
+    sx = e.touches[0].clientX; sy = e.touches[0].clientY; st = Date.now(); tracking = true;
+  }, { passive: true });
+  document.addEventListener('touchend', function (e) {
+    if (!tracking) return;
+    tracking = false;
+    var t = e.changedTouches[0];
+    var dx = t.clientX - sx, dy = t.clientY - sy, dt = Date.now() - st;
+    // a deliberate, fast, mostly horizontal swipe to the right
+    if (dx > 90 && Math.abs(dy) < 60 && Math.abs(dx) > Math.abs(dy) * 2 && dt < 600) {
+      location.href = 'index.html';
+    }
+    // swipe left goes back to the page the visitor came from on this site
+    if (dx < -90 && Math.abs(dy) < 60 && Math.abs(dx) > Math.abs(dy) * 2 && dt < 600 && history.length > 1) {
+      history.back();
+    }
+  }, { passive: true });
+})();
+
+// hero headline: each word flies in like a bird and lands in place
+(function () {
+  var h = document.querySelector('.hero h1');
+  if (!h || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
+  var text = h.textContent.trim();
+  h.setAttribute('aria-label', text);
+  h.classList.add('birds');
+  h.innerHTML = text.split(/\s+/).map(function (w, i) {
+    var accent = i >= 2 && i <= 4 ? ' accent' : '';
+    var inner = w;
+    if (i === 0) inner = '<span class="win">' + w + '</span>';          // window: opens on its top edge
+    if (i === 2) inner = '<span class="door">' + w + '</span>';         // door: swings open on its hinge
+    if (i === 5) inner = '<span class="house">' + w + '</span>';        // framed in a little house
+    // "i" comes out of the window, "za vaš" comes out of the door, once each one has opened
+    var emerge = { 1: '2.5s', 3: '3.1s', 4: '3.3s' }[i];
+    // light sweep: yellow over "PROZORI I", white over "VRATA ZA VAŠ", yellow over "DOM", left to right
+    var sw = i <= 1 ? ['#FBB400', 4.6, i] : (i <= 4 ? ['#ffffff', 5.3, i - 2] : ['#FBB400', 6.2, 0]);
+    var sweepStyle = '--sweep:' + sw[0] + ';--s:' + (sw[1] + sw[2] * 0.1).toFixed(2) + 's;';
+    var cls = 'bird' + (emerge ? ' emerge' : '') + accent + ' sweep';
+    var delay = emerge ? ';--d:' + emerge : '';
+    return '<span class="' + cls + '" aria-hidden="true" data-w="' + w + '" style="--i:' + i + delay + ';' + sweepStyle + '">' + inner + '</span>';
+  }).join(' ');
+  h.querySelectorAll('.house').forEach(function (el) { el.classList.add('settled'); });
+  // replay the word flight every 12 seconds
+  setInterval(function () {
+    h.querySelectorAll('.bird').forEach(function (el) {
+      el.style.animation = 'none';
+      void el.offsetWidth;
+      el.style.animation = '';
+    });
+    h.querySelectorAll('.win, .door, .house').forEach(function (el) {
+      el.style.animation = 'none';
+      void el.offsetWidth;
+      el.style.animation = '';
+    });
+    // restart the light sweeps and the house wall shake with the cycle
+    h.querySelectorAll('.bird').forEach(function (el) { el.classList.remove('sweep'); });
+    h.querySelectorAll('.house').forEach(function (el) { el.classList.remove('settled'); });
+    void h.offsetWidth;
+    h.querySelectorAll('.bird').forEach(function (el) { el.classList.add('sweep'); });
+    h.querySelectorAll('.house').forEach(function (el) { el.classList.add('settled'); });
+  }, 12000);
+})();
+
+// hero eyebrow: keep the small line at the top, with a shine sweep
+(function () {
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  document.querySelectorAll('.eyebrow').forEach(function (eyebrow) { eyebrow.classList.add('shine'); });
+})();
+
+// "Istražite" content rises in gently the first time it reaches the screen
+(function () {
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var el = document.querySelector('#istrazite .wrap');
+  if (!el || !('IntersectionObserver' in window)) return;
+  el.classList.add('reveal');
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { el.classList.add('in'); io.disconnect(); }
+    });
+  }, { threshold: 0.25 });
+  io.observe(el);
+})();
+
+// about page: the Instagram line rises letter by letter like bubbles, once, when it comes into view
+(function () {
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!('IntersectionObserver' in window)) return;
+  var ps = document.querySelectorAll('p');
+  var p = null;
+  for (var i = 0; i < ps.length; i++) {
+    if (ps[i].textContent.indexOf('Pratite nas na Instagramu') === 0) { p = ps[i]; break; }
+  }
+  if (!p) return;
+  var text = p.textContent;
+  p.setAttribute('aria-label', text);
+  p.innerHTML = text.split('').map(function (ch, n) {
+    if (ch === ' ') return (n === text.indexOf('radove') - 1) ? '<br>' : ' ';
+    return '<span class="bub" aria-hidden="true" style="--d:' + (n * 0.03).toFixed(2) + 's">' + ch + '</span>';
+  }).join('');
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { p.classList.add('bubbled'); io.disconnect(); }
+    });
+  }, { threshold: 0.6 });
+  io.observe(p);
+})();
+
+// hero lead: types out once after the hero has risen in; the height is held so the buttons below do not jump
+(function () {
+  var p = document.querySelector('.hero .lead');
+  if (!p || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
+  var seen = false;
+  try { seen = localStorage.getItem('duotim-typed') === '1'; localStorage.setItem('duotim-typed', '1'); } catch (e) {}
+  if (seen) return;
+  var full = p.textContent;
+  p.setAttribute('aria-label', full);
+  p.style.minHeight = p.offsetHeight + 'px';
+  setTimeout(function () {
+    p.textContent = '';
+    p.classList.add('typing');
+    var i = 0;
+    var t = setInterval(function () {
+      i++;
+      p.textContent = full.slice(0, i);
+      if (i >= full.length) { clearInterval(t); p.classList.remove('typing'); p.classList.add('typed'); }
+    }, 12);
+  }, 1000);
+})();
+
+// subpage leads and the first line of O nama: type once, when they come into view
+(function () {
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!('IntersectionObserver' in window)) return;
+  var els = document.querySelectorAll('.page-head .lead, .about > div:first-child > p:first-child');
+  for (var j = 0; j < els.length; j++) {
+    (function (p) {
+      var full = p.textContent;
+      p.setAttribute('aria-label', full);
+      p.style.minHeight = p.offsetHeight + 'px';
+      p.textContent = '';
+      p.classList.add('typable');
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          io.disconnect();
+          p.classList.add('typing');
+          var i = 0;
+          var t = setInterval(function () {
+            i++;
+            p.textContent = full.slice(0, i);
+            if (i >= full.length) { clearInterval(t); p.classList.remove('typing'); p.classList.add('typed'); }
+          }, 12);
+        });
+      }, { threshold: 0.6 });
+      io.observe(p);
+    })(els[j]);
   }
 })();

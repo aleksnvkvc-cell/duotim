@@ -1,13 +1,13 @@
 :root{
-  --bg:#eceef0;
-  --surface:#ffffff;
-  --text:#2a2c2f;
-  --muted:#5d6268;
-  --line:#d3d7dc;
+  --bg:#e8f0f0;
+  --surface:#f8f8f8;
+  --text:#484848;
+  --muted:#606060;
+  --line:rgba(104,104,104,.45);
   --accent:#fbb400;
-  --accent-ink:#8f6000;
-  --accent-text:#2a2c2f;
-  --nav-bg:rgba(236,238,240,.94);
+  --accent-ink:#505050;
+  --accent-text:#484848;
+  --nav-bg:rgba(232,240,240,.94);
 }
 [data-theme="dark"]{
   --bg:#2c2e32;
@@ -214,6 +214,9 @@ body::after{
 .cta-link{margin-top:16px;font-size:15px}
 .cta-link a{color:var(--accent);font-weight:700;text-decoration:none}
 .cta-link a:hover{text-decoration:underline}
+.cta-link a{display:inline-block;font-size:19px;animation:map-nudge 2.4s ease-in-out infinite}
+@keyframes map-nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(8px)}}
+@media(prefers-reduced-motion:reduce){.cta-link a{animation:none}}
 [id]{scroll-margin-top:96px}
 section.block{position:relative;overflow:hidden}
 section.block::before{
@@ -278,13 +281,13 @@ section.block:nth-of-type(even)::before{right:auto;left:-90px}
 
 /* 3D logo in hero */
 .stage{
-  position:absolute;z-index:0;right:5%;top:42%;transform:translateY(-50%);
+  position:absolute;z-index:0;right:5%;top:26%;transform:translateY(-50%);
   width:640px;perspective:1200px;pointer-events:none;
   filter:none;opacity:.4;
 }
 .tilt{transform-style:preserve-3d;transition:transform .45s ease-out}
 .spin{transform-style:preserve-3d;animation:logo-spin 10s ease-in-out infinite;will-change:transform}
-.spin img{width:100%;height:auto;filter:drop-shadow(0 18px 22px rgba(0,0,0,.25))}
+.spin img{width:100%;height:auto;filter:none}
 .shadow{
   position:absolute;left:14%;right:14%;bottom:0;height:26px;
   background:radial-gradient(ellipse at center,rgba(251,180,0,.45),transparent 70%);
@@ -299,18 +302,22 @@ section.block:nth-of-type(even)::before{right:auto;left:-90px}
   0%,100%{transform:scale(1);opacity:.9}
   50%{transform:scale(.78);opacity:.45}
 }
+@media(min-width:801px) and (max-width:1100px){
+  .stage{width:min(460px,44vw);right:2%;top:30%;opacity:.4}
+}
 @media(max-width:800px){
-  .stage{width:460px;right:-24%;opacity:.3}
+  .hero-row{flex-direction:column;align-items:stretch;gap:8px}
+  .stage{position:relative;left:auto;right:auto;top:auto;transform:none;perspective:none;display:block;width:300px;max-width:60%;margin:8px -10px 0 auto;opacity:.5;filter:none}
 }
 @media(max-width:560px){
   .hero-row{flex-direction:column;align-items:stretch;gap:8px}
-  .stage{position:relative;left:auto;right:auto;top:auto;transform:none;perspective:none;display:block;width:112px;max-width:34%;margin:14px -18px 0 auto;opacity:.7;filter:none}
+  .stage{position:relative;left:auto;right:auto;top:auto;transform:none;perspective:none;display:block;width:112px;max-width:34%;margin:14px 0 0 auto;opacity:.7;filter:none}
   .tilt{transform:none}
   .spin{animation:none;transform:none}
   .shadow{display:none}
 }
 @media(prefers-reduced-motion:reduce){
-  .spin,.shadow{animation:none}
+  .spin,.shadow,.deco3d .spin{animation:none}
 }
 @media(max-width:800px){.hero-row .deco{width:96px}.deco{width:68px}}
 @media(max-width:560px){.hero-row .deco{display:none}.deco{width:56px}}
@@ -344,3 +351,278 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:1
   .theme-toggle{padding:8px 11px}
   .bar{gap:10px}
 }
+
+/* 3D logo fitted in the Istražite heading row */
+.deco3d{position:relative;width:min(480px,44vw);flex-shrink:0;pointer-events:none;perspective:900px;margin:-10px -3% 0 0;background:none;overflow:visible}
+.deco3d .tilt{transform-style:preserve-3d}
+.deco3d .spin{transform:rotateY(-20deg) rotateX(6deg) translateZ(90px);transform-style:preserve-3d;animation:logo-scatter 8s ease-in-out infinite;will-change:transform,opacity,filter}
+@keyframes logo-scatter{
+  0%{opacity:1;filter:blur(0);transform:rotateY(-20deg) rotateX(6deg) translateZ(90px) translate(0,0) scale(1)}
+  48%{opacity:1;filter:blur(0);transform:rotateY(-20deg) rotateX(6deg) translateZ(90px) translate(16px,-14px) rotateZ(20deg) scale(1)}
+  64%{opacity:1;filter:blur(0);transform:rotateY(-20deg) rotateX(6deg) translateZ(90px) translate(0,0) scale(1)}
+  68%{opacity:0;filter:blur(14px);transform:rotateY(10deg) rotateX(-8deg) translateZ(20px) translate(70px,-40px) scale(.8) rotateZ(10deg)}
+  78%{opacity:0;filter:blur(14px);transform:rotateY(-30deg) translateZ(-60px) translate(-40px,30px) scale(.7)}
+  90%,100%{opacity:1;filter:blur(0);transform:rotateY(-20deg) rotateX(6deg) translateZ(90px) translate(0,0) scale(1)}
+}
+.deco3d .spin img{width:100%;height:auto;background:none;filter:drop-shadow(0 0 22px rgba(251,180,0,.6))}
+@media(max-width:560px){.deco3d{display:none}}
+
+/* hero call buttons: shake in turn, every 3 seconds */
+@keyframes call-shake{
+  0%,100%{transform:translateX(0) rotate(0)}
+  1%{transform:translateX(-3px) rotate(-.5deg)}
+  2%{transform:translateX(3px) rotate(.5deg)}
+  3%{transform:translateX(0) rotate(0)}
+}
+.hero .btn-call{animation:call-shake 6s ease-in-out infinite,call-glow 3s ease-in-out infinite}
+.hero .btn-call + .btn-call{animation-delay:3s,3s}
+@keyframes call-glow{0%,100%{box-shadow:0 0 0 0 rgba(251,180,0,0)}50%{box-shadow:0 0 0 9px rgba(251,180,0,.35)}}
+@media(prefers-reduced-motion:reduce){.hero .btn-call{animation:none}}
+
+/* light sheen sweeping across the top of the hero */
+.hero::after{
+  content:"";position:absolute;top:0;bottom:0;left:-60%;width:38%;pointer-events:none;z-index:0;
+  background:linear-gradient(105deg,transparent 0%,rgba(255,255,255,.55) 50%,transparent 100%);
+  animation:hero-sheen 8s ease-in-out infinite;
+}
+[data-theme="dark"] .hero::after{background:linear-gradient(105deg,transparent 0%,rgba(251,180,0,.18) 50%,transparent 100%)}
+@keyframes hero-sheen{0%{left:-60%}45%,100%{left:120%}}
+@media(prefers-reduced-motion:reduce){.hero::after{animation:none;display:none}}
+
+/* top bar: a soft sheen crosses the header every 8 seconds */
+header{background-image:linear-gradient(105deg,transparent 0%,rgba(255,255,255,.5) 50%,transparent 100%);background-size:40% 100%;background-repeat:no-repeat;background-position:-60% 0}
+[data-theme="dark"] header{background-image:linear-gradient(105deg,transparent 0%,rgba(251,180,0,.18) 50%,transparent 100%)}
+@keyframes header-sheen{0%{background-position:-60% 0}45%,100%{background-position:160% 0}}
+@media(prefers-reduced-motion:reduce){header{animation:none;background-image:none}}
+
+/* top bar: brushed metal from the business card, under the sheen (light: silver, dark: charcoal) */
+[data-theme="dark"] header{background-color:#505050}
+header::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='600'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.003 0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.09 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>") repeat}
+[data-theme="dark"] header::before{background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='600'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.003 0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.05 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>") repeat}
+
+/* whole site: a faint sheen crosses the full page every 8 seconds, above the content but under clicks */
+html::before{content:"";position:fixed;inset:-10%;pointer-events:none;z-index:46;background:radial-gradient(ellipse 40% 30% at 25% 35%,rgba(251,180,0,.6),transparent 70%),radial-gradient(ellipse 35% 25% at 65% 60%,rgba(251,180,0,.6),transparent 70%),radial-gradient(ellipse 30% 22% at 45% 85%,rgba(251,180,0,.45),transparent 70%);background-size:200% 200%;background-repeat:no-repeat;filter:blur(22px);opacity:0;display:none}
+[data-theme="dark"] html::before{background:radial-gradient(ellipse 40% 30% at 25% 35%,rgba(251,180,0,.22),transparent 70%),radial-gradient(ellipse 35% 25% at 65% 60%,rgba(255,255,255,.12),transparent 70%),radial-gradient(ellipse 30% 22% at 45% 85%,rgba(251,180,0,.16),transparent 70%);background-size:200% 200%;background-repeat:no-repeat}
+@keyframes site-sheen{0%{background-position:0% 40%;opacity:0}20%{opacity:1}45%,100%{background-position:100% 60%;opacity:0}}
+@media(prefers-reduced-motion:reduce){html::before{animation:none;display:none}}
+
+/* inner pages: the page title rises in once each time the page is opened */
+.page-title{animation:title-rise .9s cubic-bezier(.2,.7,.2,1) both}
+@keyframes title-rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.page-title{animation:none}}
+
+
+/* logo: flat, no card tilt; white letters and window, yellow frames and glow */
+.tilt,.spin{transform:none;animation:none}
+.shadow{display:none}
+.spin img,.deco3d .spin img{filter:drop-shadow(0 0 16px rgba(251,180,0,.7)) drop-shadow(0 0 4px rgba(251,180,0,.5))}
+.deco3d .spin{transform:none}
+.stage{opacity:.9}
+.brand .logo-white{display:block;filter:drop-shadow(0 0 8px rgba(251,180,0,.7))}
+.brand .logo-white{background:#2b2d31;padding:6px 10px;border-radius:8px;box-sizing:border-box;height:52px}
+
+
+/* hero: logo beside the call buttons, same look as the big logo, dissolves into dots and returns */
+.cta-row{display:flex;align-items:center;gap:28px;flex-wrap:wrap}
+.cta-logo{height:120px;width:auto;box-sizing:border-box;background:none;padding:0;border-radius:0;position:relative;z-index:2;filter:drop-shadow(0 0 16px rgba(251,180,0,.75));animation:logo-dots-fly 7s ease-in-out infinite}
+@keyframes logo-dots-fly{
+  0%,30%{transform:translateX(0);opacity:1;-webkit-mask-image:none;mask-image:none}
+  42%{transform:translateX(-80px);opacity:1;-webkit-mask-image:radial-gradient(circle,#000 2px,transparent 3px);mask-image:radial-gradient(circle,#000 2px,transparent 3px);-webkit-mask-size:8px 8px;mask-size:8px 8px}
+  52%{transform:translateX(-170px);opacity:0;-webkit-mask-image:radial-gradient(circle,#000 1px,transparent 2px);mask-image:radial-gradient(circle,#000 1px,transparent 2px);-webkit-mask-size:6px 6px;mask-size:6px 6px}
+  58%{transform:translateX(90px);opacity:0}
+  80%,100%{transform:translateX(0);opacity:1;-webkit-mask-image:none;mask-image:none}
+}
+@media(max-width:560px){.cta-logo{height:84px}}
+
+/* big logo: floats on wings and drifts up into the clouds, then comes back */
+.stage .spin{animation:logo-wings 12s ease-in-out infinite}
+@keyframes logo-wings{
+  0%,100%{transform:translate(0,0) rotate(0) scale(1);opacity:1;filter:blur(0)}
+  20%{transform:translate(-12px,-18px) rotate(-4deg) scale(1);opacity:1;filter:blur(0)}
+  40%{transform:translate(12px,-40px) rotate(3deg) scale(1);opacity:1;filter:blur(5px)}
+  60%{transform:translate(-18px,-110px) rotate(-5deg) scale(.92);opacity:.7;filter:blur(14px)}
+  75%{transform:translate(30px,-240px) rotate(4deg) scale(.7);opacity:0;filter:blur(10px)}
+  78%{transform:translate(0,40px) rotate(0) scale(.8);opacity:0;filter:blur(10px)}
+  92%{transform:translate(0,0) scale(1);opacity:.6;filter:blur(4px)}
+}
+@media(prefers-reduced-motion:reduce){.cta-logo,.stage .spin{animation:none}}
+
+/* hero headline words fly in like birds (see site.js) */
+.bird{display:inline-block;animation:bird-fly 1.5s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i) * .2s + .25s);will-change:transform,opacity}
+@keyframes bird-fly{
+  0%{transform:translate(calc(260px + var(--i) * 24px),150px) rotate(30deg) scale(.5);opacity:0}
+  30%{opacity:1}
+  70%{transform:translate(-10px,-24px) rotate(-9deg) scale(1.04);opacity:1}
+  85%{transform:translate(4px,4px) rotate(2deg)}
+  100%{transform:none;opacity:1}
+}
+@media(prefers-reduced-motion:reduce){.bird{animation:none}}
+
+
+/* headline words: solid colours per word (gradient clipping breaks on moving words) */
+h1.birds{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:var(--text)}
+.bird{color:var(--text)}
+.bird.accent{color:var(--accent)}
+
+
+/* the duplicate logo beside the buttons was removed to keep the hero clear */
+
+/* headline: "prozori" opens like a window, "vrata" swings like a door, "dom" sits in a little house frame */
+.bird{perspective:600px}
+.win{display:inline-block;transform-origin:50% 0;animation:win-open 1.1s cubic-bezier(.3,1.3,.5,1) both;animation-delay:1.7s}
+@keyframes win-open{0%{transform:rotateX(90deg);opacity:0}100%{transform:rotateX(0);opacity:1}}
+.door{display:inline-block;transform-origin:0 50%;animation:door-open 1.2s ease-out both;animation-delay:1.9s}
+@keyframes door-open{0%{transform:rotateY(-90deg);opacity:0}100%{transform:rotateY(0);opacity:1}}
+.house{position:relative;display:inline-block;padding:0 .2em;margin-left:.22em;opacity:0;transform-origin:50% 50%;animation:house-in 1.1s cubic-bezier(.2,.7,.2,1) 3.4s forwards}
+@keyframes house-in{0%{opacity:0;transform:scale(3.2);filter:blur(16px)}60%{opacity:1;filter:blur(2px)}100%{opacity:1;transform:scale(1);filter:blur(0)}}
+.house::before{content:"";position:absolute;left:-6px;right:-6px;top:-16px;bottom:-6px;pointer-events:none;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'><path d='M50 4 L97 42 L97 97 L3 97 L3 42 Z' fill='none' stroke='%23FBB400' stroke-width='5' stroke-linejoin='round'/></svg>") center/100% 100% no-repeat}
+@media(prefers-reduced-motion:reduce){.win,.door{animation:none}.house{opacity:1;animation:none}}
+
+/* hero call buttons: yellow frame instead of green */
+.hero .btn-call{border-color:#FBB400}
+
+/* hero headline on one line on tablets and laptops (phones keep the wrap) */
+@media(min-width:561px){.hero h1{max-width:none;white-space:nowrap;font-size:clamp(40px,4.4vw,60px)}}
+
+/* smaller house frame so it does not crowd the word before it */
+
+/* words that come out of the window ("i") and the door ("za vaš") */
+.bird.emerge{animation:emerge .7s cubic-bezier(.2,.8,.3,1) both;animation-delay:var(--d)}
+@keyframes emerge{0%{transform:translateX(-.5em) scale(.4);opacity:0}60%{opacity:1}100%{transform:none;opacity:1}}
+
+/* hero call buttons: no green, only yellow frame and yellow icon */
+.hero .btn-call{color:#484848;background:#f8f8f8}
+.hero .btn-call svg{color:#505050}
+
+/* light theme: white logo letters get a thin dark grey edge so they read on the light background */
+html:not([data-theme="dark"]) .spin img{filter:brightness(.9) drop-shadow(0 0 1px #686868) drop-shadow(0 0 14px rgba(251,180,0,.55))}
+
+
+/* blue-light filter: a faint warm tint over the page, in the business card yellow */
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:45;background:#FBB400;opacity:.07;mix-blend-mode:multiply}
+[data-theme="dark"] body::before{opacity:.04}
+
+/* light theme contrast: yellow text is too pale on the light background, so text uses the darker gold ink (about 4.7:1) */
+html:not([data-theme="dark"]) .bird.accent{color:var(--accent-ink)}
+html:not([data-theme="dark"]) .cta-link a{color:var(--accent-ink)}
+
+/* eyebrow: white light passes over the line from right to left */
+.eyebrow{position:relative;overflow:hidden}
+.eyebrow.shine::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(100deg,transparent 35%,rgba(255,255,255,.95) 50%,transparent 65%);transform:translateX(100%)}
+@keyframes eyebrow-shine{0%{transform:translateX(100%)}45%,100%{transform:translateX(-100%)}}
+@media (prefers-reduced-motion:reduce){.eyebrow.shine::after{animation:none;display:none}}
+
+/* light theme: icons and + marks use the darker gold (4.7:1 on the light background, the bright yellow is 1.8:1) */
+html:not([data-theme="dark"]) .hero .btn-call svg{color:var(--accent-ink)}
+html:not([data-theme="dark"]) .faq summary::after{color:var(--accent-ink)}
+
+/* headline light sweep: a band of light crosses each word from left to right; the word is clipped so only the band shows */
+.bird{position:relative}
+.bird::after{content:attr(data-w);position:absolute;left:0;top:0;right:0;bottom:0;pointer-events:none;color:transparent;background:linear-gradient(100deg,transparent 46%,var(--sweep,#fff) 50%,transparent 54%) 100% 0 / 300% 100% no-repeat;-webkit-background-clip:text;background-clip:text}
+.bird.sweep::after{animation:word-sweep .9s ease-in-out var(--s,4.6s) both}
+@keyframes word-sweep{0%{background-position:100% 0}100%{background-position:0 0}}
+
+/* the little house frame shakes once it has settled */
+.house.settled::before{animation:wall-vibrate .5s ease-in-out 4.6s 3}
+
+@keyframes wall-vibrate{0%,100%{transform:translate(0,0) rotate(0)}20%{transform:translate(-1.5px,0) rotate(-.6deg)}40%{transform:translate(1.5px,0) rotate(.6deg)}60%{transform:translate(-1px,0) rotate(-.4deg)}80%{transform:translate(1px,0) rotate(.2deg)}}
+@media(prefers-reduced-motion:reduce){.bird::after{display:none}.house.settled::before{animation:none}}
+
+/* home page: the hero and "Istražite" fill the window and snap into place as you scroll */
+html:has(.hero){scroll-snap-type:y proximity}
+.hero,#istrazite{min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:center;scroll-snap-align:start}
+#istrazite{justify-content:flex-start;padding-top:20vh;padding-bottom:64px}
+
+/* hero 3D logo flies from one side of the screen to the other and back */
+.stage .spin{animation:logo-wings 12s ease-in-out infinite}
+@keyframes logo-across-hero{
+  0%{transform:translate(0,0);opacity:.6;filter:blur(4px)}
+  25%{transform:translate(-7vw,-14px);opacity:1;filter:blur(0)}
+  50%{transform:translate(-14vw,0);opacity:1;filter:blur(0)}
+  75%{transform:translate(-7vw,14px);opacity:1;filter:blur(0)}
+  100%{transform:translate(0,0);opacity:.6;filter:blur(4px)}
+}
+
+/* phone: no sideways scrolling, and the hero logo travels a shorter distance so it stays on screen */
+html,body{overflow-x:hidden}
+@media(max-width:800px){
+  .stage .spin{animation-name:logo-wings}
+}
+@keyframes logo-across-mobile{
+  0%{transform:translateX(0);opacity:.6;filter:blur(4px)}
+  50%{transform:translateX(-8vw);opacity:1;filter:blur(0)}
+  100%{transform:translateX(0);opacity:.6;filter:blur(4px)}
+}
+/* phone menu: the full-width list sits under the bar with a clear edge */
+@media(max-width:800px){
+  .mobile-nav{z-index:60}
+  .mobile-nav a:not(.btn){font-size:18px;min-height:56px}
+}
+
+/* "Istražite" content rises in once when it reaches the screen */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+
+/* "Istražite" title, one 8s loop: grows from small, zooms in and out, slides down-right while the letters turn into a big arrow, the arrow fades out */
+.sec-title{position:relative;animation:sec-loop 8s ease-in-out infinite;transform-origin:0 0}
+@keyframes sec-loop{
+  0%{transform:translate(0,0) scale(.4);opacity:0}
+  14%{transform:translate(0,0) scale(1.1);opacity:1}
+  26%{transform:translate(0,0) scale(.95);opacity:1}
+  38%{transform:translate(0,0) scale(1.1);opacity:1}
+  50%{transform:translate(0,0) scale(1);opacity:1}
+  68%{transform:translate(120px,90px) scale(.8);opacity:1}
+  76%{transform:translate(160px,120px) scale(.6);opacity:0}
+  88%,100%{transform:translate(0,0) scale(.4);opacity:0}
+}
+.sec-arrow{position:absolute;left:-14px;top:-18px;width:150px;height:150px;color:var(--accent-ink);pointer-events:none;opacity:0;animation:sec-arrow-in 8s ease-in-out infinite}
+@keyframes sec-arrow-in{
+  0%,70%{opacity:0;transform:scale(.4)}
+  76%{opacity:0;transform:scale(.6)}
+  82%{opacity:1;transform:scale(1.15)}
+  90%{opacity:1;transform:scale(1)}
+  95%,100%{opacity:0;transform:scale(1)}
+}
+@media(prefers-reduced-motion:reduce){.sec-title{animation:none}.sec-arrow{display:none}}
+
+/* hero lead: a cursor follows the typing and goes away when the sentence is done */
+.hero .lead.typing::after{content:"|";margin-left:2px;color:var(--accent-ink)}
+.hero .lead.typed::after{content:none}
+.typable.typing::after{content:"|";margin-left:2px;color:var(--accent-ink)}
+.typable.typed::after{content:none}
+
+/* hero lead comes out of a fog: blurred and faint, then clear, before the typing starts */
+.hero .lead{animation:fog-in 1.6s ease-out both}
+@keyframes fog-in{0%{opacity:0;filter:blur(14px)}60%{opacity:.8;filter:blur(3px)}100%{opacity:1;filter:blur(0)}}
+@media(prefers-reduced-motion:reduce){.hero .lead{animation:none}}
+
+/* bubble letters: each letter rises and settles once */
+.bub{display:inline-block;opacity:0;transform:translateY(14px) scale(.4)}
+.bubbled .bub{animation:bubble-up .6s cubic-bezier(.3,1.4,.5,1) both;animation-delay:var(--d)}
+@keyframes bubble-up{0%{opacity:0;transform:translateY(14px) scale(.4)}60%{opacity:1;transform:translateY(-3px) scale(1.08)}100%{opacity:1;transform:none}}
+
+/* yellow curved arrow around the south-east corner of the "Istražite" title */
+.sec-curve{position:absolute;right:-150px;top:-6px;width:170px;height:150px;color:#FBB400;pointer-events:none;overflow:visible}
+@media(prefers-reduced-motion:reduce){.sec-curve{display:block}}
+
+/* 3D logo in "Istražite" sits a bit further left */
+#istrazite .deco3d{margin:-10px 6% 0 0}
+
+/* hero 3D logo sits a little lower and further right on desktop and tablet */
+@media(min-width:1101px){.stage{right:2%;top:32%;width:540px}}
+@media(min-width:801px) and (max-width:1100px){.stage{right:0;top:36%}}
+
+/* light theme: the grey and yellow logo (logo-light) replaces the white one */
+html:not([data-theme="dark"]) .logo-white{display:none}
+html:not([data-theme="dark"]) .logo-light{display:block}
+
+/* light theme: the shine over the eyebrow line is yellow */
+html:not([data-theme="dark"]) .eyebrow.shine::after{background:linear-gradient(100deg,transparent 35%,rgba(251,180,0,.95) 50%,transparent 65%)}
+
+/* light theme: the "Istražite" tiles take a soft yellow tint from the logo instead of white */
+html:not([data-theme="dark"]) .tile{background:linear-gradient(90deg,#FBB400 0 6px,#f8f8f8 6px)}
+html:not([data-theme="dark"]) .hero::before{background:radial-gradient(55% 60% at 78% 45%,rgba(251,180,0,.35),transparent 70%)}
+
+/* brushed-metal texture across the whole site, both themes (generated in CSS, no image file) */
+body{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='600'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.003 0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.09 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");background-repeat:repeat}
+[data-theme="dark"] body{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='600'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.003 0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.05 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
