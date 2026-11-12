@@ -253,3 +253,79 @@
   }, { threshold: 0.25 });
   io.observe(el);
 })();
+
+// about page: the Instagram line rises letter by letter like bubbles, once, when it comes into view
+(function () {
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!('IntersectionObserver' in window)) return;
+  var ps = document.querySelectorAll('p');
+  var p = null;
+  for (var i = 0; i < ps.length; i++) {
+    if (ps[i].textContent.indexOf('Pratite nas na Instagramu') === 0) { p = ps[i]; break; }
+  }
+  if (!p) return;
+  var text = p.textContent;
+  p.setAttribute('aria-label', text);
+  p.innerHTML = text.split('').map(function (ch, n) {
+    if (ch === ' ') return (n === text.indexOf('radove') - 1) ? '<br>' : ' ';
+    return '<span class="bub" aria-hidden="true" style="--d:' + (n * 0.03).toFixed(2) + 's">' + ch + '</span>';
+  }).join('');
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { p.classList.add('bubbled'); io.disconnect(); }
+    });
+  }, { threshold: 0.6 });
+  io.observe(p);
+})();
+
+// hero lead: types out once after the hero has risen in; the height is held so the buttons below do not jump
+(function () {
+  var p = document.querySelector('.hero .lead');
+  if (!p || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
+  var seen = false;
+  try { seen = localStorage.getItem('duotim-typed') === '1'; localStorage.setItem('duotim-typed', '1'); } catch (e) {}
+  if (seen) return;
+  var full = p.textContent;
+  p.setAttribute('aria-label', full);
+  p.style.minHeight = p.offsetHeight + 'px';
+  setTimeout(function () {
+    p.textContent = '';
+    p.classList.add('typing');
+    var i = 0;
+    var t = setInterval(function () {
+      i++;
+      p.textContent = full.slice(0, i);
+      if (i >= full.length) { clearInterval(t); p.classList.remove('typing'); p.classList.add('typed'); }
+    }, 12);
+  }, 1000);
+})();
+
+// subpage leads and the first line of O nama: type once, when they come into view
+(function () {
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!('IntersectionObserver' in window)) return;
+  var els = document.querySelectorAll('.page-head .lead, .about > div:first-child > p:first-child');
+  for (var j = 0; j < els.length; j++) {
+    (function (p) {
+      var full = p.textContent;
+      p.setAttribute('aria-label', full);
+      p.style.minHeight = p.offsetHeight + 'px';
+      p.textContent = '';
+      p.classList.add('typable');
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          io.disconnect();
+          p.classList.add('typing');
+          var i = 0;
+          var t = setInterval(function () {
+            i++;
+            p.textContent = full.slice(0, i);
+            if (i >= full.length) { clearInterval(t); p.classList.remove('typing'); p.classList.add('typed'); }
+          }, 12);
+        });
+      }, { threshold: 0.6 });
+      io.observe(p);
+    })(els[j]);
+  }
+})();

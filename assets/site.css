@@ -390,7 +390,7 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:1
 @media(prefers-reduced-motion:reduce){.hero::after{animation:none;display:none}}
 
 /* top bar: a soft sheen crosses the header every 8 seconds */
-header{background-image:linear-gradient(105deg,transparent 0%,rgba(255,255,255,.5) 50%,transparent 100%);background-size:40% 100%;background-repeat:no-repeat;background-position:-60% 0;animation:header-sheen 8s ease-in-out infinite}
+header{background-image:linear-gradient(105deg,transparent 0%,rgba(255,255,255,.5) 50%,transparent 100%);background-size:40% 100%;background-repeat:no-repeat;background-position:-60% 0}
 [data-theme="dark"] header{background-image:linear-gradient(105deg,transparent 0%,rgba(251,180,0,.18) 50%,transparent 100%)}
 @keyframes header-sheen{0%{background-position:-60% 0}45%,100%{background-position:160% 0}}
 @media(prefers-reduced-motion:reduce){header{animation:none;background-image:none}}
@@ -401,7 +401,7 @@ header::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:no
 [data-theme="dark"] header::before{background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='600'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.003 0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.05 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>") repeat}
 
 /* whole site: a faint sheen crosses the full page every 8 seconds, above the content but under clicks */
-html::before{content:"";position:fixed;inset:-10%;pointer-events:none;z-index:46;background:radial-gradient(ellipse 40% 30% at 25% 35%,rgba(251,180,0,.6),transparent 70%),radial-gradient(ellipse 35% 25% at 65% 60%,rgba(251,180,0,.6),transparent 70%),radial-gradient(ellipse 30% 22% at 45% 85%,rgba(251,180,0,.45),transparent 70%);background-size:200% 200%;background-repeat:no-repeat;filter:blur(22px);opacity:0;animation:site-sheen 8s ease-in-out infinite}
+html::before{content:"";position:fixed;inset:-10%;pointer-events:none;z-index:46;background:radial-gradient(ellipse 40% 30% at 25% 35%,rgba(251,180,0,.6),transparent 70%),radial-gradient(ellipse 35% 25% at 65% 60%,rgba(251,180,0,.6),transparent 70%),radial-gradient(ellipse 30% 22% at 45% 85%,rgba(251,180,0,.45),transparent 70%);background-size:200% 200%;background-repeat:no-repeat;filter:blur(22px);opacity:0;display:none}
 [data-theme="dark"] html::before{background:radial-gradient(ellipse 40% 30% at 25% 35%,rgba(251,180,0,.22),transparent 70%),radial-gradient(ellipse 35% 25% at 65% 60%,rgba(255,255,255,.12),transparent 70%),radial-gradient(ellipse 30% 22% at 45% 85%,rgba(251,180,0,.16),transparent 70%);background-size:200% 200%;background-repeat:no-repeat}
 @keyframes site-sheen{0%{background-position:0% 40%;opacity:0}20%{opacity:1}45%,100%{background-position:100% 60%;opacity:0}}
 @media(prefers-reduced-motion:reduce){html::before{animation:none;display:none}}
@@ -508,7 +508,7 @@ html:not([data-theme="dark"]) .cta-link a{color:var(--accent-ink)}
 
 /* eyebrow: white light passes over the line from right to left */
 .eyebrow{position:relative;overflow:hidden}
-.eyebrow.shine::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(100deg,transparent 35%,rgba(255,255,255,.95) 50%,transparent 65%);transform:translateX(100%);animation:eyebrow-shine 8s ease-in-out infinite}
+.eyebrow.shine::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(100deg,transparent 35%,rgba(255,255,255,.95) 50%,transparent 65%);transform:translateX(100%)}
 @keyframes eyebrow-shine{0%{transform:translateX(100%)}45%,100%{transform:translateX(-100%)}}
 @media (prefers-reduced-motion:reduce){.eyebrow.shine::after{animation:none;display:none}}
 
@@ -534,7 +534,7 @@ html:has(.hero){scroll-snap-type:y proximity}
 #istrazite{justify-content:flex-start;padding-top:20vh;padding-bottom:64px}
 
 /* hero 3D logo flies from one side of the screen to the other and back */
-.stage .spin{animation:logo-across-hero 14s cubic-bezier(.45,0,.55,1) infinite}
+.stage .spin{animation:logo-wings 12s ease-in-out infinite}
 @keyframes logo-across-hero{
   0%{transform:translate(0,0);opacity:.6;filter:blur(4px)}
   25%{transform:translate(-7vw,-14px);opacity:1;filter:blur(0)}
@@ -546,7 +546,7 @@ html:has(.hero){scroll-snap-type:y proximity}
 /* phone: no sideways scrolling, and the hero logo travels a shorter distance so it stays on screen */
 html,body{overflow-x:hidden}
 @media(max-width:800px){
-  .stage .spin{animation-name:logo-across-mobile}
+  .stage .spin{animation-name:logo-wings}
 }
 @keyframes logo-across-mobile{
   0%{transform:translateX(0);opacity:.6;filter:blur(4px)}
@@ -584,6 +584,22 @@ html,body{overflow-x:hidden}
   95%,100%{opacity:0;transform:scale(1)}
 }
 @media(prefers-reduced-motion:reduce){.sec-title{animation:none}.sec-arrow{display:none}}
+
+/* hero lead: a cursor follows the typing and goes away when the sentence is done */
+.hero .lead.typing::after{content:"|";margin-left:2px;color:var(--accent-ink)}
+.hero .lead.typed::after{content:none}
+.typable.typing::after{content:"|";margin-left:2px;color:var(--accent-ink)}
+.typable.typed::after{content:none}
+
+/* hero lead comes out of a fog: blurred and faint, then clear, before the typing starts */
+.hero .lead{animation:fog-in 1.6s ease-out both}
+@keyframes fog-in{0%{opacity:0;filter:blur(14px)}60%{opacity:.8;filter:blur(3px)}100%{opacity:1;filter:blur(0)}}
+@media(prefers-reduced-motion:reduce){.hero .lead{animation:none}}
+
+/* bubble letters: each letter rises and settles once */
+.bub{display:inline-block;opacity:0;transform:translateY(14px) scale(.4)}
+.bubbled .bub{animation:bubble-up .6s cubic-bezier(.3,1.4,.5,1) both;animation-delay:var(--d)}
+@keyframes bubble-up{0%{opacity:0;transform:translateY(14px) scale(.4)}60%{opacity:1;transform:translateY(-3px) scale(1.08)}100%{opacity:1;transform:none}}
 
 /* yellow curved arrow around the south-east corner of the "Istražite" title */
 .sec-curve{position:absolute;right:-150px;top:-6px;width:170px;height:150px;color:#FBB400;pointer-events:none;overflow:visible}
