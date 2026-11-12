@@ -34,9 +34,10 @@ img{display:block;max-width:100%}
 /* header */
 header{
   position:sticky;top:0;z-index:10;
-  background:var(--nav-bg);backdrop-filter:blur(8px);
+  background:#cfd7d7;backdrop-filter:blur(8px);
   border-bottom:1px solid var(--line);
 }
+[data-theme="dark"] header{background:#1e2023}
 .bar{display:flex;align-items:center;justify-content:space-between;height:72px;gap:16px}
 .brand img{height:40px;width:auto}
 .logo-dark{display:none}
@@ -322,7 +323,8 @@ section.block:nth-of-type(even)::before{right:auto;left:-90px}
 @media(max-width:800px){.hero-row .deco{width:96px}.deco{width:68px}}
 @media(max-width:560px){.hero-row .deco{display:none}.deco{width:56px}}
 
-footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-size:14px}
+footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-size:14px;background:#cfd7d7}
+[data-theme="dark"] footer{background:#1e2023}
 footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
 .social{display:flex;gap:22px;flex-wrap:wrap}
 .social a{display:inline-flex;align-items:center;gap:8px;color:var(--muted);text-decoration:none}
