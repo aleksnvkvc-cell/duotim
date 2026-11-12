@@ -311,7 +311,7 @@ section.block:nth-of-type(even)::before{right:auto;left:-90px}
 }
 @media(max-width:560px){
   .hero-row{flex-direction:column;align-items:stretch;gap:8px}
-  .stage{position:relative;left:auto;right:auto;top:auto;transform:none;perspective:none;display:block;width:112px;max-width:34%;margin:14px 0 0 auto;opacity:.7;filter:none}
+  .stage{position:relative;left:auto;right:auto;top:auto;transform:none;perspective:none;display:block;width:96px;max-width:34%;margin:0 0 -8px auto;opacity:.7;filter:none}
   .tilt{transform:none}
   .spin{animation:none;transform:none}
   .shadow{display:none}
@@ -365,7 +365,7 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:1
   90%,100%{opacity:1;filter:blur(0);transform:rotateY(-20deg) rotateX(6deg) translateZ(90px) translate(0,0) scale(1)}
 }
 .deco3d .spin img{width:100%;height:auto;background:none;filter:drop-shadow(0 0 22px rgba(251,180,0,.6))}
-@media(max-width:560px){.deco3d{display:none}}
+@media(max-width:560px){#istrazite{padding-top:0;min-height:auto;padding-bottom:24px}.hero{min-height:auto;padding-top:20px;padding-bottom:0}section.block{padding:36px 0}.page-head{padding:20px 0 4px}.page-cta{margin-top:22px}.sub{margin-bottom:18px}.sec-head{margin-bottom:14px}section.block{padding:0 0 24px}.hero{padding-top:14px;padding-bottom:12px}.tile{min-height:88px;padding:18px 20px}.grid{gap:14px}.cta{margin-top:22px}.trust{margin-top:18px}.page-title{margin:8px 0 10px}.card{padding:20px}footer .wrap{gap:10px}footer{padding:22px 0}.sec-head{margin-bottom:24px;align-items:center}.deco3d{display:block;width:120px;height:120px;margin:0 0 0 auto;flex-shrink:0}#istrazite .deco3d{margin:-44px 0 0 auto}.deco3d .spin img{width:auto;height:120px;object-fit:contain}#istrazite h2{font-size:44px}.sec-arrow{width:84px;height:84px;left:-8px;top:-10px}.sec-curve{width:96px;height:86px;right:-60px;top:-4px}.sec-head .sub{font-size:15px}}
 
 /* hero call buttons: shake in turn, every 3 seconds */
 @keyframes call-shake{
@@ -524,6 +524,7 @@ html:not([data-theme="dark"]) .faq summary::after{color:var(--accent-ink)}
 
 /* the little house frame shakes once it has settled */
 .house.settled::before{animation:wall-vibrate .5s ease-in-out 4.6s 3}
+@media(max-width:560px){.house::before{display:none}}
 
 @keyframes wall-vibrate{0%,100%{transform:translate(0,0) rotate(0)}20%{transform:translate(-1.5px,0) rotate(-.6deg)}40%{transform:translate(1.5px,0) rotate(.6deg)}60%{transform:translate(-1px,0) rotate(-.4deg)}80%{transform:translate(1px,0) rotate(.2deg)}}
 @media(prefers-reduced-motion:reduce){.bird::after{display:none}.house.settled::before{animation:none}}
@@ -575,7 +576,7 @@ html,body{overflow-x:hidden}
   76%{transform:translate(160px,120px) scale(.6);opacity:0}
   88%,100%{transform:translate(0,0) scale(.4);opacity:0}
 }
-.sec-arrow{position:absolute;left:-14px;top:-18px;width:150px;height:150px;color:var(--accent-ink);pointer-events:none;opacity:0;animation:sec-arrow-in 8s ease-in-out infinite}
+.sec-arrow{position:absolute;left:-14px;top:-18px;width:150px;height:150px;color:var(--accent-ink);pointer-events:none;opacity:0;animation:sec-arrow-in 8s ease-in-out infinite;display:none}
 @keyframes sec-arrow-in{
   0%,70%{opacity:0;transform:scale(.4)}
   76%{opacity:0;transform:scale(.6)}
@@ -602,7 +603,7 @@ html,body{overflow-x:hidden}
 @keyframes bubble-up{0%{opacity:0;transform:translateY(14px) scale(.4)}60%{opacity:1;transform:translateY(-3px) scale(1.08)}100%{opacity:1;transform:none}}
 
 /* yellow curved arrow around the south-east corner of the "Istražite" title */
-.sec-curve{position:absolute;right:-150px;top:-6px;width:170px;height:150px;color:#FBB400;pointer-events:none;overflow:visible}
+.sec-curve{position:absolute;right:-150px;top:-6px;width:170px;height:150px;color:#FBB400;pointer-events:none;overflow:visible;display:none}
 @media(prefers-reduced-motion:reduce){.sec-curve{display:block}}
 
 /* 3D logo in "Istražite" sits a bit further left */

@@ -202,7 +202,7 @@
     var inner = w;
     if (i === 0) inner = '<span class="win">' + w + '</span>';          // window: opens on its top edge
     if (i === 2) inner = '<span class="door">' + w + '</span>';         // door: swings open on its hinge
-    if (i === 5) inner = '<span class="house">' + w + '</span>';        // framed in a little house
+    if (w === 'dom') inner = '<span class="house">' + w + '</span>';        // framed in a little house
     // "i" comes out of the window, "za vaš" comes out of the door, once each one has opened
     var emerge = { 1: '2.5s', 3: '3.1s', 4: '3.3s' }[i];
     // light sweep: yellow over "PROZORI I", white over "VRATA ZA VAŠ", yellow over "DOM", left to right
@@ -328,4 +328,38 @@
       io.observe(p);
     })(els[j]);
   }
+})();
+
+// preview only: a pen to mark the page; it does not appear on the public GitHub Pages site
+(function () {
+  if (/github\.io$/.test(location.hostname)) return;
+  var c = document.createElement('canvas');
+  c.style.cssText = 'position:fixed;left:0;top:0;width:100vw;height:100vh;z-index:9999;pointer-events:none;touch-action:none';
+  document.body.appendChild(c);
+  var ctx = c.getContext('2d');
+  function size() { c.width = innerWidth; c.height = innerHeight; ctx.strokeStyle = '#e53935'; ctx.lineWidth = 4; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; }
+  size();
+  addEventListener('resize', size);
+  var bar = document.createElement('div');
+  bar.style.cssText = 'position:fixed;left:10px;bottom:10px;z-index:10000;display:flex;gap:8px';
+  bar.innerHTML = '<button type="button" data-a="draw" style="font:600 14px system-ui,sans-serif;padding:8px 12px;border-radius:8px;border:0;background:#e53935;color:#fff">Crtaj: isključeno</button><button type="button" data-a="clear" style="font:600 14px system-ui,sans-serif;padding:8px 12px;border-radius:8px;border:0;background:#333;color:#fff">Obriši</button>';
+  document.body.appendChild(bar);
+  var on = false, drawing = false, last = null;
+  var draw = bar.querySelector('[data-a=draw]');
+  draw.addEventListener('click', function () {
+    on = !on;
+    c.style.pointerEvents = on ? 'auto' : 'none';
+    draw.textContent = on ? 'Crtaj: uključeno' : 'Crtaj: isključeno';
+  });
+  bar.querySelector('[data-a=clear]').addEventListener('click', function () { ctx.clearRect(0, 0, c.width, c.height); });
+  function pos(e) { var r = c.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
+  c.addEventListener('pointerdown', function (e) { drawing = true; last = pos(e); c.setPointerCapture(e.pointerId); });
+  c.addEventListener('pointermove', function (e) {
+    if (!drawing) return;
+    var p = pos(e);
+    ctx.beginPath(); ctx.moveTo(last.x, last.y); ctx.lineTo(p.x, p.y); ctx.stroke();
+    last = p;
+  });
+  c.addEventListener('pointerup', function () { drawing = false; });
+  c.addEventListener('pointercancel', function () { drawing = false; });
 })();
