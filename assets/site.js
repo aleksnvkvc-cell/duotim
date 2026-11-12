@@ -57,6 +57,13 @@
     setMenu(false);
   });
 
+  // tapping anywhere outside the open menu closes it
+  document.addEventListener('click', function (e) {
+    if (!mobileNav.classList.contains('open')) return;
+    if (mobileNav.contains(e.target) || menuBtn.contains(e.target)) return;
+    setMenu(false);
+  });
+
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') setMenu(false);
   });
@@ -154,4 +161,95 @@
       window.scrollTo({ top: Math.max(0, top), behavior: 'auto' });
     }
   }
+})();
+
+// touch: swipe right on any subpage returns to the main page
+(function () {
+  var isHome = /(^|\/)index\.html$/.test(location.pathname) || location.pathname.replace(/\/+$/, '') === '' || /\/duotim$/.test(location.pathname);
+  if (isHome) return;
+  var sx = 0, sy = 0, st = 0, tracking = false;
+  document.addEventListener('touchstart', function (e) {
+    if (e.touches.length !== 1) { tracking = false; return; }
+    // ignore swipes that start inside horizontally scrollable content (tables, maps, galleries)
+    if (e.target.closest && e.target.closest('.map, .lightbox, .lb, pre, table, .tiles-scroll')) { tracking = false; return; }
+    sx = e.touches[0].clientX; sy = e.touches[0].clientY; st = Date.now(); tracking = true;
+  }, { passive: true });
+  document.addEventListener('touchend', function (e) {
+    if (!tracking) return;
+    tracking = false;
+    var t = e.changedTouches[0];
+    var dx = t.clientX - sx, dy = t.clientY - sy, dt = Date.now() - st;
+    // a deliberate, fast, mostly horizontal swipe to the right
+    if (dx > 90 && Math.abs(dy) < 60 && Math.abs(dx) > Math.abs(dy) * 2 && dt < 600) {
+      location.href = 'index.html';
+    }
+    // swipe left goes back to the page the visitor came from on this site
+    if (dx < -90 && Math.abs(dy) < 60 && Math.abs(dx) > Math.abs(dy) * 2 && dt < 600 && history.length > 1) {
+      history.back();
+    }
+  }, { passive: true });
+})();
+
+// hero headline: each word flies in like a bird and lands in place
+(function () {
+  var h = document.querySelector('.hero h1');
+  if (!h || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
+  var text = h.textContent.trim();
+  h.setAttribute('aria-label', text);
+  h.classList.add('birds');
+  h.innerHTML = text.split(/\s+/).map(function (w, i) {
+    var accent = i >= 2 && i <= 4 ? ' accent' : '';
+    var inner = w;
+    if (i === 0) inner = '<span class="win">' + w + '</span>';          // window: opens on its top edge
+    if (i === 2) inner = '<span class="door">' + w + '</span>';         // door: swings open on its hinge
+    if (i === 5) inner = '<span class="house">' + w + '</span>';        // framed in a little house
+    // "i" comes out of the window, "za vaš" comes out of the door, once each one has opened
+    var emerge = { 1: '2.5s', 3: '3.1s', 4: '3.3s' }[i];
+    // light sweep: yellow over "PROZORI I", white over "VRATA ZA VAŠ", yellow over "DOM", left to right
+    var sw = i <= 1 ? ['#FBB400', 4.6, i] : (i <= 4 ? ['#ffffff', 5.3, i - 2] : ['#FBB400', 6.2, 0]);
+    var sweepStyle = '--sweep:' + sw[0] + ';--s:' + (sw[1] + sw[2] * 0.1).toFixed(2) + 's;';
+    var cls = 'bird' + (emerge ? ' emerge' : '') + accent + ' sweep';
+    var delay = emerge ? ';--d:' + emerge : '';
+    return '<span class="' + cls + '" aria-hidden="true" data-w="' + w + '" style="--i:' + i + delay + ';' + sweepStyle + '">' + inner + '</span>';
+  }).join(' ');
+  h.querySelectorAll('.house').forEach(function (el) { el.classList.add('settled'); });
+  // replay the word flight every 12 seconds
+  setInterval(function () {
+    h.querySelectorAll('.bird').forEach(function (el) {
+      el.style.animation = 'none';
+      void el.offsetWidth;
+      el.style.animation = '';
+    });
+    h.querySelectorAll('.win, .door, .house').forEach(function (el) {
+      el.style.animation = 'none';
+      void el.offsetWidth;
+      el.style.animation = '';
+    });
+    // restart the light sweeps and the house wall shake with the cycle
+    h.querySelectorAll('.bird').forEach(function (el) { el.classList.remove('sweep'); });
+    h.querySelectorAll('.house').forEach(function (el) { el.classList.remove('settled'); });
+    void h.offsetWidth;
+    h.querySelectorAll('.bird').forEach(function (el) { el.classList.add('sweep'); });
+    h.querySelectorAll('.house').forEach(function (el) { el.classList.add('settled'); });
+  }, 12000);
+})();
+
+// hero eyebrow: keep the small line at the top, with a shine sweep
+(function () {
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  document.querySelectorAll('.eyebrow').forEach(function (eyebrow) { eyebrow.classList.add('shine'); });
+})();
+
+// "Istražite" content rises in gently the first time it reaches the screen
+(function () {
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var el = document.querySelector('#istrazite .wrap');
+  if (!el || !('IntersectionObserver' in window)) return;
+  el.classList.add('reveal');
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { el.classList.add('in'); io.disconnect(); }
+    });
+  }, { threshold: 0.25 });
+  io.observe(el);
 })();
