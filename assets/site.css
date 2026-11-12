@@ -303,7 +303,8 @@ section.block:nth-of-type(even)::before{right:auto;left:-90px}
   .stage{width:460px;right:-24%;opacity:.3}
 }
 @media(max-width:560px){
-  .stage{width:260px;right:2%;top:24%;opacity:.22;filter:blur(3px)}
+  .hero-row{flex-direction:column;align-items:stretch;gap:8px}
+  .stage{position:relative;right:auto;top:auto;transform:none;width:230px;margin:8px auto 0;opacity:.55;filter:blur(1px)}
   .spin{animation-duration:14s}
   .shadow{display:none}
 }

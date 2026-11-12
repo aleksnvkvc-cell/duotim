@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://aleksnvkvc-cell.github.io/duotim/sitemap.xml
