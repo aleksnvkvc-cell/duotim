@@ -742,3 +742,9 @@ body{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org
 .konf-otv{display:grid;gap:8px}
 .konf-check{display:flex!important;align-items:center;gap:8px}
 .konf-ok{margin:8px 0 0;font-size:14px;color:var(--muted);min-height:1em}
+
+/* konfigurator: stavke */
+.konf-actions{display:flex;gap:10px;flex-wrap:wrap}
+.konf-list{list-style:none;padding:0;margin:12px 0}
+.konf-list li{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;margin-bottom:6px;font-size:14px}
+.konf-list button{background:none;border:0;color:inherit;cursor:pointer;text-decoration:underline;font:inherit;white-space:nowrap}
