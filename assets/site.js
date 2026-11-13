@@ -445,13 +445,18 @@
       var w = b.offsetWidth, h = b.offsetHeight;
       if (!w || !h) return;
       var m = solve(w, h);
-      b.style.transform = 'matrix3d(' + [m[0], m[3], 0, m[6], m[1], m[4], 0, m[7], 0, 0, 1, 0, m[2], m[5], 0, 1].join(',') + ')';
+      b.style.setProperty('--persp', 'matrix3d(' + [m[0], m[3], 0, m[6], m[1], m[4], 0, m[7], 0, 0, 1, 0, m[2], m[5], 0, 1].join(',') + ')');
       b.classList.add('win-persp');
     });
   }
   fit();
   window.addEventListener('load', fit);
   window.addEventListener('resize', fit);
+  /* kao u galeriji: na prelazak mišem ili dodir slika se okrene licem ka posetiocu */
+  [].forEach.call(document.querySelectorAll('.hero .winshow, .ur-show .winshow'), function (w) {
+    w.classList.add('can-face');
+    w.addEventListener('click', function () { w.classList.toggle('face'); });
+  });
 })();
 
 /* header address: load the mini map only on first hover or focus */

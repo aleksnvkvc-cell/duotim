@@ -819,8 +819,25 @@ button.ur-cat{font:inherit;color:inherit;text-align:left;cursor:pointer;width:10
 .ur-note{margin:10px 0 0;font-weight:700;font-size:15px;text-align:center}
 
 /* slideshow radova u pravoj perspektivi */
-.win-slides.win-persp{clip-path:none;transform-origin:0 0;filter:none;box-shadow:0 18px 30px -14px rgba(0,0,0,.5);overflow:hidden}
+.win-slides.win-persp{clip-path:none;transform-origin:0 0;transform:var(--persp);filter:none;box-shadow:0 18px 30px -14px rgba(0,0,0,.5);overflow:hidden}
 .radovi-show .win-slides.win-persp img,.ur-show .win-slides.win-persp img,.ur-show .win-slides.win-persp img.kat{padding:3%;object-fit:contain;object-position:center}
 #winSlides.win-persp{background:#fff}
 #winSlides.win-persp img.kat{padding:4%;object-fit:contain;object-position:center;background:#fff}
 @media(max-width:800px){.hero .winshow{width:min(230px,58%);margin:0 auto 56px}}
+
+/* slideshow: okretanje licem ka posetiocu, isto kao fotografije u galeriji */
+.winshow.can-face{cursor:pointer}
+.winshow.can-face .win-slides.win-persp{transition:transform .45s ease,box-shadow .45s ease}
+.winshow.can-face .win-wings{transition:opacity .3s ease}
+.winshow.can-face.face .win-tilt{animation:none;transform:none}
+.winshow.can-face.face .win-slides.win-persp{transform:none;box-shadow:0 0 0 5px #FBB400,14px 12px 0 -1px rgba(251,180,0,.9),0 26px 34px -18px rgba(0,0,0,.55)}
+.winshow.can-face.face .win-wings{opacity:0}
+@media(hover:hover){
+.winshow.can-face:hover .win-tilt{animation:none;transform:none}
+.winshow.can-face:hover .win-slides.win-persp{transform:none;box-shadow:0 0 0 5px #FBB400,14px 12px 0 -1px rgba(251,180,0,.9),0 26px 34px -18px rgba(0,0,0,.55)}
+.winshow.can-face:hover .win-wings{opacity:0}
+}
+@media(prefers-reduced-motion:reduce){.winshow.can-face .win-slides.win-persp{transition:none}}
+
+/* fotografije radova zumirane da popune ceo prozor (bez tamnih ivica) */
+.radovi-show .win-slides.win-persp img:not(.kat),.ur-show .win-slides.win-persp img:not(.kat){padding:0;object-fit:cover;object-position:center}
