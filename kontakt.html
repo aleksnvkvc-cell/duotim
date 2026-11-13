@@ -21,7 +21,7 @@
 <meta name="twitter:image" content="https://aleksnvkvc-cell.github.io/duotim/assets/gallery/g1.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=20261113d">
+<link rel="stylesheet" href="assets/site.css?v=20261113e">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -176,12 +176,33 @@
         <div><h2>Pošaljite upit</h2><p class="sub">Javimo se u najkraćem roku.</p></div>
         <div class="deco" aria-hidden="true"></div>
       </div>
-      <form id="upitForm" style="display:grid;gap:12px;max-width:560px">
+      <div class="upit-grid">
+      <form id="upitForm" style="display:grid;gap:12px">
         <label>Ime i prezime<input name="ime" required style="width:100%;padding:12px;border-radius:8px;border:1px solid var(--line);font:inherit"></label>
         <label>Telefon<input name="telefon" type="tel" required style="width:100%;padding:12px;border-radius:8px;border:1px solid var(--line);font:inherit"></label>
         <label>Poruka (šta vam treba, dimenzije, lokacija)<textarea name="poruka" rows="5" style="width:100%;padding:12px;border-radius:8px;border:1px solid var(--line);font:inherit"></textarea></label>
         <div><button class="btn btn-primary" type="submit">Pošalji upit</button></div>
       </form>
+        <div class="konf" id="konf">
+          <h3>Složite svoj prozor ili vrata</h3>
+          <p class="konf-sub">Izaberite tip, mere i boju. Klikom na dugme opis ide u poruku.</p>
+          <div class="konf-body">
+            <div class="konf-draw"><svg id="konfSvg" viewBox="0 0 300 300" role="img" aria-label="Crtež izabranog prozora"></svg><span class="konf-size" id="konfSize"></span></div>
+            <div class="konf-fields">
+              <label>Vrsta<select id="kVrsta"><option>Prozor</option><option>Balkonska vrata</option><option>Ulazna vrata</option></select></label>
+              <label>Materijal<select id="kMat"><option>PVC</option><option>ALU</option></select></label>
+              <label>Broj krila<select id="kKrila"><option>1</option><option selected>2</option><option>3</option></select></label>
+              <div class="konf-two"><label>Širina (cm)<input id="kW" type="number" min="30" max="400" value="140"></label><label>Visina (cm)<input id="kH" type="number" min="30" max="300" value="140"></label></div>
+              <label>Boja<select id="kBoja"><option value="#f3f3f0">Bela</option><option value="#3b3f45">Antracit</option><option value="#b8762f">Zlatni hrast</option><option value="#7b3f20">Orah</option></select></label>
+              <div id="kOtv" class="konf-otv"></div>
+              <label class="konf-check"><input id="kRol" type="checkbox"> Spoljna roletna</label>
+              <label>Komada<input id="kKom" type="number" min="1" max="50" value="1"></label>
+            </div>
+          </div>
+          <button class="btn btn-primary" type="button" id="kAdd">Ubaci u poruku</button>
+          <p class="konf-ok" id="kOk" role="status"></p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -232,6 +253,76 @@
     });
   });
 </script>
-<script src="assets/site.js?v=20261113d" defer></script>
+
+<script>
+/* mini konfigurator: crtež prozora ili vrata, opis ide u poruku */
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var svg = $('konfSvg'); if (!svg) return;
+  var OTV = ['Okretno-nagibno', 'Okretno', 'Nagibno (kip)', 'Fiksno'];
+  function wings() {
+    var n = +$('kKrila').value, box = $('kOtv'), old = [].map.call(box.querySelectorAll('select'), function (s) { return s.value; });
+    if (box.children.length !== n) {
+      box.innerHTML = '';
+      for (var i = 0; i < n; i++) {
+        var l = document.createElement('label'); l.textContent = (n > 1 ? 'Krilo ' + (i + 1) + ': ' : '') + 'otvaranje';
+        var s = document.createElement('select');
+        OTV.forEach(function (o) { var op = document.createElement('option'); op.textContent = o; s.appendChild(op); });
+        s.value = old[i] || (n === 2 && i === 1 ? 'Okretno' : 'Okretno-nagibno');
+        s.addEventListener('change', draw); l.appendChild(s); box.appendChild(l);
+      }
+    }
+  }
+  function shade(hex, f) { var c = parseInt(hex.slice(1), 16), r = c >> 16, g = c >> 8 & 255, b = c & 255; return 'rgb(' + [r, g, b].map(function (v) { return Math.round(v * f); }).join(',') + ')'; }
+  function draw() {
+    var vr = $('kVrsta').value, door = vr !== 'Prozor';
+    if (vr === 'Ulazna vrata' && +$('kKrila').value > 2) $('kKrila').value = '2';
+    wings();
+    var W = Math.max(30, +$('kW').value || 100), H = Math.max(30, +$('kH').value || 100);
+    var col = $('kBoja').value, edge = shade(col, .72), rol = $('kRol').checked;
+    var max = 250, sc = Math.min(max / W, max / H), w = W * sc, h = H * sc, x = (300 - w) / 2, y = (300 - h) / 2 + (rol ? 12 : 0);
+    var t = Math.max(7, Math.min(w, h) * .06), out = '';
+    out += '<defs><linearGradient id="kg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d7e6ef"/><stop offset="1" stop-color="#8fa9bb"/></linearGradient></defs>';
+    if (rol) out += '<rect x="' + (x - 6) + '" y="' + (y - 26) + '" width="' + (w + 12) + '" height="24" rx="2" fill="' + col + '" stroke="' + edge + '"/>';
+    out += '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="2" fill="' + col + '" stroke="' + edge + '" stroke-width="1.5"/>';
+    var sels = $('kOtv').querySelectorAll('select'), n = sels.length, sw = (w - 2 * t) / n;
+    for (var i = 0; i < n; i++) {
+      var o = sels[i].value, wx = x + t + i * sw, wy = y + t, ww = sw, wh = h - 2 * t, fixed = o === 'Fiksno';
+      var g = fixed ? 0 : t * .9;
+      if (!fixed) out += '<rect x="' + (wx + 1) + '" y="' + wy + '" width="' + (ww - 2) + '" height="' + wh + '" fill="' + col + '" stroke="' + edge + '"/>';
+      var gx = wx + 1 + g, gy = wy + g, gw = ww - 2 - 2 * g, gh = wh - 2 * g;
+      if (vr === 'Ulazna vrata') {
+        out += '<rect x="' + gx + '" y="' + gy + '" width="' + gw + '" height="' + gh * .45 + '" fill="url(#kg)" stroke="#556"/>';
+        out += '<rect x="' + (gx + gw * .12) + '" y="' + (gy + gh * .55) + '" width="' + gw * .76 + '" height="' + gh * .38 + '" fill="none" stroke="' + edge + '" stroke-width="2"/>';
+      } else out += '<rect x="' + gx + '" y="' + gy + '" width="' + gw + '" height="' + gh + '" fill="url(#kg)" stroke="#556"/>';
+      var hingeLeft = n === 1 ? true : (i < n - 1 ? true : false);
+      if (n === 2 && i === 1) hingeLeft = false; if (n === 2 && i === 0) hingeLeft = true;
+      var L = 'stroke="#2b2f34" stroke-width="1.2" stroke-dasharray="5 4" fill="none"';
+      var hx = hingeLeft ? gx : gx + gw, ox = hingeLeft ? gx + gw : gx;
+      if (o === 'Okretno' || o === 'Okretno-nagibno') out += '<path d="M' + hx + ' ' + gy + ' L' + ox + ' ' + (gy + gh / 2) + ' L' + hx + ' ' + (gy + gh) + '" ' + L + '/>';
+      if ((o === 'Nagibno (kip)' || o === 'Okretno-nagibno') && !door) out += '<path d="M' + gx + ' ' + (gy + gh) + ' L' + (gx + gw / 2) + ' ' + gy + ' L' + (gx + gw) + ' ' + (gy + gh) + '" ' + L + '/>';
+      if (fixed) out += '<text x="' + (gx + gw / 2) + '" y="' + (gy + gh / 2 + 6) + '" text-anchor="middle" font-size="16" font-weight="700" fill="#2b2f34" opacity=".55">F</text>';
+      if (!fixed) { var kx = hingeLeft ? wx + ww - 1 - g / 2 : wx + 1 + g / 2, hc = col === '#f3f3f0' ? '#cfd3d6' : '#d9dcdf'; out += '<rect x="' + (kx - 2.5) + '" y="' + (wy + wh / 2 - 12) + '" width="5" height="' + (vr === 'Ulazna vrata' ? 60 : 24) + '" rx="2" fill="' + hc + '" stroke="#666" stroke-width=".6"/>'; }
+    }
+    svg.innerHTML = out;
+    $('konfSize').textContent = W + ' × ' + H + ' cm';
+  }
+  function summary() {
+    var sels = [].map.call($('kOtv').querySelectorAll('select'), function (s) { return s.value; });
+    var boja = $('kBoja').options[$('kBoja').selectedIndex].text;
+    return '- ' + $('kVrsta').value + ', ' + $('kMat').value + ', ' + $('kKrila').value + '-krilni, ' + $('kW').value + ' × ' + $('kH').value + ' cm, ' + boja +
+      ', otvaranje: ' + sels.join(' / ') + ($('kRol').checked ? ', sa roletnom' : '') + ', komada: ' + ($('kKom').value || 1);
+  }
+  ['kVrsta', 'kMat', 'kKrila', 'kW', 'kH', 'kBoja', 'kRol'].forEach(function (id) { $(id).addEventListener('input', draw); $(id).addEventListener('change', draw); });
+  $('kAdd').addEventListener('click', function () {
+    var ta = document.querySelector('#upitForm textarea[name="poruka"]');
+    ta.value = (ta.value ? ta.value.replace(/\s+$/, '') + '\n' : '') + summary();
+    $('kOk').textContent = 'Dodato u poruku. Možete dodati još jednu stavku.';
+    ta.focus();
+  });
+  draw();
+})();
+</script>
+<script src="assets/site.js?v=20261113e" defer></script>
 </body>
 </html>

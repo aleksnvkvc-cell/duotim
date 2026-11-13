@@ -723,3 +723,22 @@ body{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org
   .tb-map:hover .tb-map-pop,.tb-map:focus-within .tb-map-pop{opacity:1;visibility:visible;transform:translate(-50%,0)}
   .tb-map:hover>a{text-decoration:underline!important;text-underline-offset:3px}
 }
+
+/* kontakt: forma i mini konfigurator jedno pored drugog */
+.upit-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:28px;align-items:start}
+@media(max-width:900px){.upit-grid{grid-template-columns:1fr}}
+.konf{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px}
+.konf h3{margin:0 0 4px;font-size:20px}
+.konf-sub{margin:0 0 14px;color:var(--muted);font-size:14px}
+.konf-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;margin-bottom:14px}
+@media(max-width:560px){.konf-body{grid-template-columns:1fr}}
+.konf-draw{position:relative;background:#fff;border-radius:10px;border:1px solid var(--line);aspect-ratio:1/1}
+.konf-draw svg{width:100%;height:100%;display:block}
+.konf-size{position:absolute;left:0;right:0;bottom:6px;text-align:center;font-size:12px;color:#555}
+.konf-fields{display:grid;gap:8px;align-content:start;font-size:14px}
+.konf-fields label{display:grid;gap:4px}
+.konf-fields select,.konf-fields input[type=number]{width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--line);font:inherit;background:#fff;color:#222}
+.konf-two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.konf-otv{display:grid;gap:8px}
+.konf-check{display:flex!important;align-items:center;gap:8px}
+.konf-ok{margin:8px 0 0;font-size:14px;color:var(--muted);min-height:1em}
