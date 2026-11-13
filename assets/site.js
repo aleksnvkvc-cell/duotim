@@ -265,11 +265,10 @@
   }
   if (!p) return;
   var text = p.textContent;
-  p.setAttribute('aria-label', text);
-  p.innerHTML = text.split('').map(function (ch, n) {
+  p.innerHTML = '<span class="sr-only">' + text + '</span><span aria-hidden="true">' + text.split('').map(function (ch, n) {
     if (ch === ' ') return (n === text.indexOf('radove') - 1) ? '<br>' : ' ';
-    return '<span class="bub" aria-hidden="true" style="--d:' + (n * 0.03).toFixed(2) + 's">' + ch + '</span>';
-  }).join('');
+    return '<span class="bub" style="--d:' + (n * 0.03).toFixed(2) + 's">' + ch + '</span>';
+  }).join('') + '</span>';
   var io = new IntersectionObserver(function (entries) {
     entries.forEach(function (e) {
       if (e.isIntersecting) { p.classList.add('bubbled'); io.disconnect(); }
@@ -286,7 +285,6 @@
   try { seen = localStorage.getItem('duotim-typed') === '1'; localStorage.setItem('duotim-typed', '1'); } catch (e) {}
   if (seen) return;
   var full = p.textContent;
-  p.setAttribute('aria-label', full);
   p.style.minHeight = p.offsetHeight + 'px';
   setTimeout(function () {
     p.textContent = '';
@@ -308,7 +306,6 @@
   for (var j = 0; j < els.length; j++) {
     (function (p) {
       var full = p.textContent;
-      p.setAttribute('aria-label', full);
       p.style.minHeight = p.offsetHeight + 'px';
       p.textContent = '';
       p.classList.add('typable');
@@ -330,40 +327,6 @@
   }
 })();
 
-// preview only: a pen to mark the page; it does not appear on the public GitHub Pages site
-(function () {
-  if (/github\.io$/.test(location.hostname)) return;
-  var c = document.createElement('canvas');
-  c.style.cssText = 'position:fixed;left:0;top:0;width:100vw;height:100vh;z-index:9999;pointer-events:none;touch-action:none';
-  document.body.appendChild(c);
-  var ctx = c.getContext('2d');
-  function size() { c.width = innerWidth; c.height = innerHeight; ctx.strokeStyle = '#e53935'; ctx.lineWidth = 4; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; }
-  size();
-  addEventListener('resize', size);
-  var bar = document.createElement('div');
-  bar.style.cssText = 'position:fixed;left:10px;bottom:10px;z-index:10000;display:flex;gap:8px';
-  bar.innerHTML = '<button type="button" data-a="draw" style="font:600 14px system-ui,sans-serif;padding:8px 12px;border-radius:8px;border:0;background:#e53935;color:#fff">Crtaj: isključeno</button><button type="button" data-a="clear" style="font:600 14px system-ui,sans-serif;padding:8px 12px;border-radius:8px;border:0;background:#333;color:#fff">Obriši</button>';
-  document.body.appendChild(bar);
-  var on = false, drawing = false, last = null;
-  var draw = bar.querySelector('[data-a=draw]');
-  draw.addEventListener('click', function () {
-    on = !on;
-    c.style.pointerEvents = on ? 'auto' : 'none';
-    draw.textContent = on ? 'Crtaj: uključeno' : 'Crtaj: isključeno';
-  });
-  bar.querySelector('[data-a=clear]').addEventListener('click', function () { ctx.clearRect(0, 0, c.width, c.height); });
-  function pos(e) { var r = c.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
-  c.addEventListener('pointerdown', function (e) { drawing = true; last = pos(e); c.setPointerCapture(e.pointerId); });
-  c.addEventListener('pointermove', function (e) {
-    if (!drawing) return;
-    var p = pos(e);
-    ctx.beginPath(); ctx.moveTo(last.x, last.y); ctx.lineTo(p.x, p.y); ctx.stroke();
-    last = p;
-  });
-  c.addEventListener('pointerup', function () { drawing = false; });
-  c.addEventListener('pointercancel', function () { drawing = false; });
-})();
-
 /* hero window slideshow: gallery photos cross-fade behind the window frame */
 (function () {
   var box = document.getElementById('winSlides');
@@ -383,6 +346,44 @@
       i = next;
       load(imgs[(i + 1) % imgs.length]);
     }, 3500);
+  });
+})();
+
+/* radovi slideshow under "Pogledajte radove": one zoomed photo in the door shape, the rest as faint thumbs beside it; a click stops it */
+(function () {
+  var box = document.getElementById('radSlides');
+  if (!box) return;
+  var imgs = [].slice.call(box.querySelectorAll('img'));
+  if (imgs.length < 2) return;
+  var wrap = box.closest('.radovi-show'), thumbs = [];
+  var i = 0, timer = null, stopped = false;
+  function load(img) { if (img.dataset.src) { img.src = img.dataset.src; img.removeAttribute('data-src'); } }
+  function mark() { thumbs.forEach(function (b, n) { b.classList.toggle('cur', n === i); }); }
+  function show(n) { imgs[i].classList.remove('on'); imgs[n].classList.add('on'); i = n; mark(); load(imgs[(i + 1) % imgs.length]); }
+  function tick() {
+    if (document.hidden) return;
+    var next = (i + 1) % imgs.length;
+    if (!imgs[next].complete || !imgs[next].naturalWidth) { load(imgs[next]); return; }
+    show(next);
+  }
+  function stop() { stopped = true; if (timer) { clearInterval(timer); timer = null; } }
+  if (wrap) {
+    var half = Math.ceil(imgs.length / 2), L = document.createElement('div'), R = document.createElement('div');
+    L.className = R.className = 'rad-side';
+    imgs.forEach(function (img, n) {
+      var b = document.createElement('button'), t = new Image();
+      b.type = 'button'; b.className = 'rad-thumb'; b.setAttribute('aria-label', 'Prikaži rad ' + (n + 1));
+      t.loading = 'lazy'; t.alt = ''; t.src = img.getAttribute('src') || img.dataset.src;
+      b.appendChild(t);
+      b.addEventListener('click', function () { stop(); load(img); if (n !== i) show(n); });
+      (n < half ? L : R).appendChild(b); thumbs.push(b);
+    });
+    wrap.insertBefore(L, wrap.firstChild); wrap.appendChild(R); mark();
+  }
+  box.addEventListener('click', stop);
+  window.addEventListener('load', function () {
+    load(imgs[1]);
+    if (!stopped) timer = setInterval(tick, 4000);
   });
 })();
 
