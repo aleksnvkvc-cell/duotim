@@ -871,3 +871,15 @@ button.ur-cat{font:inherit;color:inherit;text-align:left;cursor:pointer;width:10
 .gallery.kat a,.rad-thumb{transform:perspective(900px) rotateY(-14deg) rotateX(3deg);transform-style:preserve-3d;transition:transform .65s cubic-bezier(.2,.75,.2,1),opacity .3s,box-shadow .65s ease}
 .gallery.kat a:hover,.gallery.kat a:focus-visible,.rad-thumb:hover,.rad-thumb:focus-visible{transform:perspective(900px) rotateY(0) rotateX(0) translateZ(10px)}
 @media(prefers-reduced-motion:reduce){.gallery.kat a,.rad-thumb{transition:none}}
+
+/* Match slideshow hover to the gallery: photo advances and the two logo frames separate. */
+.gallery:not(.kat) a img{border:0}
+.winshow .win-wings polygon{transform-box:fill-box;transform-origin:center;transition:transform .65s cubic-bezier(.2,.75,.2,1)}
+.winshow .win-wings polygon:first-child{transform:translate3d(0,0,-8px)}
+.winshow .win-wings polygon:last-child{transform:translate3d(0,0,-18px)}
+.winshow .win-slides img{transform:translate3d(0,0,30px);transition:transform .65s cubic-bezier(.2,.75,.2,1);backface-visibility:hidden;transform-style:preserve-3d}
+.winshow:hover .win-wings polygon:first-child,.winshow:focus-within .win-wings polygon:first-child{transform:translate3d(-8px,-6px,-20px) rotateZ(-1deg)}
+.winshow:hover .win-wings polygon:last-child,.winshow:focus-within .win-wings polygon:last-child{transform:translate3d(16px,12px,-42px) rotateZ(1deg)}
+.winshow:hover .win-slides img.on,.winshow:focus-within .win-slides img.on{transform:translate3d(0,-5px,72px) scale(1.045);animation:none}
+@media(prefers-reduced-motion:reduce){.winshow .win-wings polygon,.winshow .win-slides img{transition:none}}
+
