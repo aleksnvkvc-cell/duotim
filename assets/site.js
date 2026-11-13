@@ -385,3 +385,18 @@
     }, 3500);
   });
 })();
+
+/* header address: load the mini map only on first hover or focus */
+(function () {
+  var box = document.querySelector('.tb-map');
+  if (!box) return;
+  function load() {
+    var f = box.querySelector('.tb-map-frame');
+    if (!f || f.firstChild || !f.dataset.src) return;
+    var i = document.createElement('iframe');
+    i.src = f.dataset.src; i.loading = 'lazy'; i.title = 'Mini mapa: Djure Jakšića 24, Vlaški Do'; i.tabIndex = -1;
+    f.appendChild(i);
+  }
+  box.addEventListener('mouseenter', load);
+  box.addEventListener('focusin', load);
+})();
