@@ -358,10 +358,8 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:1
 .deco3d{position:relative;width:min(480px,44vw);flex-shrink:0;pointer-events:none;perspective:900px;margin:-10px -3% 0 0;background:none;overflow:visible}
 .deco3d .tilt{transform-style:preserve-3d}
 .deco3d .spin{transform:rotateY(-20deg) rotateX(6deg) translateZ(90px);transform-style:preserve-3d;animation:logo-scatter 8s ease-in-out infinite;will-change:transform,opacity,filter}
-#istrazite .deco3d .spin{animation-delay:1.4s;animation-fill-mode:backwards}
 @keyframes logo-scatter{
-  0%{opacity:0;filter:blur(14px);transform:rotateY(-20deg) rotateX(6deg) translateZ(90px) translate(0,0) scale(1)}
-  14%{opacity:1;filter:blur(0);transform:rotateY(-20deg) rotateX(6deg) translateZ(90px) translate(0,0) scale(1)}
+  0%{opacity:1;filter:blur(0);transform:rotateY(-20deg) rotateX(6deg) translateZ(90px) translate(0,0) scale(1)}
   48%{opacity:1;filter:blur(0);transform:rotateY(-20deg) rotateX(6deg) translateZ(90px) translate(16px,-14px) rotateZ(20deg) scale(1)}
   64%{opacity:1;filter:blur(0);transform:rotateY(-20deg) rotateX(6deg) translateZ(90px) translate(0,0) scale(1)}
   68%{opacity:0;filter:blur(14px);transform:rotateY(10deg) rotateX(-8deg) translateZ(20px) translate(70px,-40px) scale(.8) rotateZ(10deg)}
@@ -809,26 +807,6 @@ h2.h3{font-weight:700;font-size:21px;line-height:1.25;margin-bottom:10px;letter-
 html:not([data-theme="dark"]) footer{color:#3d4245}
 html:not([data-theme="dark"]) footer .social a,html:not([data-theme="dark"]) footer .social a span{color:#3d4245}
 
-/* Radovi: photo moves toward the viewer as the yellow frames spread behind it */
-.gallery:not(.kat) a{position:relative;transform-style:preserve-3d;transition:transform .65s cubic-bezier(.2,.75,.2,1),box-shadow .65s ease}
-.gallery:not(.kat) a::before,.gallery:not(.kat) a::after{content:"";position:absolute;z-index:0;inset:0;border:4px solid #FBB400;pointer-events:none;transform:translate3d(13px,10px,-22px);transition:transform .65s cubic-bezier(.2,.75,.2,1),opacity .65s ease}
-.gallery:not(.kat) a::after{transform:translate3d(24px,19px,-44px);opacity:.58}
-.gallery:not(.kat) a img{position:relative;z-index:1;transform:translate3d(0,0,30px);transition:transform .65s cubic-bezier(.2,.75,.2,1);backface-visibility:hidden}
-.gallery:not(.kat) a:hover,.gallery:not(.kat) a:focus-visible{transform:perspective(900px) rotateY(0) rotateX(0) translateZ(12px);box-shadow:0 34px 48px -24px rgba(0,0,0,.7)}
-.gallery:not(.kat) a:hover::before,.gallery:not(.kat) a:focus-visible::before{transform:translate3d(23px,17px,-16px) rotateZ(1deg)}
-.gallery:not(.kat) a:hover::after,.gallery:not(.kat) a:focus-visible::after{transform:translate3d(40px,30px,-32px) rotateZ(2deg);opacity:.78}
-.gallery:not(.kat) a:hover img,.gallery:not(.kat) a:focus-visible img{transform:translate3d(0,-5px,72px) scale(1.045)}
-@media(prefers-reduced-motion:reduce){.gallery:not(.kat) a,.gallery:not(.kat) a::before,.gallery:not(.kat) a::after,.gallery:not(.kat) a img{transition:none}}
-
-/* keep the logo and both phone numbers together in the header at every width */
-.bar-phones{display:flex;align-items:center;gap:12px;flex:0 0 auto;white-space:nowrap;font-size:12px;font-weight:800}
-.bar-phones a{color:var(--text);text-decoration:none}
-.bar-phones a:hover{color:var(--accent-ink)}
-.bar-phones a+a{padding-left:12px;border-left:1px solid var(--line)}
-@media(max-width:1024px){nav{display:none}.menu-btn{display:flex}.actions .icon-btn{display:none}}
-@media(max-width:560px){.bar{gap:6px}.actions{gap:6px}.bar-phones{display:grid;gap:2px;align-items:start;font-size:10.5px;line-height:1.2}.bar-phones a+a{padding:0;border:0}}
-@media(max-width:400px){.bar .brand img{height:31px}.bar{gap:4px}.bar-phones{font-size:9.5px}.actions{gap:5px}.theme-toggle{font-size:11px;padding:6px 6px}.menu-btn{width:36px;height:36px}}
-
 /* početna: profili umesto "Istražite" */
 .profs a.card{display:block;color:inherit;text-decoration:none}
 .profs .card>img{height:44px;width:auto;border-radius:8px;background:#fff;display:block;margin:10px 0}
@@ -841,45 +819,25 @@ button.ur-cat{font:inherit;color:inherit;text-align:left;cursor:pointer;width:10
 .ur-note{margin:10px 0 0;font-weight:700;font-size:15px;text-align:center}
 
 /* slideshow radova u pravoj perspektivi */
-.win-slides.win-persp{clip-path:none;transform-origin:0 0;filter:none;box-shadow:0 18px 30px -14px rgba(0,0,0,.5);overflow:hidden}
+.win-slides.win-persp{clip-path:none;transform-origin:0 0;transform:var(--persp);filter:none;box-shadow:0 18px 30px -14px rgba(0,0,0,.5);overflow:hidden}
 .radovi-show .win-slides.win-persp img,.ur-show .win-slides.win-persp img,.ur-show .win-slides.win-persp img.kat{padding:3%;object-fit:contain;object-position:center}
 #winSlides.win-persp{background:#fff}
 #winSlides.win-persp img.kat{padding:4%;object-fit:contain;object-position:center;background:#fff}
 @media(max-width:800px){.hero .winshow{width:min(230px,58%);margin:0 auto 56px}}
 
-/* window photo slideshows: layered frames, pointer tilt and glass reflection */
-.winshow{transform-style:preserve-3d;--shine-x:50%;--shine-y:50%;--depth-back-x:0px;--depth-back-y:0px}
-.winshow .win-frame{transform-style:preserve-3d}
-.winshow .win-wings{transform:translate3d(var(--depth-back-x),var(--depth-back-y),-22px);transition:transform .18s ease-out}
-.winshow .win-tilt{position:relative;z-index:1;transform-style:preserve-3d}
-.winshow .win-tilt.is-pointing{animation:none;transition:transform .12s ease-out}
-.winshow .win-slides::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse at var(--shine-x) var(--shine-y),rgba(255,255,255,.5),rgba(255,255,255,.12) 18%,transparent 48%);mix-blend-mode:screen;opacity:0;transition:opacity .25s ease}
-.winshow.is-pointing .win-slides::after{opacity:.8}
-@media(prefers-reduced-motion:reduce){.winshow .win-slides::after{display:none}.winshow .win-tilt.is-pointing{transition:none}.winshow .win-wings{transform:none;transition:none}}
+/* slideshow: okretanje licem ka posetiocu, isto kao fotografije u galeriji */
+.winshow.can-face{cursor:pointer}
+.winshow.can-face .win-slides.win-persp{transition:transform .45s ease,box-shadow .45s ease}
+.winshow.can-face .win-wings{transition:opacity .3s ease}
+.winshow.can-face.face .win-tilt{animation:none;transform:none}
+.winshow.can-face.face .win-slides.win-persp{transform:none;box-shadow:0 0 0 5px #FBB400,14px 12px 0 -1px rgba(251,180,0,.9),0 26px 34px -18px rgba(0,0,0,.55)}
+.winshow.can-face.face .win-wings{opacity:0}
+@media(hover:hover){
+.winshow.can-face:hover .win-tilt{animation:none;transform:none}
+.winshow.can-face:hover .win-slides.win-persp{transform:none;box-shadow:0 0 0 5px #FBB400,14px 12px 0 -1px rgba(251,180,0,.9),0 26px 34px -18px rgba(0,0,0,.55)}
+.winshow.can-face:hover .win-wings{opacity:0}
+}
+@media(prefers-reduced-motion:reduce){.winshow.can-face .win-slides.win-persp{transition:none}}
 
-/* Face the visitor when a slideshow is hovered, including the hero, services, and work sections. */
-@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){.winshow:hover .win-tilt,.winshow:focus-within .win-tilt{animation:none;transform:rotateY(0) rotateX(0) translateZ(16px);transition:transform .55s cubic-bezier(.2,.75,.2,1)}}
-
-/* Fit every project photo inside its visible frame without cropping or rewriting source images. */
-.gallery:not(.kat) img,.rad-thumb img{object-fit:contain;background:var(--surface)}
-.win-slides img{object-fit:contain;object-position:center;padding:0!important;background:var(--surface)}
-.lb{padding:16px}
-.lb img{max-width:calc(100vw - 32px);max-height:calc(100dvh - 32px);object-fit:contain}
-@media(max-width:560px){.lb{padding:12px}.lb img{max-width:calc(100vw - 24px);max-height:calc(100dvh - 24px)}}
-
-/* Use the same front-facing hover behavior on every photo card and thumbnail. */
-.gallery.kat a,.rad-thumb{transform:perspective(900px) rotateY(-14deg) rotateX(3deg);transform-style:preserve-3d;transition:transform .65s cubic-bezier(.2,.75,.2,1),opacity .3s,box-shadow .65s ease}
-.gallery.kat a:hover,.gallery.kat a:focus-visible,.rad-thumb:hover,.rad-thumb:focus-visible{transform:perspective(900px) rotateY(0) rotateX(0) translateZ(10px)}
-@media(prefers-reduced-motion:reduce){.gallery.kat a,.rad-thumb{transition:none}}
-
-/* Match slideshow hover to the gallery: photo advances and the two logo frames separate. */
-.gallery:not(.kat) a img{border:0}
-.winshow .win-wings polygon{transform-box:fill-box;transform-origin:center;transition:transform .65s cubic-bezier(.2,.75,.2,1)}
-.winshow .win-wings polygon:first-child{transform:translate3d(0,0,-8px)}
-.winshow .win-wings polygon:last-child{transform:translate3d(0,0,-18px)}
-.winshow .win-slides img{transform:translate3d(0,0,30px);transition:transform .65s cubic-bezier(.2,.75,.2,1);backface-visibility:hidden;transform-style:preserve-3d}
-.winshow:hover .win-wings polygon:first-child,.winshow:focus-within .win-wings polygon:first-child{transform:translate3d(-8px,-6px,-20px) rotateZ(-1deg)}
-.winshow:hover .win-wings polygon:last-child,.winshow:focus-within .win-wings polygon:last-child{transform:translate3d(16px,12px,-42px) rotateZ(1deg)}
-.winshow:hover .win-slides img.on,.winshow:focus-within .win-slides img.on{transform:translate3d(0,-5px,72px) scale(1.045);animation:none}
-@media(prefers-reduced-motion:reduce){.winshow .win-wings polygon,.winshow .win-slides img{transition:none}}
-
+/* fotografije radova zumirane da popune ceo prozor (bez tamnih ivica) */
+.radovi-show .win-slides.win-persp img:not(.kat),.ur-show .win-slides.win-persp img:not(.kat){padding:0;object-fit:cover;object-position:center}
