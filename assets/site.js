@@ -37,6 +37,36 @@
     });
   }
 
+  // Spatial pointer response for window photo slideshows across the site.
+  var windowShows = document.querySelectorAll('.winshow');
+  var pointerMotion = window.matchMedia('(hover: hover) and (pointer: fine)');
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (pointerMotion.matches && !reduceMotion.matches) {
+    Array.prototype.forEach.call(windowShows, function (windowShow) {
+      var windowTilt = windowShow.querySelector('.win-tilt');
+      if (!windowTilt || !windowShow.querySelector('.win-slides')) return;
+      windowShow.addEventListener('pointermove', function (e) {
+        var r = windowShow.getBoundingClientRect();
+        var x = Math.max(-0.5, Math.min(0.5, (e.clientX - r.left) / r.width - 0.5));
+        var y = Math.max(-0.5, Math.min(0.5, (e.clientY - r.top) / r.height - 0.5));
+        windowShow.style.setProperty('--shine-x', ((x + 0.5) * 100) + '%');
+        windowShow.style.setProperty('--shine-y', ((y + 0.5) * 100) + '%');
+        windowShow.style.setProperty('--depth-back-x', (-x * 18) + 'px');
+        windowShow.style.setProperty('--depth-back-y', (-y * 12) + 'px');
+        windowShow.classList.add('is-pointing');
+        windowTilt.classList.add('is-pointing');
+        windowTilt.style.transform = 'rotateY(0deg) rotateX(0deg) translateZ(16px)';
+      });
+      windowShow.addEventListener('pointerleave', function () {
+        windowTilt.style.transform = '';
+        windowShow.style.setProperty('--depth-back-x', '0px');
+        windowShow.style.setProperty('--depth-back-y', '0px');
+        windowTilt.classList.remove('is-pointing');
+        windowShow.classList.remove('is-pointing');
+      });
+    });
+  }
+
   // hamburger menu
   var menuBtn = document.getElementById('menuBtn');
   var mobileNav = document.getElementById('mobileNav');
@@ -68,7 +98,7 @@
     if (e.key === 'Escape') setMenu(false);
   });
 
-  var desktop = window.matchMedia('(min-width: 801px)');
+  var desktop = window.matchMedia('(min-width: 1025px)');
   var onDesktop = function (e) { if (e.matches) setMenu(false); };
   if (desktop.addEventListener) desktop.addEventListener('change', onDesktop);
   else desktop.addListener(onDesktop);
