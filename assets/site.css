@@ -806,3 +806,21 @@ h2.h3{font-weight:700;font-size:21px;line-height:1.25;margin-bottom:10px;letter-
 .gallery.kat{content-visibility:auto;contain-intrinsic-size:auto 900px}
 html:not([data-theme="dark"]) footer{color:#3d4245}
 html:not([data-theme="dark"]) footer .social a,html:not([data-theme="dark"]) footer .social a span{color:#3d4245}
+
+/* početna: profili umesto "Istražite" */
+.profs a.card{display:block;color:inherit;text-decoration:none}
+.profs .card>img{height:44px;width:auto;border-radius:8px;background:#fff;display:block;margin:10px 0}
+.profs .origin img{vertical-align:-3px;margin-right:6px}
+/* početna: kategorije usluga i radova */
+button.ur-cat{font:inherit;color:inherit;text-align:left;cursor:pointer;width:100%}
+.ur-cat.cur{border-color:var(--accent);box-shadow:0 14px 30px -18px rgba(251,180,0,.7)}
+.ur-show .win-slides img.kat{padding:0 32% 0 2%;background:#fff}
+.ur-show{gap:18px}
+.ur-note{margin:10px 0 0;font-weight:700;font-size:15px;text-align:center}
+
+/* slideshow radova u pravoj perspektivi */
+.win-slides.win-persp{clip-path:none;transform-origin:0 0;filter:none;box-shadow:0 18px 30px -14px rgba(0,0,0,.5);overflow:hidden}
+.radovi-show .win-slides.win-persp img,.ur-show .win-slides.win-persp img,.ur-show .win-slides.win-persp img.kat{padding:3%;object-fit:contain;object-position:center}
+#winSlides.win-persp{background:#fff}
+#winSlides.win-persp img.kat{padding:4%;object-fit:contain;object-position:center;background:#fff}
+@media(max-width:800px){.hero .winshow{width:min(230px,58%);margin:0 auto 56px}}

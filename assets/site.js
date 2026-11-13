@@ -387,6 +387,73 @@
   });
 })();
 
+/* početna, "Usluge i radovi": klik na kategoriju pušta slideshow te kategorije; klik na sliku ga zaustavlja */
+(function () {
+  var box = document.getElementById('urSlides');
+  if (!box) return;
+  var cats = [].slice.call(document.querySelectorAll('.ur-cat')), note = document.getElementById('urNote'), more = document.getElementById('urMore');
+  var imgs = [], i = 0, timer = null;
+  function stop() { if (timer) { clearInterval(timer); timer = null; } }
+  function tick() {
+    if (document.hidden || imgs.length < 2) return;
+    var next = (i + 1) % imgs.length;
+    if (!imgs[next].complete || !imgs[next].naturalWidth) return;
+    imgs[i].classList.remove('on'); imgs[next].classList.add('on'); i = next;
+  }
+  function open(btn) {
+    stop(); box.innerHTML = ''; i = 0;
+    imgs = btn.dataset.imgs.split(',').map(function (src, n) {
+      var im = new Image(); im.alt = ''; im.src = src;
+      if (/\.svg$/.test(src)) im.className = 'kat';
+      if (n === 0) im.classList.add('on');
+      box.appendChild(im); return im;
+    });
+    cats.forEach(function (b) { var a = b === btn; b.classList.toggle('cur', a); b.setAttribute('aria-pressed', a ? 'true' : 'false'); });
+    note.textContent = btn.textContent.replace('→', '').trim() + ' · ' + btn.dataset.note;
+    more.href = btn.dataset.href;
+    more.textContent = /katalog/.test(btn.dataset.href) ? 'Pogledajte katalog' : 'Pogledajte radove';
+    timer = setInterval(tick, 3500);
+  }
+  cats.forEach(function (b) { b.addEventListener('click', function () { open(b); }); });
+  box.addEventListener('click', stop);
+  var first = cats[1] || cats[0];
+  if (first) window.addEventListener('load', function () { open(first); });
+})();
+
+/* slideshow radova: fotografija leži u pravoj perspektivi na tablu vrata sa loga (umesto ravne slike isečene na kosi oblik) */
+(function () {
+  var boxes = document.querySelectorAll('#winSlides, .radovi-show .win-slides, .ur-show .win-slides');
+  if (!boxes.length) return;
+  var Q = [[0, .30], [.70, .10], [.70, .92], [0, .76]];
+  function solve(w, h) {
+    var src = [[0, 0], [w, 0], [w, h], [0, h]], A = [], k, r, c, p;
+    for (k = 0; k < 4; k++) {
+      var x = src[k][0], y = src[k][1], X = Q[k][0] * w, Y = Q[k][1] * h;
+      A.push([x, y, 1, 0, 0, 0, -x * X, -y * X, X]);
+      A.push([0, 0, 0, x, y, 1, -x * Y, -y * Y, Y]);
+    }
+    for (c = 0; c < 8; c++) {
+      p = c;
+      for (r = c + 1; r < 8; r++) if (Math.abs(A[r][c]) > Math.abs(A[p][c])) p = r;
+      var t = A[c]; A[c] = A[p]; A[p] = t;
+      for (r = 0; r < 8; r++) if (r !== c) { var f = A[r][c] / A[c][c]; for (k = c; k < 9; k++) A[r][k] -= f * A[c][k]; }
+    }
+    return A.map(function (row, n) { return row[8] / row[n]; });
+  }
+  function fit() {
+    [].forEach.call(boxes, function (b) {
+      var w = b.offsetWidth, h = b.offsetHeight;
+      if (!w || !h) return;
+      var m = solve(w, h);
+      b.style.transform = 'matrix3d(' + [m[0], m[3], 0, m[6], m[1], m[4], 0, m[7], 0, 0, 1, 0, m[2], m[5], 0, 1].join(',') + ')';
+      b.classList.add('win-persp');
+    });
+  }
+  fit();
+  window.addEventListener('load', fit);
+  window.addEventListener('resize', fit);
+})();
+
 /* header address: load the mini map only on first hover or focus */
 (function () {
   var box = document.querySelector('.tb-map');

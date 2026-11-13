@@ -24,7 +24,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="assets/site.css?v=20261113i">
+<link rel="stylesheet" href="assets/site.css?v=20261113n">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -195,8 +195,8 @@
     <div class="wrap">
       <div class="sec-head">
         <div class="sec-title">
-          <h2>Istražite</h2>
-          <p class="sub">Izaberite šta vas zanima.</p>
+          <h2>Profili</h2>
+          <p class="sub">Radimo sa tri sistema profila.</p>
           <svg class="sec-arrow" viewBox="0 0 48 48" aria-hidden="true"><path d="M8 8 L38 38 M38 16 L38 38 L16 38" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           <svg class="sec-curve" viewBox="0 0 170 150" aria-hidden="true"><path d="M10 20 C 120 0, 170 40, 150 100 L 150 136" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M138 124 L150 140 L162 124" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
@@ -208,11 +208,28 @@
           </div>
         </div>
       </div>
-      <div class="tiles">
-        <a class="tile" href="profili.html"><span><strong>Profili</strong><small>Decco, Salamander i Elvial</small></span><span class="tile-arrow" aria-hidden="true">→</span></a>
-        <a class="tile" href="usluge.html"><span><strong>Usluge</strong><small>Prozori, vrata, merenje i montaža</small></span><span class="tile-arrow" aria-hidden="true">→</span></a>
-        <a class="tile" href="radovi.html"><span><strong>Radovi</strong><small>Fotografije završenih poslova</small></span><span class="tile-arrow" aria-hidden="true">→</span></a>
-        <a class="tile" href="kontakt.html"><span><strong>Kontakt</strong><small>Telefoni, mejl i adresa</small></span><span class="tile-arrow" aria-hidden="true">→</span></a>
+      <div class="grid profs">
+        <a class="card prof" href="profili.html">
+          <span class="tag">PVC profil</span>
+          <img src="assets/logo-decco.png" alt="Decco logo" width="160" height="44" loading="lazy">
+          <h3>Decco</h3>
+          <p>PVC profil za prozore i balkonska vrata.</p>
+          <p class="origin"><img src="assets/flag-pl.png" alt="" width="24" height="16">Made in Poland</p>
+        </a>
+        <a class="card prof" href="profili.html">
+          <span class="tag">PVC profil</span>
+          <img src="assets/logo-salamander.png" alt="Salamander logo" width="160" height="44" loading="lazy">
+          <h3>Salamander</h3>
+          <p>PVC profil za prozore i balkonska vrata.</p>
+          <p class="origin"><img src="assets/flag-de.png" alt="" width="24" height="16">Made in Germany</p>
+        </a>
+        <a class="card prof" href="profili.html">
+          <span class="tag">ALU profil</span>
+          <img src="assets/logo-elvial.png" alt="Elvial logo" width="160" height="44" loading="lazy">
+          <h3>Elvial</h3>
+          <p>Aluminijumski profil za prozore, vrata i ulazna vrata sa panelom.</p>
+          <p class="origin"><img src="assets/flag-gr.png" alt="" width="24" height="16">Made in Greece</p>
+        </a>
       </div>
     </div>
   </section>
@@ -222,29 +239,23 @@
       <h2>Usluge i radovi</h2>
       <div class="ur">
         <div class="ur-list">
-          <a class="tile" href="usluge.html"><span><strong>PVC prozori</strong></span><span class="tile-arrow" aria-hidden="true">→</span></a>
-          <a class="tile" href="usluge.html"><span><strong>Balkonska i ulazna vrata</strong></span><span class="tile-arrow" aria-hidden="true">→</span></a>
-          <a class="tile" href="usluge.html"><span><strong>ALU stolarija</strong></span><span class="tile-arrow" aria-hidden="true">→</span></a>
-          <a class="tile" href="usluge.html"><span><strong>Roletne i komarnici</strong></span><span class="tile-arrow" aria-hidden="true">→</span></a>
-          <a class="tile" href="usluge.html"><span><strong>Merenje i montaža</strong></span><span class="tile-arrow" aria-hidden="true">→</span></a>
+          <button class="tile ur-cat" type="button" aria-pressed="false" data-href="radovi.html" data-note="Naši radovi" data-imgs="assets/gallery/g7-t.webp,assets/gallery/g12-t.webp,assets/gallery/g13-t.webp,assets/gallery/g10-t.webp"><span><strong>PVC prozori</strong></span><span class="tile-arrow" aria-hidden="true">→</span></button>
+          <button class="tile ur-cat" type="button" aria-pressed="false" data-href="radovi.html" data-note="Naši radovi" data-imgs="assets/gallery/g11-t.webp,assets/gallery/g14-t.webp,assets/gallery/g2-t.webp,assets/gallery/g3-t.webp,assets/gallery/g5-t.webp,assets/gallery/g9-t.webp"><span><strong>Ulazna vrata</strong></span><span class="tile-arrow" aria-hidden="true">→</span></button>
+          <button class="tile ur-cat" type="button" aria-pressed="false" data-href="radovi.html" data-note="Naši radovi" data-imgs="assets/gallery/g1-t.webp,assets/gallery/g6-t.webp"><span><strong>Garažna vrata</strong></span><span class="tile-arrow" aria-hidden="true">→</span></button>
+          <button class="tile ur-cat" type="button" aria-pressed="false" data-href="radovi.html" data-note="Naši radovi" data-imgs="assets/gallery/g8-t.webp,assets/gallery/g14-t.webp,assets/gallery/g4-t.webp,assets/gallery/g10-t.webp,assets/gallery/g5-t.webp"><span><strong>Roletne i komarnici</strong></span><span class="tile-arrow" aria-hidden="true">→</span></button>
+          <button class="tile ur-cat" type="button" aria-pressed="false" data-href="katalog.html#alu-inox" data-note="Modeli iz kataloga" data-imgs="assets/katalog/ai/sk3.svg,assets/katalog/ai/in7.svg,assets/katalog/ai/sk35.svg,assets/katalog/ai/in29.svg,assets/katalog/ai/sk12.svg,assets/katalog/ai/in15.svg"><span><strong>ALU i INOX vrata</strong></span><span class="tile-arrow" aria-hidden="true">→</span></button>
         </div>
         <div class="ur-show">
           <div class="winshow" aria-hidden="true">
             <div class="win-tilt">
               <div class="win-frame">
                 <svg class="win-wings" viewBox="0 0 100 120" preserveAspectRatio="none"><polygon points="4,26 84,4 84,108 4,90"/><polygon points="16,36 97,16 97,118 16,100"/></svg>
-                <div class="win-slides" id="radSlides">
-                  <img src="assets/gallery/g1-t.webp" alt="" class="on" loading="lazy">
-                  <img data-src="assets/gallery/g2-t.webp" alt="">
-                  <img data-src="assets/gallery/g3-t.webp" alt="">
-                  <img data-src="assets/gallery/g4-t.webp" alt="">
-                  <img data-src="assets/gallery/g5-t.webp" alt="">
-                  <img data-src="assets/gallery/g6-t.webp" alt="">
-                </div>
+                <div class="win-slides" id="urSlides"></div>
               </div>
             </div>
           </div>
-          <a class="btn btn-ghost" href="radovi.html">Pogledajte radove</a>
+          <p class="ur-note" id="urNote" role="status"></p>
+          <a class="btn btn-ghost" id="urMore" href="radovi.html">Pogledajte radove</a>
         </div>
       </div>
     </div>
@@ -268,6 +279,6 @@
   </div>
 </footer>
 
-<script src="assets/site.js?v=20261113i" defer></script>
+<script src="assets/site.js?v=20261113n" defer></script>
 </body>
 </html>
