@@ -394,7 +394,7 @@
     var f = box.querySelector('.tb-map-frame');
     if (!f || f.firstChild || !f.dataset.src) return;
     var i = document.createElement('iframe');
-    i.src = f.dataset.src; i.loading = 'lazy'; i.title = 'Mini mapa: Djure Jakšića 24, Vlaški Do'; i.tabIndex = -1;
+    i.src = f.dataset.src; i.title = 'Mini mapa: Djure Jakšića 24, Vlaški Do'; i.tabIndex = -1;
     f.appendChild(i);
   }
   box.addEventListener('mouseenter', load);
