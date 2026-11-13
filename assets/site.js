@@ -74,7 +74,7 @@
   else desktop.addListener(onDesktop);
 
   // Google Maps links: app on phone, web on desktop
-  var ADDR = 'Djure Jakšića 24, 12371 Vlaški Do';
+  var ADDR = 'Đure Jakšića 24, 12371 Vlaški Do';
   var ua = navigator.userAgent || '';
   var gmapsUrl, gmapsTarget;
   if (/Android/i.test(ua)) {
@@ -394,7 +394,7 @@
     var f = box.querySelector('.tb-map-frame');
     if (!f || f.firstChild || !f.dataset.src) return;
     var i = document.createElement('iframe');
-    i.src = f.dataset.src; i.title = 'Mini mapa: Djure Jakšića 24, Vlaški Do'; i.tabIndex = -1;
+    i.src = f.dataset.src; i.title = 'Mini mapa: Đure Jakšića 24, Vlaški Do'; i.tabIndex = -1;
     f.appendChild(i);
   }
   box.addEventListener('mouseenter', load);
