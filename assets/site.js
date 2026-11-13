@@ -363,3 +363,25 @@
   c.addEventListener('pointerup', function () { drawing = false; });
   c.addEventListener('pointercancel', function () { drawing = false; });
 })();
+
+/* hero window slideshow: gallery photos cross-fade behind the window frame */
+(function () {
+  var box = document.getElementById('winSlides');
+  if (!box) return;
+  var imgs = box.querySelectorAll('img');
+  if (imgs.length < 2) return;
+  var i = 0;
+  function load(img) { if (img.dataset.src) { img.src = img.dataset.src; img.removeAttribute('data-src'); } }
+  window.addEventListener('load', function () {
+    load(imgs[1]);
+    setInterval(function () {
+      if (document.hidden) return;
+      var next = (i + 1) % imgs.length;
+      if (!imgs[next].complete || !imgs[next].naturalWidth) { load(imgs[next]); return; }
+      imgs[i].classList.remove('on');
+      imgs[next].classList.add('on');
+      i = next;
+      load(imgs[(i + 1) % imgs.length]);
+    }, 3500);
+  });
+})();
