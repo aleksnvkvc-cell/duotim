@@ -1,6 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="12" fill="#24272b"/>
-  <path d="M20 10 53 4v48l-33 7z" fill="none" stroke="#fbb400" stroke-width="3"/>
-  <path d="M8 17 41 11v48L8 53z" fill="none" stroke="#fbb400" stroke-width="3"/>
-  <text x="31" y="39" text-anchor="middle" fill="#fff" font-family="Arial,sans-serif" font-size="18" font-weight="800">DT</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 630 313">
+  <defs>
+    <filter id="white-letters" color-interpolation-filters="sRGB">
+      <feColorMatrix type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1 0"/>
+    </filter>
+    <clipPath id="wordmark">
+      <path d="M0 100h255v135H0z M435 100h195v135H435z"/>
+    </clipPath>
+  </defs>
+  <image href="logo-light.png" width="630" height="313"/>
+  <image href="logo-light.png" width="630" height="313" filter="url(#white-letters)" clip-path="url(#wordmark)"/>
 </svg>
+
