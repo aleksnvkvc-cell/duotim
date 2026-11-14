@@ -841,3 +841,10 @@ button.ur-cat{font:inherit;color:inherit;text-align:left;cursor:pointer;width:10
 
 /* fotografije radova zumirane da popune ceo prozor (bez tamnih ivica) */
 .radovi-show .win-slides.win-persp img:not(.kat),.ur-show .win-slides.win-persp img:not(.kat){padding:0;object-fit:cover;object-position:center}
+.konf [hidden]{display:none!important}
+.konf-pom{display:grid;gap:10px}
+
+/* konfigurator bez crteža: samo polja */
+.konf-draw{display:none!important}
+.konf-body{display:block!important}
+@media(min-width:561px){.konf-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px;align-items:end}.konf-fields>.konf-two,.konf-fields>.konf-otv,.konf-fields>.konf-pom{grid-column:1/-1}.konf-pom{grid-template-columns:1fr 1fr}.konf-otv{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px}}
