@@ -848,3 +848,10 @@ button.ur-cat{font:inherit;color:inherit;text-align:left;cursor:pointer;width:10
 .konf-draw{display:none!important}
 .konf-body{display:block!important}
 @media(min-width:561px){.konf-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px;align-items:end}.konf-fields>.konf-two,.konf-fields>.konf-otv,.konf-fields>.konf-pom{grid-column:1/-1}.konf-pom{grid-template-columns:1fr 1fr}.konf-otv{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px}}
+
+.ur-tiles{margin-top:24px}
+@media(min-width:900px){.ur-tiles{grid-template-columns:repeat(3,1fr)}}
+
+/* hero: okrenuta slika je manja i spuštena, da ne ulazi u mali 3D logo */
+.hero .winshow.can-face.face .win-slides.win-persp{transform:translate(15%,26%) scale(.7)}
+@media(hover:hover){.hero .winshow.can-face:hover .win-slides.win-persp{transform:translate(15%,26%) scale(.7)}}

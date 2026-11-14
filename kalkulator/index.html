@@ -125,6 +125,8 @@
   .client-only { display: none; }
   /* verzija za klijente: cenovnik je samo za vlasnika; zahtev za ponudu je samo za klijente */
   #navPricelist, #pagePricelist { display: none !important; }
+  /* web verzija služi samo za upite: bez cena, zbira i štampe predračuna */
+  #priceCard, #cartTotal, #btnPrint, #printerSel, label[for="printerSel"] { display: none !important; }
   .client-only { display: inline-block !important; }
 </style>
 </head>
@@ -133,7 +135,7 @@
 <main>
 
   <div class="report-only" id="reportHead">
-    <h1>DUO TIM – predračun</h1>
+    <h1>DUO TIM – upit</h1>
     <img id="reportLogo" alt="" style="display:none;height:44px;margin-bottom:6px">
     <p id="reportFirm" style="font-weight:700"></p>
     <p id="reportMeta"></p>
@@ -1828,7 +1830,7 @@ console.warn( 'Scripts "build/three.js" and "build/three.min.js" are deprecated 
     var buyer = '<div class="offer-buyer"><b>Kupac:</b> ' + escapeXml(numText("mBuyer")) + '<br>' + escapeXml(numText("mAddr")) +
       (numText("mPib") ? '<br>PIB: ' + escapeXml(numText("mPib")) : '') + '</div>' +
       '<div class="offer-no">Predračun br. ' + escapeXml(numText("mNo") || "—") + (numText("mDate") ? '<br>Važi do: ' + escapeXml(numText("mDate")) : '') + '</div>';
-    return '<h1 class="offer-h">DUO TIM – predračun</h1>' + head + buyer + blocks + '<div class="offer-sum">' + $("objSummary").innerHTML + '</div>' +
+    return '<h1 class="offer-h">DUO TIM – upit</h1>' + head + buyer + blocks + '<div class="offer-sum">' + $("objSummary").innerHTML + '</div>' +
       '<div class="offer-total">' + totalsHtml(calcTotals()) + '</div>' + termsHtml();
   }
 
