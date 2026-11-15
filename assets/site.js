@@ -265,10 +265,14 @@
   }
   if (!p) return;
   var text = p.textContent;
-  p.innerHTML = '<span class="sr-only">' + text + '</span><span aria-hidden="true">' + text.split('').map(function (ch, n) {
-    if (ch === ' ') return (n === text.indexOf('radove') - 1) ? '<br>' : ' ';
-    return '<span class="bub" style="--d:' + (n * 0.03).toFixed(2) + 's">' + ch + '</span>';
-  }).join('') + '</span>';
+  var n = 0;
+  p.innerHTML = '<span class="sr-only">' + text + '</span><span aria-hidden="true">' + text.split(' ').map(function (word) {
+    var out = '<span class="bub-w">' + word.split('').map(function (ch) {
+      return '<span class="bub" style="--d:' + ((n++) * 0.03).toFixed(2) + 's">' + ch + '</span>';
+    }).join('') + '</span>';
+    n++;
+    return out;
+  }).join(' ') + '</span>';
   var io = new IntersectionObserver(function (entries) {
     entries.forEach(function (e) {
       if (e.isIntersecting) { p.classList.add('bubbled'); io.disconnect(); }
