@@ -855,3 +855,14 @@ button.ur-cat{font:inherit;color:inherit;text-align:left;cursor:pointer;width:10
 /* hero: okrenuta slika je manja i spuštena, da ne ulazi u mali 3D logo */
 .hero .winshow.can-face.face .win-slides.win-persp{transform:translate(15%,26%) scale(.7)}
 @media(hover:hover){.hero .winshow.can-face:hover .win-slides.win-persp{transform:translate(15%,26%) scale(.7)}}
+
+/* početna: četiri rada, kratak tekst i poziv */
+.home-works{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:22px}
+.home-works a{display:block;border-radius:12px;overflow:hidden;border:1px solid var(--line)}
+.home-works img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;display:block;transition:transform .3s ease}
+.home-works a:hover img{transform:scale(1.04)}
+.home-more{margin-top:16px;font-weight:700}
+.home-more a{color:var(--accent-ink)}
+.home-text p{max-width:760px;font-size:17px;line-height:1.65;margin:0 0 14px}
+.home-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+@media(max-width:800px){.home-works{grid-template-columns:repeat(2,1fr);gap:10px}}
