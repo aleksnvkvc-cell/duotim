@@ -881,3 +881,20 @@ button.ur-cat{font:inherit;color:inherit;text-align:left;cursor:pointer;width:10
   .gallery:not(.kat) a{box-shadow:8px 8px 0 -4px rgba(251,180,0,.9),0 16px 22px -16px rgba(0,0,0,.55)}
   .gallery:not(.kat) a img{border-width:3px}
 }
+
+/* dugme za početnu u stilu upaljača: crna podloga, ALU i PVC oznake, belo-žuti logo, ispod "Početna" */
+.brand.brand-up{display:inline-flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;line-height:1}
+.brand-up .up-body{display:inline-flex;align-items:center;gap:6px;background:#1c1c1e;border-radius:9px;padding:5px 10px 5px 8px;box-shadow:0 4px 12px -6px rgba(0,0,0,.6)}
+.brand-up .up-tag{font:800 13px/1 Manrope,system-ui,sans-serif;letter-spacing:.02em;padding:4px 5px 3px;border-radius:2px}
+.brand-up .up-alu{color:#FBBE00;background:#1c1c1e;border:2px solid #FBBE00;border-right:0;margin-right:-6px}
+.brand-up .up-pvc{color:#1c1c1e;background:#FBBE00;border:2px solid #FBBE00}
+.brand-up img{display:block;height:30px!important;width:auto;filter:none!important;background:none!important;padding:0!important}
+.brand-up .up-cap{font:700 11px/1 Manrope,system-ui,sans-serif;color:var(--muted);letter-spacing:.04em}
+.brand-up:hover .up-body,.brand-up:focus-visible .up-body{box-shadow:0 0 0 2px #FBBE00,0 6px 14px -6px rgba(0,0,0,.6)}
+@media(max-width:400px){.brand-up .up-tag{font-size:11px;padding:3px 4px 2px}.brand-up img{height:24px!important}.brand-up .up-body{gap:5px;padding:4px 8px 4px 6px}}
+.brand-up .up-body{padding:2px 10px 2px 8px;gap:7px}
+.brand-up img{height:46px!important;margin:-2px 0}
+.brand-up .up-tag{font-size:15px}
+@media(max-width:400px){.brand-up img{height:36px!important}.brand-up .up-tag{font-size:12px}.brand-up .up-body{padding:2px 8px 2px 6px;gap:5px}}
+.theme-toggle{white-space:nowrap}
+@media(max-width:400px){.theme-toggle{font-size:12.5px;padding-left:10px;padding-right:10px}}
