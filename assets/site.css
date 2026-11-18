@@ -990,11 +990,12 @@ button,input,select,textarea{font-family:var(--font-ui)}
 }
 .home-flyer .hero.hero-chevron-top{
   background:var(--flyer-paper);
-  padding:clamp(48px,9vw,110px) 0 clamp(24px,5vw,64px);
+  min-height:0;
+  padding:0;
 }
 .home-flyer .hero-logo img.logo-light{display:block}
 .home-flyer .hero-logo img.logo-white{display:none}
-.home-flyer .hero-chevron{height:clamp(60px,15vw,186px)}
+.home-flyer .hero-chevron{height:clamp(36px,8vw,88px)}
 .home-flyer .hero-chevron::before{background:var(--flyer-paper)}
 .home-flyer .home-intro{text-align:center}
 .home-flyer .home-intro h1{max-width:22ch;margin-inline:auto}
@@ -1019,4 +1020,13 @@ button,input,select,textarea{font-family:var(--font-ui)}
     background-clip:text;
     color:transparent;
   }
+}
+
+.home-flyer .home-back-top{text-align:center}
+.home-flyer .offer-examples{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media(max-width:700px){
+  .home-flyer .offer-examples{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+body:has(.home-flyer) .emoji{
+  filter:brightness(0) saturate(100%) invert(74%) sepia(95%) saturate(1192%) hue-rotate(357deg) brightness(100%) contrast(102%);
 }
