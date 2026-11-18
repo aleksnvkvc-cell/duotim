@@ -941,10 +941,18 @@ button,input,select,textarea{font-family:var(--font-ui)}
 
 /* The hero ends in the yellow V from the Duo Tim brochure. */
 .hero.hero-chevron-top{background:var(--surface)}
-.hero-chevron{position:relative;height:clamp(48px,11vw,130px)}
-.hero-chevron::before,.hero-chevron::after{content:"";position:absolute;inset:0}
-.hero-chevron::before{background:var(--surface);clip-path:polygon(0 0,100% 0,50% calc(100% - 7px))}
-.hero-chevron::after{background:var(--accent);clip-path:polygon(0 0,50% calc(100% - 7px),100% 0,100% 7px,50% 100%,0 7px)}
+.hero-chevron{height:clamp(36px,8vw,88px);margin-top:-1px}
+.hero-chevron svg{display:block;width:100%;height:100%;overflow:hidden}
+.hero-chevron-paper{fill:var(--flyer-paper,var(--surface))}
+.hero-chevron-edge,.hero-chevron-line{
+  fill:none;stroke-linejoin:round;vector-effect:non-scaling-stroke;
+}
+.hero-chevron-edge{stroke:#5b4124;stroke-width:10;transform:translateY(3px)}
+.hero-chevron-line{stroke:var(--accent);stroke-width:6}
+@media(max-width:560px){
+  .hero-chevron-edge{stroke-width:8}
+  .hero-chevron-line{stroke-width:5}
+}
 
 
 /* Depth below the flat, brochure-style logo panel. */
@@ -994,8 +1002,6 @@ button,input,select,textarea{font-family:var(--font-ui)}
 }
 .home-flyer .hero-logo img.logo-light{display:block}
 .home-flyer .hero-logo img.logo-white{display:none}
-.home-flyer .hero-chevron{height:clamp(36px,8vw,88px)}
-.home-flyer .hero-chevron::before{background:var(--flyer-paper)}
 .home-flyer .home-intro{text-align:center}
 .home-flyer .home-intro h1{max-width:22ch;margin-inline:auto}
 .home-flyer .home-intro .lead{margin-inline:auto}
