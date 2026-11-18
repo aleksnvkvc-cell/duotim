@@ -106,10 +106,6 @@ nav a:hover::after,nav a[aria-current="page"]::after{width:100%}
 
 /* sections */
 .hero{padding:96px 0 80px}
-.eyebrow{
-  color:var(--accent-ink);text-transform:uppercase;
-  letter-spacing:.12em;font-size:13px;font-weight:700;
-}
 h1{
   font-size:clamp(40px,6vw,72px);line-height:1;margin:18px 0 22px;max-width:14ch;
   font-weight:800;letter-spacing:-.035em;
@@ -514,11 +510,6 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:45;ba
 html:not([data-theme="dark"]) .bird.accent{color:var(--accent-ink)}
 html:not([data-theme="dark"]) .cta-link a{color:var(--accent-ink)}
 
-/* eyebrow: white light passes over the line from right to left */
-.eyebrow{position:relative;overflow:hidden}
-.eyebrow.shine::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(100deg,transparent 35%,rgba(255,255,255,.95) 50%,transparent 65%);transform:translateX(100%)}
-@keyframes eyebrow-shine{0%{transform:translateX(100%)}45%,100%{transform:translateX(-100%)}}
-@media (prefers-reduced-motion:reduce){.eyebrow.shine::after{animation:none;display:none}}
 
 /* light theme: icons and + marks use the darker gold (4.7:1 on the light background, the bright yellow is 1.8:1) */
 html:not([data-theme="dark"]) .hero .btn-call svg{color:var(--accent-ink)}
@@ -625,8 +616,6 @@ html,body{overflow-x:hidden}
 html:not([data-theme="dark"]) .logo-white{display:none}
 html:not([data-theme="dark"]) .logo-light{display:block}
 
-/* light theme: the shine over the eyebrow line is yellow */
-html:not([data-theme="dark"]) .eyebrow.shine::after{background:linear-gradient(100deg,transparent 35%,rgba(251,180,0,.95) 50%,transparent 65%)}
 
 /* light theme: the "Istražite" tiles take a soft yellow tint from the logo instead of white */
 html:not([data-theme="dark"]) .tile{background:linear-gradient(90deg,#FBB400 0 6px,#f8f8f8 6px)}
@@ -909,7 +898,7 @@ h1,h3,h4,h5,h6,h2.h3,.tile strong{
   font-weight:700;
   letter-spacing:normal;
 }
-h2:not(.h3),.eyebrow{
+h2:not(.h3){
   font-family:var(--font-condensed);
   font-weight:700;
 }

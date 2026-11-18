@@ -232,12 +232,6 @@
   }, 12000);
 })();
 
-// hero eyebrow: keep the small line at the top, with a shine sweep
-(function () {
-  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  document.querySelectorAll('.eyebrow').forEach(function (eyebrow) { eyebrow.classList.add('shine'); });
-})();
-
 // "Istražite" content rises in gently the first time it reaches the screen
 (function () {
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
