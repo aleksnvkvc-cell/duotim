@@ -131,7 +131,7 @@ h2{font-size:clamp(28px,3.6vw,38px);line-height:1.15;margin-bottom:12px}
 .hero .wrap{position:relative;z-index:1}
 .hero-row>div{animation:rise .9s cubic-bezier(.2,.7,.2,1) both}
 .hero-row>div:first-child{position:relative;z-index:2}
-.hero .cta{animation:rise 1.1s cubic-bezier(.2,.7,.2,1) both}
+:is(.hero,.home-intro) .cta{animation:rise 1.1s cubic-bezier(.2,.7,.2,1) both}
 @keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
 body::after{
   content:"";position:fixed;inset:0;pointer-events:none;z-index:50;opacity:.05;
@@ -579,15 +579,15 @@ html,body{overflow-x:hidden}
 @media(prefers-reduced-motion:reduce){.sec-title{animation:none}.sec-arrow{display:none}}
 
 /* hero lead: a cursor follows the typing and goes away when the sentence is done */
-.hero .lead.typing::after{content:"|";margin-left:2px;color:var(--accent-ink)}
-.hero .lead.typed::after{content:none}
+:is(.hero,.home-intro) .lead.typing::after{content:"|";margin-left:2px;color:var(--accent-ink)}
+:is(.hero,.home-intro) .lead.typed::after{content:none}
 .typable.typing::after{content:"|";margin-left:2px;color:var(--accent-ink)}
 .typable.typed::after{content:none}
 
 /* hero lead comes out of a fog: blurred and faint, then clear, before the typing starts */
-.hero .lead{animation:fog-in 1.6s ease-out both}
+:is(.hero,.home-intro) .lead{animation:fog-in 1.6s ease-out both}
 @keyframes fog-in{0%{opacity:0;filter:blur(14px)}60%{opacity:.8;filter:blur(3px)}100%{opacity:1;filter:blur(0)}}
-@media(prefers-reduced-motion:reduce){.hero .lead{animation:none}}
+@media(prefers-reduced-motion:reduce){:is(.hero,.home-intro) .lead{animation:none}}
 
 /* bubble letters: each letter rises and settles once */
 .bub{display:inline-block;opacity:0;transform:translateY(14px) scale(.4)}
@@ -839,7 +839,7 @@ button.ur-cat{font:inherit;color:inherit;text-align:left;cursor:pointer;width:10
 .bub-w{display:inline-block;white-space:nowrap}
 .konf-kalk{margin:12px 0 0;font-size:14px}
 .konf-kalk a{color:var(--accent-ink);font-weight:700}
-.hero .cta{display:flex;flex-wrap:wrap;gap:12px}
+:is(.hero,.home-intro) .cta{display:flex;flex-wrap:wrap;gap:12px}
 @media(max-width:900px){.upit-grid .konf{order:-1}}
 @media(max-width:560px){
   .topbar .wrap{gap:2px 10px!important;padding:4px 0!important}
@@ -877,12 +877,12 @@ h2:not(.h3){letter-spacing:normal}
 button,input,select,textarea{font-family:var(--font-ui)}
 
 @media(prefers-reduced-motion:no-preference){
-  .hero .trust-waiting li{opacity:0}
-  .hero .trust-revealed li{animation:trust-pop .3s ease-out both}
-  .hero .trust-revealed li:nth-child(2){animation-delay:.34s}
-  .hero .trust-revealed li:nth-child(3){animation-delay:.68s}
-  .hero .trust-revealed li:nth-child(4){animation-delay:1.02s}
-  .hero .trust-revealed li:nth-child(5){animation-delay:1.36s}
+  :is(.hero,.home-intro) .trust-waiting li{opacity:0}
+  :is(.hero,.home-intro) .trust-revealed li{animation:trust-pop .3s ease-out both}
+  :is(.hero,.home-intro) .trust-revealed li:nth-child(2){animation-delay:.34s}
+  :is(.hero,.home-intro) .trust-revealed li:nth-child(3){animation-delay:.68s}
+  :is(.hero,.home-intro) .trust-revealed li:nth-child(4){animation-delay:1.02s}
+  :is(.hero,.home-intro) .trust-revealed li:nth-child(5){animation-delay:1.36s}
 }
 @keyframes trust-pop{
   from{opacity:0;transform:translateY(8px) scale(.96)}
@@ -914,19 +914,19 @@ button,input,select,textarea{font-family:var(--font-ui)}
 .offer-row h3{font-size:clamp(22px,3vw,30px);line-height:1.15;margin-bottom:6px}
 .offer-row a{color:var(--accent-ink);font-weight:700}
 
-/* Keep the 3D logo in the hero layout, alongside the introduction. */
-.hero-row > .hero-logo{
+/* Center the logo in the brochure-style hero. */
+.hero.hero-chevron-top .hero-row{justify-content:center;align-items:center}
+.hero-chevron-top .hero-row > .hero-logo{
   position:relative;inset:auto;transform:none;z-index:1;flex:none;
-  display:block;width:clamp(240px,34vw,420px);max-width:42%;margin:0 0 0 auto;
+  display:block;width:min(76%,540px);max-width:none;margin:0;
   opacity:1;perspective:900px;animation:none;
 }
+.home-intro{padding:clamp(22px,5vw,64px) 0}
+.home-intro .cta a{align-self:flex-start}
 .stage.hero-logo .spin{animation:hero-logo-turn 10s ease-in-out infinite}
 @keyframes hero-logo-turn{
   0%,100%{transform:rotateY(-12deg) rotateX(3deg)}
   50%{transform:rotateY(12deg) rotateX(-3deg) translateY(-5px)}
-}
-@media(max-width:800px){
-  .hero-row > .hero-logo{width:min(50%,240px);max-width:none;margin-top:14px}
 }
 @media(prefers-reduced-motion:reduce){
   .stage.hero-logo .spin{animation:none}
@@ -955,4 +955,4 @@ button,input,select,textarea{font-family:var(--font-ui)}
 .hero-chevron::before,.hero-chevron::after{content:"";position:absolute;inset:0}
 .hero-chevron::before{background:var(--surface);clip-path:polygon(0 0,100% 0,50% calc(100% - 7px))}
 .hero-chevron::after{background:var(--accent);clip-path:polygon(0 0,50% calc(100% - 7px),100% 0,100% 7px,50% 100%,0 7px)}
-.hero-chevron + #radovi-pocetna{border-top:0}
+
