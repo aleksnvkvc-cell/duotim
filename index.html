@@ -24,7 +24,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="assets/site.css?v=20261118-ponuda">
+<link rel="stylesheet" href="assets/site.css?v=20261118-logo">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -140,15 +140,6 @@
 <main>
 
   <section class="hero">
-  <div class="stage hero-mini" aria-hidden="true">
-    <div class="tilt" id="tilt">
-      <div class="spin">
-        <img class="logo-light" src="assets/logo-light.png" alt=""><img class="logo-white" src="assets/logo-white.png" alt="">
-      </div>
-    </div>
-    <div class="shadow"></div>
-  </div>
-
     <div class="wrap hero-row">
       <div>
       <h1>Prozori i vrata za vaš dom</h1>
@@ -165,38 +156,13 @@
         <li>Žabari, Kučevo, Požarevac, Petrovac na Mlavi</li>
       </ul>
       </div>
-      <aside class="hero-slideshow" aria-label="Profili, o nama i kontakt">
-        <article class="hero-slide">
-          <img src="assets/gallery/g7-t.webp" alt="">
-          <h2>PVC profili</h2>
-          <p>Decco i Salamander za prozore, balkonska i ulazna vrata.</p>
-          <a href="profili.html#pvc">Pogledajte PVC profile</a>
-        </article>
-        <article class="hero-slide">
-          <img src="assets/logo-elvial.png" alt="" class="slide-logo" loading="lazy">
-          <h2>ALU profili</h2>
-          <p>Elvial za aluminijumsku stolariju po meri.</p>
-          <a href="profili.html#alu">Pogledajte ALU profile</a>
-        </article>
-        <article class="hero-slide">
-          <img src="assets/gallery/g3-t.webp" alt="" loading="lazy">
-          <h2>O nama</h2>
-          <p>Preko 18 godina iskustva u merenju, izradi i montaži stolarije.</p>
-          <a href="o-nama.html">Upoznajte Duo Tim</a>
-        </article>
-        <article class="hero-slide">
-          <img src="assets/gallery/g9-t.webp" alt="" loading="lazy">
-          <h2>Kontakt</h2>
-          <p>Javite nam se da dogovorimo merenje ili pripremimo predračun.</p>
-          <a href="kontakt.html">Pogledajte kontakt</a>
-        </article>
-        <div class="slide-controls" hidden>
-          <button class="btn btn-ghost" type="button" data-slide-prev aria-label="Prethodni slajd">⬅️</button>
-          <span data-slide-count></span>
-          <button class="btn btn-ghost" type="button" data-slide-next aria-label="Sledeći slajd">➡️</button>
-          <button class="btn btn-ghost" type="button" data-slide-play>Pauziraj</button>
+      <div class="stage hero-logo" aria-hidden="true">
+        <div class="tilt" id="tilt">
+          <div class="spin">
+            <img class="logo-light" src="assets/logo-light.png" alt=""><img class="logo-white" src="assets/logo-white.png" alt="">
+          </div>
         </div>
-      </aside>
+      </div>
     </div>
   </section>
 
@@ -250,6 +216,11 @@
         </div>
       </article>
       <p class="home-more"><a href="radovi.html">Pogledajte sve radove</a></p>
+      <nav class="home-quick-links" aria-label="Više o Duo Timu">
+        <a href="profili.html">Profili</a>
+        <a href="o-nama.html">O nama</a>
+        <a href="kontakt.html">Kontakt</a>
+      </nav>
     </div>
   </section>
 
@@ -310,6 +281,6 @@
   </div>
 </footer>
 
-<script src="assets/site.js?v=20261118-media" defer></script>
+<script src="assets/site.js?v=20261118-logo" defer></script>
 </body>
 </html>
