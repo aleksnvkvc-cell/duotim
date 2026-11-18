@@ -483,3 +483,23 @@
   box.addEventListener('mouseenter', load);
   box.addEventListener('focusin', load);
 })();
+
+(function () {
+  var preview = document.querySelector('.work-preview');
+  if (!preview) return;
+  var slides = Array.from(preview.querySelectorAll('.work-preview-slide'));
+  var controls = preview.querySelector('.work-preview-controls');
+  var status = preview.querySelector('[data-work-status]');
+  var current = 0;
+
+  function show(index) {
+    current = (index + slides.length) % slides.length;
+    slides.forEach(function (slide, position) { slide.hidden = position !== current; });
+    status.textContent = (current + 1) + ' / ' + slides.length;
+  }
+
+  preview.querySelector('[data-work-prev]').addEventListener('click', function () { show(current - 1); });
+  preview.querySelector('[data-work-next]').addEventListener('click', function () { show(current + 1); });
+  show(0);
+  controls.hidden = false;
+})();
