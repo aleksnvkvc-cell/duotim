@@ -13,6 +13,9 @@
   --accent-ink:#505050;
   --accent-text:#484848;
   --nav-bg:rgba(232,240,240,.94);
+  --nav-link:var(--text);
+  --accent-detail:#805900;
+  --field-border:#747474;
 }
 [data-theme="dark"]{
   --bg:#2c2e32;
@@ -24,6 +27,9 @@
   --accent-ink:#fbb400;
   --accent-text:#1f2124;
   --nav-bg:rgba(44,46,50,.94);
+  --nav-link:var(--muted);
+  --accent-detail:var(--accent);
+  --field-border:var(--line);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;scroll-padding-top:88px}
@@ -49,10 +55,10 @@ header{
 [data-theme="dark"] .logo-light{display:none}
 [data-theme="dark"] .logo-dark{display:block}
 nav ul{display:flex;gap:26px;list-style:none}
-nav a{text-decoration:none;color:var(--muted);font-size:15px;position:relative}
+nav a{text-decoration:none;color:var(--nav-link);font-size:15px;position:relative}
 nav a:hover{color:var(--text)}
 nav a[aria-current="page"]{color:var(--text);font-weight:700}
-nav a::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:2px;background:var(--accent);transition:width .3s ease}
+nav a::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:2px;background:var(--accent-detail);transition:width .3s ease}
 nav a:hover::after,nav a[aria-current="page"]::after{width:100%}
 .actions{display:flex;align-items:center;gap:12px}
 
@@ -103,7 +109,7 @@ nav a:hover::after,nav a[aria-current="page"]::after{width:100%}
 h1{
   font-size:clamp(40px,6vw,72px);line-height:1;margin:18px 0 22px;max-width:14ch;
   font-weight:800;letter-spacing:-.035em;
-  background:linear-gradient(100deg,var(--text) 35%,var(--accent) 100%);
+  background:linear-gradient(100deg,var(--text) 35%,var(--accent-detail) 100%);
   -webkit-background-clip:text;background-clip:text;color:transparent;
 }
 h2{font-weight:800;letter-spacing:-.03em}
@@ -257,7 +263,7 @@ section.block:nth-of-type(even)::before{right:auto;left:-90px}
 }
 .tile strong{display:block;font-size:24px;font-weight:800;letter-spacing:-.02em}
 .tile small{display:block;color:var(--muted);font-size:14px;font-weight:500;margin-top:4px}
-.tile-arrow{color:var(--accent);font-size:28px;font-weight:800;flex:none}
+.tile-arrow{color:var(--accent-detail);font-size:28px;font-weight:800;flex:none}
 .tile:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:0 20px 40px -20px rgba(251,180,0,.55)}
 @media(max-width:560px){.tiles{grid-template-columns:1fr}}
 
@@ -726,7 +732,7 @@ body{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org
 .konf-size{position:absolute;left:0;right:0;bottom:6px;text-align:center;font-size:12px;color:#555}
 .konf-fields{display:grid;gap:8px;align-content:start;font-size:14px}
 .konf-fields label{display:grid;gap:4px}
-.konf-fields select,.konf-fields input[type=number]{width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--line);font:inherit;background:#fff;color:#222}
+.konf-fields select,.konf-fields input[type=number]{width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--field-border);font:inherit;background:#fff;color:#222}
 .konf-two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .konf-otv{display:grid;gap:8px}
 .konf-check{display:flex!important;align-items:center;gap:8px}
@@ -749,8 +755,8 @@ body{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org
 .rad-thumb{padding:0;width:84px;height:104px;border:2px solid transparent;border-radius:6px;overflow:hidden;background:none;cursor:pointer;opacity:.42;transition:opacity .3s}
 .rad-thumb img{width:100%;height:100%;object-fit:cover;display:block}
 .rad-thumb:hover,.rad-thumb.cur{opacity:1}
-.rad-thumb.cur{border-color:#FBB400}
-.rad-thumb:focus-visible{outline:2px solid #FBB400;outline-offset:2px}
+.rad-thumb.cur{border-color:var(--accent-detail)}
+.rad-thumb:focus-visible{outline:2px solid var(--accent-detail);outline-offset:2px}
 @media(max-width:960px){
   .radovi-show{display:grid;grid-template-columns:1fr 1fr;gap:12px}
   .radovi-show .winshow{grid-column:1/-1;order:-1;justify-self:center}
@@ -802,7 +808,7 @@ html:not([data-theme="dark"]) footer .social a,html:not([data-theme="dark"]) foo
 .profs .origin img{vertical-align:-3px;margin-right:6px}
 /* početna: kategorije usluga i radova */
 button.ur-cat{font:inherit;color:inherit;text-align:left;cursor:pointer;width:100%}
-.ur-cat.cur{border-color:var(--accent);box-shadow:0 14px 30px -18px rgba(251,180,0,.7)}
+.ur-cat.cur{border-color:var(--accent-detail);box-shadow:0 14px 30px -18px rgba(251,180,0,.7)}
 .ur-show .win-slides img.kat{padding:0 32% 0 2%;background:#fff}
 .ur-show{gap:18px}
 .ur-note{margin:10px 0 0;font-weight:700;font-size:15px;text-align:center}
