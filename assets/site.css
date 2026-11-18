@@ -938,7 +938,6 @@ button,input,select,textarea{font-family:var(--font-ui)}
 .offer-examples figure{min-width:0}
 .offer-examples img{width:100%;height:clamp(112px,24vw,170px);object-fit:contain;background:#fff}
 .offer-examples figcaption{margin-top:4px;color:var(--muted);font-size:14px}
-.offer-types{padding-inline-start:1.25em;margin:8px 0}
 
 /* The hero ends in the yellow V from the Duo Tim brochure. */
 .hero.hero-chevron-top{background:var(--surface)}
@@ -1029,4 +1028,12 @@ button,input,select,textarea{font-family:var(--font-ui)}
 }
 body:has(.home-flyer) .emoji{
   filter:brightness(0) saturate(100%) invert(74%) sepia(95%) saturate(1192%) hue-rotate(357deg) brightness(100%) contrast(102%);
+}
+
+.catalog-flyer-examples{display:grid;grid-template-columns:repeat(3,minmax(0,220px));gap:12px;margin:12px 0}
+.catalog-flyer-examples figure{min-width:0;margin:0}
+.catalog-flyer-examples svg{display:block;width:100%;height:clamp(130px,28vw,200px);overflow:hidden}
+.catalog-flyer-examples figcaption{margin-top:4px;color:var(--muted);font-size:14px}
+@media(max-width:560px){
+  .catalog-flyer-examples{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
