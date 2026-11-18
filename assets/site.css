@@ -934,10 +934,6 @@ button,input,select,textarea{font-family:var(--font-ui)}
 .offer-featured-work > h2{font-size:24px}
 .work-preview-controls:not([hidden]){display:flex;gap:12px;align-items:center;flex-wrap:wrap}
 .work-preview-controls button{min-width:44px;min-height:44px;padding:8px 12px}
-.offer-examples{display:grid;grid-template-columns:repeat(2,minmax(0,220px));gap:12px;margin:12px 0}
-.offer-examples figure{min-width:0}
-.offer-examples img{width:100%;height:clamp(112px,24vw,170px);object-fit:contain;background:#fff}
-.offer-examples figcaption{margin-top:4px;color:var(--muted);font-size:14px}
 
 /* The hero ends in the yellow V from the Duo Tim brochure. */
 .hero.hero-chevron-top{background:var(--surface)}
@@ -968,8 +964,8 @@ button,input,select,textarea{font-family:var(--font-ui)}
   box-shadow:inset 0 1px 0 var(--depth-highlight);
 }
 .home-depth :is(.home-intro,.offer-featured-work,#radovi-pocetna) .btn:active{transform:translateY(2px)}
-.home-depth :is(.work-preview-slide,.offer-examples figure){perspective:1200px}
-.home-depth :is(.work-preview-slide,.offer-examples) img{
+.home-depth .work-preview-slide{perspective:1200px}
+.home-depth .work-preview-slide img{
   border-inline-end:3px solid var(--depth-edge);
   border-block-end:4px solid var(--depth-edge);
 }
@@ -1020,10 +1016,6 @@ button,input,select,textarea{font-family:var(--font-ui)}
 }
 
 .home-flyer .home-back-top{text-align:center}
-.home-flyer .offer-examples{grid-template-columns:repeat(4,minmax(0,1fr))}
-@media(max-width:700px){
-  .home-flyer .offer-examples{grid-template-columns:repeat(2,minmax(0,1fr))}
-}
 .emoji{
   filter:brightness(0) saturate(100%) invert(74%) sepia(95%) saturate(1192%) hue-rotate(357deg) brightness(100%) contrast(102%);
 }
@@ -1066,4 +1058,41 @@ button,input,select,textarea{font-family:var(--font-ui)}
     transform:rotateX(var(--work-rx,0deg)) rotateY(var(--work-ry,-2deg)) translateZ(8px) scale(.98);
     transition:transform .18s ease-out;
   }
+}
+
+/* Keep the masthead compact and preview catalog categories with CSS illustrations. */
+.home-flyer .hero-chevron-top .hero-logo{width:clamp(150px,28vw,270px)}
+.home-flyer .hero-chevron{height:clamp(24px,4vw,46px)}
+.home-flyer .home-intro{padding-top:clamp(12px,2vw,24px)}
+.offer-motion{
+  width:118px;height:82px;margin:10px 0 12px;display:grid;place-items:center;
+  color:var(--accent-ink);perspective:220px;
+}
+.offer-motion span{
+  width:74px;height:58px;border:2px solid currentColor;position:relative;
+}
+.offer-motion span::before,.offer-motion span::after{content:"";position:absolute}
+.offer-motion span::before{inset:3px;border:1px solid currentColor;transform-origin:left}
+.offer-motion--window span::before{
+  background:linear-gradient(90deg,transparent 49%,currentColor 49% 51%,transparent 51%),
+             linear-gradient(transparent 49%,currentColor 49% 51%,transparent 51%);
+}
+.offer-motion--door span{width:35px;height:66px}
+.offer-motion--door span::before{
+  background:radial-gradient(circle at 84% 54%,currentColor 0 1px,transparent 2px),var(--surface);
+}
+.offer-motion--garage span,.offer-motion--blind span{overflow:hidden}
+.offer-motion--garage span::before,.offer-motion--blind span::before,.offer-motion--screen span::before{
+  background:repeating-linear-gradient(0deg,transparent 0 6px,currentColor 6px 7px);
+}
+.offer-motion--blind span::before{background:repeating-linear-gradient(90deg,currentColor 0 2px,transparent 2px 7px)}
+.offer-motion--screen span::before{
+  background:repeating-linear-gradient(90deg,transparent 0 3px,currentColor 3px 4px),
+             repeating-linear-gradient(0deg,transparent 0 3px,currentColor 3px 4px);
+}
+@media(prefers-reduced-motion:no-preference){
+  .offer-motion span::before{transition:transform .5s ease}
+  .offer-row:is(:hover,:focus-within) :is(.offer-motion--window,.offer-motion--door) span::before{transform:rotateY(-42deg)}
+  .offer-row:is(:hover,:focus-within) .offer-motion--garage span::before{transform:translateY(-65%)}
+  .offer-row:is(:hover,:focus-within) :is(.offer-motion--screen,.offer-motion--blind) span::before{transform:scaleX(.36)}
 }
