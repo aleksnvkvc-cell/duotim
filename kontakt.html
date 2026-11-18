@@ -224,9 +224,9 @@
         <label>Telefon<input name="telefon" type="tel" required style="width:100%;padding:12px;border-radius:8px;border:1px solid var(--line);font:inherit"></label>
         <label>Poruka (šta vam treba, dimenzije, lokacija)<textarea name="poruka" rows="5" style="width:100%;padding:12px;border-radius:8px;border:1px solid var(--line);font:inherit"></textarea></label>
         <input name="web" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
-        <p id="upit-uputstvo">Izaberite mejl ili WhatsApp. Otvoriće se pripremljena poruka koju vi šaljete. Fotografiju ili skicu možete dodati u aplikaciji pre slanja.</p>
+        <p id="upit-uputstvo">Pošaljite upit direktno sa sajta. Ako želite da dodate fotografiju ili skicu, otvorite WhatsApp i priložite je pre slanja.</p>
         <div class="page-cta" style="margin-top:0">
-          <button class="btn btn-primary" type="submit" name="kanal" value="email">Otvori mejl</button>
+          <button class="btn btn-primary" type="submit" name="kanal" value="direct">Pošalji upit</button>
           <button class="btn btn-ghost" type="submit" name="kanal" value="whatsapp">Otvori WhatsApp</button>
         </div>
         <noscript><p>Pišite nam na <a href="mailto:duotimstolarija@gmail.com">duotimstolarija@gmail.com</a> ili preko <a href="https://wa.me/381652764244">WhatsApp-a</a>.</p></noscript>
@@ -307,7 +307,7 @@
 <script>
   // UPITI_URL: adresa Google Apps Script veb aplikacije (završava se na /exec). Upit tada ide pravo u Google tabelu vlasnika.
   // Dok je prazno, forma otvara mejl program posetioca, kao i ranije.
-  var UPITI_URL = "";
+  var UPITI_URL = "https://script.google.com/macros/s/AKfycbyAVqFg5wPOr83MToP0paNXVD7rK-zGzfdPRStbegmVMcPAYorcyKyBdH_biL6ZB7VFaQ/exec";
   var form = document.getElementById('upitForm');
   var msg = document.createElement('p');
   msg.setAttribute('role', 'status');
@@ -316,7 +316,7 @@
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     var f = e.target;
-    var btn = f.querySelector('button[value=email]');
+    var btn = f.querySelector('button[value=direct]');
     var body = 'Ime: ' + f.ime.value + '\nTelefon: ' + f.telefon.value + '\n\n' + f.poruka.value;
     if (e.submitter && e.submitter.value === 'whatsapp') {
       msg.textContent = 'Poruka je pripremljena. Pošaljite je u WhatsApp-u.';
@@ -330,7 +330,7 @@
     }
     var stavke = window.duotimStavke ? window.duotimStavke() : [];
     var data = { ime: f.ime.value, telefon: f.telefon.value, poruka: f.poruka.value, stavke: stavke, web: f.web.value, strana: location.href };
-    var fail = function () { btn.disabled = false; msg.textContent = 'Upit nije poslat. Pozovite nas na 065 276 4244.'; };
+    var fail = function () { btn.disabled = false; msg.textContent = 'Prijem upita nije potvrđen. Možete nam pisati preko WhatsApp-a ili pozvati 065 276 4244.'; };
     btn.disabled = true; msg.textContent = 'Šaljemo...';
     // text/plain da pregledač ne šalje prethodni (preflight) zahtev, koji Apps Script ne prihvata
     fetch(UPITI_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(data) })
