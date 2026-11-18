@@ -1009,3 +1009,14 @@ button,input,select,textarea{font-family:var(--font-ui)}
 .flyer-materials span{color:var(--accent)}
 .home-flyer .offer-row h3{color:var(--accent-ink)}
 .home-flyer :is(.home-intro,#radovi-pocetna){overflow-wrap:anywhere}
+
+/* Keep the white-to-gray finish on the actual word inside the house. */
+.home-flyer #home-title .bird[data-w="dom"]::after{content:none}
+.home-flyer #home-title .house{color:#fff;text-shadow:none}
+@supports(background-clip:text){
+  .home-flyer #home-title .house{
+    background:linear-gradient(180deg,#fff 25%,#c4c4c4 100%);
+    background-clip:text;
+    color:transparent;
+  }
+}
