@@ -779,14 +779,6 @@ h2.h3{font-weight:700;font-size:21px;line-height:1.25;margin-bottom:10px;letter-
 /* pristupačnost */
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
-/* galerija radova: ista perspektiva kao logo, klik otvara celu fotografiju */
-.gallery:not(.kat){gap:30px 34px;padding:10px 0}
-.gallery:not(.kat) a{overflow:visible;border:0;background:none;border-radius:0;transform:perspective(900px) rotateY(-20deg) rotateX(4deg);transform-origin:50% 50%;transition:transform .45s ease;box-shadow:14px 12px 0 -6px rgba(251,180,0,.9),0 26px 34px -22px rgba(0,0,0,.55)}
-.gallery:not(.kat) a img{border:5px solid #FBB400;box-sizing:border-box}
-.gallery:not(.kat) a:hover,.gallery:not(.kat) a:focus-visible{transform:perspective(900px) rotateY(0) rotateX(0)}
-.gallery:not(.kat) a:hover img{transform:none}
-@media(max-width:560px){.gallery:not(.kat) a{transform:perspective(900px) rotateY(-14deg) rotateX(3deg)}}
-@media(prefers-reduced-motion:reduce){.gallery:not(.kat) a{transition:none}}
 
 /* katalog: sekcije van ekrana se ne iscrtavaju dok ne zatrebaju */
 
@@ -865,8 +857,6 @@ button.ur-cat{font:inherit;color:inherit;text-align:left;cursor:pointer;width:10
   .topbar a,.topbar .tb-hours{min-height:40px;min-width:40px;justify-content:center}
   .gallery:not(.kat){grid-template-columns:repeat(2,1fr);gap:18px 16px}
   .gallery:not(.kat) img{height:auto;aspect-ratio:4/5}
-  .gallery:not(.kat) a{box-shadow:8px 8px 0 -4px rgba(251,180,0,.9),0 16px 22px -16px rgba(0,0,0,.55)}
-  .gallery:not(.kat) a img{border-width:3px}
 }
 
 /* dugme za početnu u stilu upaljača: crna podloga, ALU i PVC oznake, belo-žuti logo, ispod "Početna" */
@@ -916,3 +906,25 @@ button,input,select,textarea{font-family:var(--font-ui)}
 .menu-btn .emoji,.theme-toggle .emoji,.icon-btn .emoji,.lb-btn .emoji{font-size:20px}
 .theme-toggle[aria-pressed="true"] .emoji{filter:drop-shadow(0 0 4px var(--accent))}
 .map-fallback .emoji{font-size:36px}
+
+/* Open, expandable photo and catalog sections. */
+.media-section > summary{display:flex;align-items:center;gap:12px;min-height:48px;cursor:pointer;list-style:none}
+.media-section > summary::-webkit-details-marker{display:none}
+.media-section > summary .section-close,.media-section[open] > summary .section-open{display:none}
+.media-section[open] > summary .section-close{display:inline-grid}
+.media-section > summary h2{margin:0}
+.media-section > .gallery{margin:12px 0 24px}
+.media-section > .gallery:not(.kat){grid-template-columns:repeat(auto-fill,minmax(min(100%,160px),1fr))}
+.media-section > .gallery:not(.kat) img{height:auto;aspect-ratio:4/5}
+.media-section > .gallery.kat a{background:transparent}
+.media-section .kat-cap{background:transparent;color:var(--text)}
+
+.hero-slideshow{flex:0 1 420px;min-width:0}
+.hero-slide{margin:0 0 14px}
+.hero-slide img{display:block;width:100%;height:clamp(150px,23vw,260px);object-fit:cover;margin-bottom:12px}
+.hero-slide img.slide-logo{object-fit:contain;background:#fff;padding:32px}
+.hero-slide h2{margin-bottom:4px}
+.hero-slide a{display:inline-block;margin-top:6px;color:var(--accent-ink);font-weight:700}
+.slide-controls:not([hidden]){display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+.slide-controls button{min-width:44px;min-height:44px;padding:8px 12px}
+@media(max-width:800px){.hero-slideshow{flex:auto;width:min(100%,420px);margin-top:18px}}
