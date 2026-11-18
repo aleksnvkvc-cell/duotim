@@ -973,13 +973,6 @@ button,input,select,textarea{font-family:var(--font-ui)}
   border-inline-end:3px solid var(--depth-edge);
   border-block-end:4px solid var(--depth-edge);
 }
-@media(min-width:601px) and (prefers-reduced-motion:no-preference){
-  .home-depth :is(.work-preview-slide,.offer-examples) img{
-    transform:rotateX(2deg) rotateY(-3deg) scale(.98);
-    transition:transform .25s ease;
-  }
-  .home-depth :is(.work-preview-slide,.offer-examples) img:hover{transform:none}
-}
 
 /* Carry the flyer palette from the logo panel into the homepage content. */
 .home-flyer{
@@ -1017,10 +1010,9 @@ button,input,select,textarea{font-family:var(--font-ui)}
 .home-flyer :is(.home-intro,.offer-featured-work,#radovi-pocetna){overflow-wrap:anywhere}
 
 /* Keep the white-to-gray finish on the actual word inside the house. */
-.home-flyer #home-title .bird[data-w="dom"]::after{content:none}
-.home-flyer #home-title .house{color:#fff;text-shadow:none}
+.home-flyer #home-title .home-title-dom{color:#fff;text-shadow:none}
 @supports(background-clip:text){
-  .home-flyer #home-title .house{
+  .home-flyer #home-title .home-title-dom{
     background:linear-gradient(180deg,#fff 25%,#c4c4c4 100%);
     background-clip:text;
     color:transparent;
@@ -1055,3 +1047,23 @@ button,input,select,textarea{font-family:var(--font-ui)}
 .brand-social-icon{display:inline-block;width:22px;height:22px;vertical-align:middle;object-fit:contain;flex:none}
 .topbar .brand-social-icon{width:18px;height:18px}
 .ig-follow img.brand-social-icon{border-radius:0}
+
+/* Natural depth comes from the photo and caption, with motion only on fine pointers. */
+.home-flyer .home-intro :is(h1,.lead,.cta){animation:none}
+.home-flyer .home-intro h1{background:none;color:var(--text);text-shadow:none}
+.home-flyer .home-intro{padding-bottom:clamp(20px,4vw,40px)}
+.home-masthead .offer-featured-work{border-top:1px solid var(--line)}
+.home-masthead .work-preview-slide:not([hidden]){perspective-origin:36% 50%}
+.home-masthead .work-preview-slide img.work-preview-portrait{
+  object-fit:contain;background:var(--bg);
+}
+.home-masthead .work-preview-slide figcaption{
+  border-inline-start:2px solid var(--accent);
+  padding-inline-start:clamp(9px,2vw,18px);
+}
+@media(hover:hover) and (pointer:fine) and (min-width:641px) and (prefers-reduced-motion:no-preference){
+  .home-masthead .work-preview-slide img{
+    transform:rotateX(var(--work-rx,0deg)) rotateY(var(--work-ry,-2deg)) translateZ(8px) scale(.98);
+    transition:transform .18s ease-out;
+  }
+}

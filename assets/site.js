@@ -190,7 +190,7 @@
 
 // hero headline: each word flies in like a bird and lands in place
 (function () {
-  var h = document.querySelector('.home-intro h1, .hero h1');
+  var h = document.querySelector('.hero h1');
   if (!h || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
   var text = h.textContent.trim();
   h.setAttribute('aria-label', text);
@@ -275,9 +275,9 @@
 
 // hero lead: types out once after the hero has risen in; the height is held so the buttons below do not jump
 (function () {
-  var p = document.querySelector('.home-intro .lead, .hero .lead');
+  var p = document.querySelector('.hero .lead');
   if (!p || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
-  var trust = document.querySelector('.home-intro .trust, .hero .trust');
+  var trust = document.querySelector('.hero .trust');
   function revealTrust() {
     if (trust) trust.classList.replace('trust-waiting', 'trust-revealed');
   }
@@ -491,6 +491,25 @@
   var controls = preview.querySelector('.work-preview-controls');
   var status = preview.querySelector('[data-work-status]');
   var current = 0;
+
+  var spatialMotion = window.matchMedia('(hover: hover) and (pointer: fine) and (min-width: 641px) and (prefers-reduced-motion: no-preference)');
+  slides.forEach(function (slide) {
+    var image = slide.querySelector('img');
+    function resetTilt() {
+      image.style.removeProperty('--work-rx');
+      image.style.removeProperty('--work-ry');
+    }
+    slide.addEventListener('pointermove', function (event) {
+      if (!spatialMotion.matches || event.pointerType !== 'mouse') return;
+      var bounds = slide.getBoundingClientRect();
+      if (!bounds.width || !bounds.height) return;
+      var x = Math.max(-.5, Math.min(.5, (event.clientX - bounds.left) / bounds.width - .5));
+      var y = Math.max(-.5, Math.min(.5, (event.clientY - bounds.top) / bounds.height - .5));
+      image.style.setProperty('--work-rx', (-y * 8).toFixed(2) + 'deg');
+      image.style.setProperty('--work-ry', (x * 10).toFixed(2) + 'deg');
+    });
+    slide.addEventListener('pointerleave', resetTilt);
+  });
 
   function show(index) {
     current = (index + slides.length) % slides.length;
