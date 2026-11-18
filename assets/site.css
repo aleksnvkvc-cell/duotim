@@ -1,4 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow+Semi+Condensed:wght@700&display=swap");
+
 :root{
+  --font-ui:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
+  --font-heading:"Agency FB","Barlow Semi Condensed","Arial Narrow",sans-serif;
+  --font-condensed:"Kionsa","Calcio","Barlow Condensed","Arial Narrow",sans-serif;
   --bg:#e8f0f0;
   --surface:#f8f8f8;
   --text:#484848;
@@ -23,7 +28,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;scroll-padding-top:88px}
 body{
-  font-family:"Manrope",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  font-family:var(--font-ui);
   background:var(--bg);color:var(--text);line-height:1.6;
   transition:background .25s,color .25s;
 }
@@ -885,11 +890,11 @@ button.ur-cat{font:inherit;color:inherit;text-align:left;cursor:pointer;width:10
 /* dugme za početnu u stilu upaljača: crna podloga, ALU i PVC oznake, belo-žuti logo, ispod "Početna" */
 .brand.brand-up{display:inline-flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;line-height:1}
 .brand-up .up-body{display:inline-flex;align-items:center;gap:6px;background:#1c1c1e;border-radius:9px;padding:5px 10px 5px 8px;box-shadow:0 4px 12px -6px rgba(0,0,0,.6)}
-.brand-up .up-tag{font:800 13px/1 Manrope,system-ui,sans-serif;letter-spacing:.02em;padding:4px 5px 3px;border-radius:2px}
+.brand-up .up-tag{font:700 13px/1 var(--font-condensed);letter-spacing:.02em;padding:4px 5px 3px;border-radius:2px}
 .brand-up .up-alu{color:#FBBE00;background:#1c1c1e;border:2px solid #FBBE00;border-right:0;margin-right:-6px}
 .brand-up .up-pvc{color:#1c1c1e;background:#FBBE00;border:2px solid #FBBE00}
 .brand-up img{display:block;height:30px!important;width:auto;filter:none!important;background:none!important;padding:0!important}
-.brand-up .up-cap{font:700 11px/1 Manrope,system-ui,sans-serif;color:var(--muted);letter-spacing:.04em}
+.brand-up .up-cap{font:700 11px/1 var(--font-ui);color:var(--muted);letter-spacing:.04em}
 .brand-up:hover .up-body,.brand-up:focus-visible .up-body{box-shadow:0 0 0 2px #FBBE00,0 6px 14px -6px rgba(0,0,0,.6)}
 @media(max-width:400px){.brand-up .up-tag{font-size:11px;padding:3px 4px 2px}.brand-up img{height:24px!important}.brand-up .up-body{gap:5px;padding:4px 8px 4px 6px}}
 .brand-up .up-body{padding:2px 10px 2px 8px;gap:7px}
@@ -898,3 +903,16 @@ button.ur-cat{font:inherit;color:inherit;text-align:left;cursor:pointer;width:10
 @media(max-width:400px){.brand-up img{height:36px!important}.brand-up .up-tag{font-size:12px}.brand-up .up-body{padding:2px 8px 2px 6px;gap:5px}}
 .theme-toggle{white-space:nowrap}
 @media(max-width:400px){.theme-toggle{font-size:12.5px;padding-left:10px;padding-right:10px}}
+
+/* Typography shared by the site pages. */
+h1,h3,h4,h5,h6,h2.h3,.tile strong{
+  font-family:var(--font-heading);
+  font-weight:700;
+  letter-spacing:normal;
+}
+h2:not(.h3),.eyebrow{
+  font-family:var(--font-condensed);
+  font-weight:700;
+}
+h2:not(.h3){letter-spacing:normal}
+button,input,select,textarea{font-family:var(--font-ui)}
