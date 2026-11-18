@@ -973,3 +973,39 @@ button,input,select,textarea{font-family:var(--font-ui)}
   }
   .home-depth :is(.work-preview-slide,.offer-examples) img:hover{transform:none}
 }
+
+/* Carry the flyer palette from the logo panel into the homepage content. */
+.home-flyer{
+  --bg:#201b19;
+  --surface:#302824;
+  --text:#fff6e8;
+  --muted:#e1d0bf;
+  --line:#786554;
+  --accent:#fbb400;
+  --accent-ink:#ffca47;
+  --accent-detail:#ffca47;
+  --flyer-paper:#c9bca7;
+  background:var(--bg);
+  color:var(--text);
+}
+.home-flyer .hero.hero-chevron-top{
+  background:var(--flyer-paper);
+  padding:clamp(48px,9vw,110px) 0 clamp(24px,5vw,64px);
+}
+.home-flyer .hero-logo img.logo-light{display:block}
+.home-flyer .hero-logo img.logo-white{display:none}
+.home-flyer .hero-chevron{height:clamp(60px,15vw,186px)}
+.home-flyer .hero-chevron::before{background:var(--flyer-paper)}
+.home-flyer .home-intro{text-align:center}
+.home-flyer .home-intro h1{max-width:22ch;margin-inline:auto}
+.home-flyer .home-intro .lead{margin-inline:auto}
+.home-flyer .home-intro .cta{align-items:center}
+.home-flyer .home-intro .cta a{align-self:center}
+.home-flyer .home-intro .trust{justify-content:center}
+.flyer-materials{
+  font:700 clamp(28px,5vw,52px)/1 var(--font-heading);
+  letter-spacing:.08em;
+}
+.flyer-materials span{color:var(--accent)}
+.home-flyer .offer-row h3{color:var(--accent-ink)}
+.home-flyer :is(.home-intro,#radovi-pocetna){overflow-wrap:anywhere}
