@@ -215,16 +215,21 @@
   <section class="block" id="upit">
     <div class="wrap">
       <div class="sec-head">
-        <div><h2>Pošaljite upit</h2><p class="sub">Javimo se u najkraćem roku.</p></div>
+        <div><h2>Pošaljite upit</h2></div>
         <div class="deco" aria-hidden="true"></div>
       </div>
       <div class="upit-grid">
-      <form id="upitForm" style="display:grid;gap:12px">
+      <form id="upitForm" aria-describedby="upit-uputstvo" method="post" style="display:grid;gap:12px">
         <label>Ime i prezime<input name="ime" required style="width:100%;padding:12px;border-radius:8px;border:1px solid var(--line);font:inherit"></label>
         <label>Telefon<input name="telefon" type="tel" required style="width:100%;padding:12px;border-radius:8px;border:1px solid var(--line);font:inherit"></label>
         <label>Poruka (šta vam treba, dimenzije, lokacija)<textarea name="poruka" rows="5" style="width:100%;padding:12px;border-radius:8px;border:1px solid var(--line);font:inherit"></textarea></label>
         <input name="web" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
-        <div><button class="btn btn-primary" type="submit">Pošalji upit</button></div>
+        <p id="upit-uputstvo">Izaberite mejl ili WhatsApp. Otvoriće se pripremljena poruka koju vi šaljete. Fotografiju ili skicu možete dodati u aplikaciji pre slanja.</p>
+        <div class="page-cta" style="margin-top:0">
+          <button class="btn btn-primary" type="submit" name="kanal" value="email">Otvori mejl</button>
+          <button class="btn btn-ghost" type="submit" name="kanal" value="whatsapp">Otvori WhatsApp</button>
+        </div>
+        <noscript><p>Pišite nam na <a href="mailto:duotimstolarija@gmail.com">duotimstolarija@gmail.com</a> ili preko <a href="https://wa.me/381652764244">WhatsApp-a</a>.</p></noscript>
       </form>
         <div class="konf" id="konf">
           <h3>Složite svoj prozor ili vrata</h3>
@@ -310,9 +315,16 @@
   form.appendChild(msg);
   form.addEventListener('submit', function (e) {
     e.preventDefault();
-    var f = e.target, btn = f.querySelector('button[type=submit]');
+    var f = e.target;
+    var btn = f.querySelector('button[value=email]');
+    var body = 'Ime: ' + f.ime.value + '\nTelefon: ' + f.telefon.value + '\n\n' + f.poruka.value;
+    if (e.submitter && e.submitter.value === 'whatsapp') {
+      msg.textContent = 'Poruka je pripremljena. Pošaljite je u WhatsApp-u.';
+      window.open('https://wa.me/381652764244?text=' + encodeURIComponent(body), '_blank', 'noopener');
+      return;
+    }
     if (!UPITI_URL) {
-      var body = 'Ime: ' + f.ime.value + '\nTelefon: ' + f.telefon.value + '\n\n' + f.poruka.value;
+      msg.textContent = 'Poruka je pripremljena. Pošaljite je iz aplikacije za mejl.';
       window.location.href = 'mailto:duotimstolarija@gmail.com?subject=' + encodeURIComponent('Upit sa sajta') + '&body=' + encodeURIComponent(body);
       return;
     }
@@ -322,7 +334,7 @@
     btn.disabled = true; msg.textContent = 'Šaljemo...';
     // text/plain da pregledač ne šalje prethodni (preflight) zahtev, koji Apps Script ne prihvata
     fetch(UPITI_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(data) })
-      .then(function (r) { return r.json(); })
+      .then(function (r) { if (!r.ok) throw new Error('Upit nije prihvaćen'); return r.json(); })
       .then(function (r) {
         if (!r || !r.ok) return fail();
         f.reset(); btn.disabled = false;
