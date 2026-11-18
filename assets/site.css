@@ -1,7 +1,7 @@
-@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow+Semi+Condensed:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow+Semi+Condensed:wght@700&family=Source+Sans+3:wght@400..800&display=swap");
 
 :root{
-  --font-ui:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
+  --font-ui:"Source Sans 3","Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
   --font-heading:"Agency FB","Barlow Semi Condensed","Arial Narrow",sans-serif;
   --font-condensed:"Kionsa","Calcio","Barlow Condensed","Arial Narrow",sans-serif;
   --bg:#e8f0f0;
