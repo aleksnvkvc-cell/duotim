@@ -940,7 +940,6 @@ button,input,select,textarea{font-family:var(--font-ui)}
 .work-preview-slide figcaption{margin-top:10px}
 .work-preview-slide figcaption strong{display:block;font-size:20px}
 .work-preview-slide figcaption p{color:var(--muted)}
-.offer-featured-work{margin-bottom:24px}
 .offer-featured-work > h3{font-size:24px}
 .work-preview-controls:not([hidden]){display:flex;gap:12px;align-items:center;flex-wrap:wrap}
 .work-preview-controls button{min-width:44px;min-height:44px;padding:8px 12px}
@@ -949,3 +948,14 @@ button,input,select,textarea{font-family:var(--font-ui)}
 .offer-examples img{width:100%;height:clamp(112px,24vw,170px);object-fit:contain;background:#fff}
 .offer-examples figcaption{margin-top:4px;color:var(--muted);font-size:14px}
 .offer-types{padding-inline-start:1.25em;margin:8px 0}
+
+/* The yellow V joins the featured work and catalog panels. */
+.home-offer{--offer-upper:var(--surface);--offer-lower:var(--bg);--offer-seam:clamp(48px,11vw,130px)}
+.offer-upper,.offer-catalog{padding:clamp(14px,3vw,32px)}
+.offer-upper{background:var(--offer-upper)}
+.offer-catalog{background:var(--offer-lower)}
+.offer-chevron{position:relative;height:var(--offer-seam);background:var(--offer-lower)}
+.offer-chevron::before,.offer-chevron::after{content:"";position:absolute;inset:0}
+.offer-chevron::before{background:var(--offer-upper);clip-path:polygon(0 0,100% 0,50% calc(100% - 7px))}
+.offer-chevron::after{background:var(--accent);clip-path:polygon(0 0,50% calc(100% - 7px),100% 0,100% 7px,50% 100%,0 7px)}
+.offer-catalog .offer-row:first-child{border-top:0;padding-top:0}
