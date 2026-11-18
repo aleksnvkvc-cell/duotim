@@ -1032,7 +1032,7 @@ button,input,select,textarea{font-family:var(--font-ui)}
 @media(max-width:700px){
   .home-flyer .offer-examples{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
-body:has(.home-flyer) .emoji{
+.emoji{
   filter:brightness(0) saturate(100%) invert(74%) sepia(95%) saturate(1192%) hue-rotate(357deg) brightness(100%) contrast(102%);
 }
 
@@ -1051,3 +1051,7 @@ body:has(.home-flyer) .emoji{
 @media(max-width:640px){
   .home-masthead .work-preview-slide:not([hidden]){grid-template-columns:minmax(0,1fr)}
 }
+
+.brand-social-icon{display:inline-block;width:22px;height:22px;vertical-align:middle;object-fit:contain;flex:none}
+.topbar .brand-social-icon{width:18px;height:18px}
+.ig-follow img.brand-social-icon{border-radius:0}
