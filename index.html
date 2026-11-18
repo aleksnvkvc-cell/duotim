@@ -24,7 +24,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="assets/site.css?v=20261118-hero-lines">
+<link rel="stylesheet" href="assets/site.css?v=20261118-hero-preview">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -139,21 +139,46 @@
 
 <main class="home-depth home-flyer">
 
-  <div class="hero hero-chevron-top">
-    <div class="wrap hero-row">
-      <div class="hero-logo" role="img" aria-label="Duo Tim">
-        <img class="logo-light" src="assets/logo-light.png" alt="">
-        <img class="logo-white" src="assets/logo-white.png" alt="">
+  <div class="home-masthead">
+    <div class="hero hero-chevron-top">
+      <div class="wrap hero-row">
+        <div class="hero-logo" role="img" aria-label="Duo Tim">
+          <img class="logo-light" src="assets/logo-light.png" alt="">
+          <img class="logo-white" src="assets/logo-white.png" alt="">
+        </div>
       </div>
     </div>
-  </div>
-
-  <div class="hero-chevron" aria-hidden="true">
-    <svg viewBox="0 0 1000 100" preserveAspectRatio="none" focusable="false">
-      <path class="hero-chevron-paper" d="M0 0H1000V8L500 86 0 8Z"/>
-      <path class="hero-chevron-edge" d="M-12 6.128 500 86 1012 6.128"/>
-      <path class="hero-chevron-line" d="M-12 6.128 500 86 1012 6.128"/>
-    </svg>
+  
+    <div class="hero-chevron" aria-hidden="true">
+      <svg viewBox="0 0 1000 100" preserveAspectRatio="none" focusable="false">
+        <path class="hero-chevron-paper" d="M0 0H1000V8L500 86 0 8Z"/>
+        <path class="hero-chevron-edge" d="M-12 6.128 500 86 1012 6.128"/>
+        <path class="hero-chevron-line" d="M-12 6.128 500 86 1012 6.128"/>
+      </svg>
+    </div>
+    <section class="offer-featured-work wrap" aria-labelledby="izdvojeni-radovi">
+      <h2 id="izdvojeni-radovi">Izdvojeni radovi</h2>
+      <div class="work-preview">
+        <figure class="work-preview-slide">
+          <img src="assets/gallery/g8-preview.webp" alt="Crna garažna vrata" width="480" height="364" loading="lazy">
+          <figcaption><strong>Crna garažna vrata</strong><p>Garažna vrata u crnoj boji na dva otvora.</p></figcaption>
+        </figure>
+        <figure class="work-preview-slide">
+          <img src="assets/gallery/g7-preview.webp" alt="Dvokrilni PVC prozor" width="480" height="640" loading="lazy">
+          <figcaption><strong>Dvokrilni PVC prozor</strong><p>Beli PVC prozor ugrađen na kući od cigle.</p></figcaption>
+        </figure>
+        <figure class="work-preview-slide">
+          <img src="assets/gallery/g3-preview.webp" alt="Ulazna vrata u dekoru oraha" width="480" height="785" loading="lazy">
+          <figcaption><strong>Ulazna vrata u dekoru oraha</strong><p>Vrata sa aluminijumskim umecima i bočnim staklom.</p></figcaption>
+        </figure>
+        <div class="work-preview-controls" hidden>
+          <button class="btn btn-ghost" type="button" data-work-prev aria-label="Prethodni rad"><span class="emoji" aria-hidden="true">⬅️</span></button>
+          <span data-work-status role="status"></span>
+          <button class="btn btn-ghost" type="button" data-work-next aria-label="Sledeći rad"><span class="emoji" aria-hidden="true">➡️</span></button>
+        </div>
+      </div>
+      <p class="home-more"><a href="radovi.html">Pogledajte sve radove</a></p>
+    </section>
   </div>
 
   <section class="home-intro" aria-labelledby="home-title">
@@ -178,29 +203,6 @@
   <section class="block" id="radovi-pocetna" aria-labelledby="ponuda-naslov">
     <div class="wrap home-offer">
       <h2 id="ponuda-naslov">Šta nudimo</h2>
-      <section class="offer-featured-work" aria-labelledby="izdvojeni-radovi">
-        <h3 id="izdvojeni-radovi">Izdvojeni radovi</h3>
-        <div class="work-preview">
-          <figure class="work-preview-slide">
-            <img src="assets/gallery/g8-preview.webp" alt="Crna garažna vrata" width="480" height="364" loading="lazy">
-            <figcaption><strong>Crna garažna vrata</strong><p>Garažna vrata u crnoj boji na dva otvora.</p></figcaption>
-          </figure>
-          <figure class="work-preview-slide">
-            <img src="assets/gallery/g7-preview.webp" alt="Dvokrilni PVC prozor" width="480" height="640" loading="lazy">
-            <figcaption><strong>Dvokrilni PVC prozor</strong><p>Beli PVC prozor ugrađen na kući od cigle.</p></figcaption>
-          </figure>
-          <figure class="work-preview-slide">
-            <img src="assets/gallery/g3-preview.webp" alt="Ulazna vrata u dekoru oraha" width="480" height="785" loading="lazy">
-            <figcaption><strong>Ulazna vrata u dekoru oraha</strong><p>Vrata sa aluminijumskim umecima i bočnim staklom.</p></figcaption>
-          </figure>
-          <div class="work-preview-controls" hidden>
-            <button class="btn btn-ghost" type="button" data-work-prev aria-label="Prethodni rad"><span class="emoji" aria-hidden="true">⬅️</span></button>
-            <span data-work-status role="status"></span>
-            <button class="btn btn-ghost" type="button" data-work-next aria-label="Sledeći rad"><span class="emoji" aria-hidden="true">➡️</span></button>
-          </div>
-        </div>
-        <p class="home-more"><a href="radovi.html">Pogledajte sve radove</a></p>
-      </section>
       <article class="offer-row">
         <h3>Prozori i balkonska vrata</h3>
         <div class="offer-examples">
