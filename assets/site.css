@@ -86,11 +86,13 @@ nav a:hover::after,nav a[aria-current="page"]::after{width:100%}
 .mobile-nav .btn{display:block;text-align:center;margin:18px 4% 22px}
 
 .theme-toggle{
-  font:inherit;font-size:14px;cursor:pointer;
-  background:transparent;color:var(--text);
-  border:1px solid var(--line);border-radius:999px;padding:8px 14px;
+  display:grid;place-items:center;flex:0 0 44px;width:44px;height:44px;padding:0;
+  cursor:pointer;background:transparent;color:var(--text);
+  border:1px solid var(--line);border-radius:999px;
 }
-.theme-toggle:hover{border-color:var(--accent)}
+.theme-toggle:hover,.theme-toggle:focus-visible{border-color:var(--accent)}
+.theme-toggle:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
+.theme-toggle[aria-pressed="true"] svg{color:var(--accent)}
 
 .btn{
   display:inline-block;padding:12px 22px;border-radius:8px;
@@ -355,7 +357,6 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:1
 }
 @media(max-width:480px){
   .actions .btn-primary{display:none}
-  .theme-toggle{padding:8px 11px}
   .bar{gap:10px}
 }
 
@@ -901,8 +902,6 @@ button.ur-cat{font:inherit;color:inherit;text-align:left;cursor:pointer;width:10
 .brand-up img{height:46px!important;margin:-2px 0}
 .brand-up .up-tag{font-size:15px}
 @media(max-width:400px){.brand-up img{height:36px!important}.brand-up .up-tag{font-size:12px}.brand-up .up-body{padding:2px 8px 2px 6px;gap:5px}}
-.theme-toggle{white-space:nowrap}
-@media(max-width:400px){.theme-toggle{font-size:12.5px;padding-left:10px;padding-right:10px}}
 
 /* Typography shared by the site pages. */
 h1,h3,h4,h5,h6,h2.h3,.tile strong{

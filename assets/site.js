@@ -1,7 +1,6 @@
 (function () {
   var root = document.documentElement;
   var btn = document.getElementById('themeToggle');
-  var label = document.getElementById('themeLabel');
 
   var saved = null;
   try { saved = localStorage.getItem('duotim-theme'); } catch (e) {}
@@ -10,7 +9,6 @@
 
   function apply(theme) {
     root.setAttribute('data-theme', theme);
-    label.textContent = theme === 'dark' ? 'Svetla tema' : 'Tamna tema';
     btn.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
   }
 
