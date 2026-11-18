@@ -121,14 +121,9 @@ h2{font-size:clamp(28px,3.6vw,38px);line-height:1.15;margin-bottom:12px}
 .sub{color:var(--muted);max-width:60ch;margin-bottom:40px}
 
 .grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
-.card{
-  background:var(--surface);border:1px solid var(--line);
-  border-radius:12px;padding:30px;
-}
+.card{border-top:1px solid var(--line);padding:16px 0}
 .card h3{font-size:21px;margin-bottom:10px}
 .card p{color:var(--muted);font-size:15px}
-.card{transition:transform .3s ease,border-color .3s ease,box-shadow .3s ease}
-.card:hover{transform:translateY(-6px);border-color:var(--accent);box-shadow:0 22px 44px -20px rgba(251,180,0,.55)}
 .hero::before{
   content:"";position:absolute;inset:0;pointer-events:none;z-index:0;
   background:radial-gradient(55% 60% at 78% 45%,rgba(251,180,0,.22),transparent 70%);
@@ -181,7 +176,7 @@ body::after{
 .steps .card{position:relative}
 .step-n{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--accent);color:var(--accent-text);font-weight:800;margin-bottom:14px}
 .faq{display:grid;gap:12px}
-.faq details.card{padding:18px 22px}
+.faq details.card{padding:16px 0}
 .faq summary{cursor:pointer;font-weight:700;font-size:17px;list-style:none}
 .faq summary::-webkit-details-marker{display:none}
 .faq summary::after{content:"+";float:right;font-weight:800;color:var(--accent)}
@@ -195,7 +190,7 @@ body::after{
 
 /* gallery + lightbox */
 .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.gallery a{display:block;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:var(--surface)}
+.gallery a{display:block;overflow:hidden}
 .gallery img{width:100%;height:280px;object-fit:cover;display:block;transition:transform .3s ease}
 .gallery a:hover img{transform:scale(1.03)}
 @media(max-width:800px){.gallery{grid-template-columns:repeat(2,1fr)}.gallery img{height:220px}}
@@ -256,15 +251,14 @@ section.block:nth-of-type(even)::before{right:auto;left:-90px}
 .page-cta{margin-top:40px;display:flex;flex-wrap:wrap;gap:12px}
 .tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
 .tile{
-  display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:120px;
-  padding:26px 28px;border-radius:14px;border:1px solid var(--line);background:var(--surface);
+  display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:64px;
+  padding:12px 0;border:0;border-bottom:1px solid var(--line);background:transparent;
   text-decoration:none;color:var(--text);
-  transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;
 }
 .tile strong{display:block;font-size:24px;font-weight:800;letter-spacing:-.02em}
 .tile small{display:block;color:var(--muted);font-size:14px;font-weight:500;margin-top:4px}
 .tile-arrow{color:var(--accent-detail);font-size:28px;font-weight:800;flex:none}
-.tile:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:0 20px 40px -20px rgba(251,180,0,.55)}
+.tile:hover strong,.profs a.card:hover h3{text-decoration:underline}
 @media(max-width:560px){.tiles{grid-template-columns:1fr}}
 
 /* yellow window motif from the logo, one per section */
@@ -347,7 +341,6 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:1
 }
 @media(max-width:560px){
   .cta .btn{flex:1 1 100%;text-align:center}
-  .card{padding:24px}
   .map{height:300px}
   .map-links{flex-direction:column;gap:12px}
 }
@@ -369,7 +362,7 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:1
   90%,100%{opacity:1;filter:blur(0);transform:rotateY(-20deg) rotateX(6deg) translateZ(90px) translate(0,0) scale(1)}
 }
 .deco3d .spin img{width:100%;height:auto;background:none;filter:drop-shadow(0 0 22px rgba(251,180,0,.6))}
-@media(max-width:560px){#istrazite{padding-top:0;min-height:auto;padding-bottom:24px}.hero{min-height:auto;padding-top:20px;padding-bottom:0}section.block{padding:36px 0}.page-head{padding:20px 0 4px}.page-cta{margin-top:22px}.sub{margin-bottom:18px}.sec-head{margin-bottom:14px}section.block{padding:0 0 24px}.hero{padding-top:14px;padding-bottom:12px}.tile{min-height:88px;padding:18px 20px}.grid{gap:14px}.cta{margin-top:22px}.trust{margin-top:18px}.page-title{margin:8px 0 10px}.card{padding:20px}footer .wrap{gap:10px}footer{padding:22px 0}.sec-head{margin-bottom:24px;align-items:center}.deco3d{display:block;width:120px;height:120px;margin:0 0 0 auto;flex-shrink:0}#istrazite .deco3d{margin:-72px 0 0 auto}.deco3d .spin img{width:auto;height:120px;object-fit:contain}#istrazite h2{font-size:44px}.sec-arrow{width:84px;height:84px;left:-8px;top:-10px}.sec-curve{width:96px;height:86px;right:-60px;top:-4px}.sec-head .sub{font-size:12px}}
+@media(max-width:560px){#istrazite{padding-top:0;min-height:auto;padding-bottom:24px}.hero{min-height:auto;padding-top:20px;padding-bottom:0}section.block{padding:36px 0}.page-head{padding:20px 0 4px}.page-cta{margin-top:22px}.sub{margin-bottom:18px}.sec-head{margin-bottom:14px}section.block{padding:0 0 24px}.hero{padding-top:14px;padding-bottom:12px}.grid{gap:14px}.cta{margin-top:22px}.trust{margin-top:18px}.page-title{margin:8px 0 10px}footer .wrap{gap:10px}footer{padding:22px 0}.sec-head{margin-bottom:24px;align-items:center}.deco3d{display:block;width:120px;height:120px;margin:0 0 0 auto;flex-shrink:0}#istrazite .deco3d{margin:-72px 0 0 auto}.deco3d .spin img{width:auto;height:120px;object-fit:contain}#istrazite h2{font-size:44px}.sec-arrow{width:84px;height:84px;left:-8px;top:-10px}.sec-curve{width:96px;height:86px;right:-60px;top:-4px}.sec-head .sub{font-size:12px}}
 
 /* hero call buttons: shake in turn, every 3 seconds */
 @keyframes call-shake{
@@ -617,8 +610,6 @@ html:not([data-theme="dark"]) .logo-white{display:none}
 html:not([data-theme="dark"]) .logo-light{display:block}
 
 
-/* light theme: the "Istražite" tiles take a soft yellow tint from the logo instead of white */
-html:not([data-theme="dark"]) .tile{background:linear-gradient(90deg,#FBB400 0 6px,#f8f8f8 6px)}
 html:not([data-theme="dark"]) .hero::before{background:radial-gradient(55% 60% at 78% 45%,rgba(251,180,0,.35),transparent 70%)}
 
 /* brushed-metal texture across the whole site, both themes (generated in CSS, no image file) */
@@ -722,7 +713,7 @@ body{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org
 /* kontakt: forma i mini konfigurator jedno pored drugog */
 .upit-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:28px;align-items:start}
 @media(max-width:900px){.upit-grid{grid-template-columns:1fr}}
-.konf{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px}
+.konf{border-top:1px solid var(--line);padding:16px 0}
 .konf h3{margin:0 0 4px;font-size:20px}
 .konf-sub{margin:0 0 14px;color:var(--muted);font-size:14px}
 .konf-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;margin-bottom:14px}
@@ -808,7 +799,8 @@ html:not([data-theme="dark"]) footer .social a,html:not([data-theme="dark"]) foo
 .profs .origin img{vertical-align:-3px;margin-right:6px}
 /* početna: kategorije usluga i radova */
 button.ur-cat{font:inherit;color:inherit;text-align:left;cursor:pointer;width:100%}
-.ur-cat.cur{border-color:var(--accent-detail);box-shadow:0 14px 30px -18px rgba(251,180,0,.7)}
+.ur-cat.cur{border-bottom-color:var(--accent-detail)}
+.ur-cat.cur strong{text-decoration:underline}
 .ur-show .win-slides img.kat{padding:0 32% 0 2%;background:#fff}
 .ur-show{gap:18px}
 .ur-note{margin:10px 0 0;font-weight:700;font-size:15px;text-align:center}
@@ -853,7 +845,7 @@ button.ur-cat{font:inherit;color:inherit;text-align:left;cursor:pointer;width:10
 
 /* početna: četiri rada, kratak tekst i poziv */
 .home-works{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:22px}
-.home-works a{display:block;border-radius:12px;overflow:hidden;border:1px solid var(--line)}
+.home-works a{display:block;overflow:hidden}
 .home-works img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;display:block;transition:transform .3s ease}
 .home-works a:hover img{transform:scale(1.04)}
 .home-more{margin-top:16px;font-weight:700}
