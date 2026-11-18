@@ -904,3 +904,17 @@ h2:not(.h3){
 }
 h2:not(.h3){letter-spacing:normal}
 button,input,select,textarea{font-family:var(--font-ui)}
+
+@media(prefers-reduced-motion:no-preference){
+  .hero .trust-waiting li{opacity:0}
+  .hero .trust-revealed li{animation:trust-pop .3s ease-out both}
+  .hero .trust-revealed li:nth-child(2){animation-delay:.34s}
+  .hero .trust-revealed li:nth-child(3){animation-delay:.68s}
+  .hero .trust-revealed li:nth-child(4){animation-delay:1.02s}
+  .hero .trust-revealed li:nth-child(5){animation-delay:1.36s}
+}
+@keyframes trust-pop{
+  from{opacity:0;transform:translateY(8px) scale(.96)}
+  70%{opacity:1;transform:translateY(-2px) scale(1.02)}
+  to{opacity:1;transform:none}
+}

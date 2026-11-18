@@ -277,9 +277,18 @@
 (function () {
   var p = document.querySelector('.hero .lead');
   if (!p || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
+  var trust = document.querySelector('.hero .trust');
+  function revealTrust() {
+    if (trust) trust.classList.replace('trust-waiting', 'trust-revealed');
+  }
+  if (trust) trust.classList.add('trust-waiting');
+
   var seen = false;
   try { seen = localStorage.getItem('duotim-typed') === '1'; localStorage.setItem('duotim-typed', '1'); } catch (e) {}
-  if (seen) return;
+  if (seen) {
+    setTimeout(revealTrust, 1600);
+    return;
+  }
   var full = p.textContent;
   p.style.minHeight = p.offsetHeight + 'px';
   setTimeout(function () {
@@ -289,7 +298,12 @@
     var t = setInterval(function () {
       i++;
       p.textContent = full.slice(0, i);
-      if (i >= full.length) { clearInterval(t); p.classList.remove('typing'); p.classList.add('typed'); }
+      if (i >= full.length) {
+        clearInterval(t);
+        p.classList.remove('typing');
+        p.classList.add('typed');
+        revealTrust();
+      }
     }, 12);
   }, 1000);
 })();
