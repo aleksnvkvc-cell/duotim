@@ -1143,12 +1143,6 @@ button,input,select,textarea{font-family:var(--font-ui)}
 }
 
 
-/* Thin horizontal strokes behind the hero logo. */
-[data-theme="dark"] .home-flyer .hero-logo-panel{
-  background-image:repeating-linear-gradient(
-    to bottom,transparent 0 4px,rgba(58,43,26,.16) 4px 5px
-  ),var(--brushed-metal);
-}
 
 /* Animate the letters separately while the original center mark stays in place. */
 @media(prefers-reduced-motion:no-preference){
