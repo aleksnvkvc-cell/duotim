@@ -1191,12 +1191,13 @@ button,input,select,textarea{font-family:var(--font-ui)}
 /* Fill the hero with the active photo and keep the signature V at its lower edge. */
 .home-flyer .hero.hero-chevron-top{--hero-v-height:clamp(16px,2.5vw,28px)}
 .home-flyer .hero-logo-panel{
+  position:relative;block-size:clamp(164px,26vw,310px);
   clip-path:polygon(0 0,100% 0,100% calc(100% - var(--hero-v-height) * .92),
                     50% calc(100% - var(--hero-v-height) * .09),
                     0 calc(100% - var(--hero-v-height) * .92));
 }
 .home-flyer .hero.hero-chevron-top .hero-row{
-  width:100%;min-height:clamp(164px,26vw,310px);
+  width:100%;height:100%;z-index:2;pointer-events:none;
   display:flex;justify-content:flex-start;align-items:center;
 }
 .home-flyer .hero-logo-panel .hero-logo{
@@ -1209,18 +1210,18 @@ button,input,select,textarea{font-family:var(--font-ui)}
 }
 .home-flyer .hero-chevron-paper{display:none}
 .hero-work-preview,.hero-work-preview .work-preview,
-.hero-work-preview .hero-work-photo{position:absolute;inset:0}
+.hero-work-preview .hero-work-photo{position:absolute;inset:0;width:100%;height:100%}
 .hero-work-preview .work-preview:focus-visible{outline:2px solid var(--accent);outline-offset:-6px}
 .home-masthead .hero-work-preview .work-preview-slide:not([hidden]){
   position:absolute;inset:0;display:block;margin:0;perspective:none;
 }
 .hero-work-preview .hero-work-photo::after{
   content:"";position:absolute;inset:0;
-  background:linear-gradient(90deg,rgba(227,214,191,.9) 0%,rgba(227,214,191,.8) 23%,
-    rgba(26,20,17,.12) 46%,rgba(26,20,17,.78) 72%,rgba(26,20,17,.94) 100%);
+  background:linear-gradient(90deg,rgba(227,214,191,.68) 0%,rgba(227,214,191,.46) 23%,
+    transparent 48%,rgba(26,20,17,.56) 72%,rgba(26,20,17,.8) 100%);
 }
 .home-flyer .hero-work-preview .hero-work-photo img{
-  display:block;width:100%;height:100%;aspect-ratio:auto;object-fit:cover;
+  display:block;width:100%;height:100%;max-height:none;aspect-ratio:auto;object-fit:cover;
   object-position:center;background:none;border:0;transform:none;
 }
 .home-masthead .hero-work-preview .work-preview-slide figcaption{
