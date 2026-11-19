@@ -18,11 +18,11 @@
   --field-border:#747474;
 }
 [data-theme="dark"]{
-  --bg:#292929;
-  --surface:#373634;
+  --bg:#28231f;
+  --surface:#38302a;
   --text:#ffffff;
-  --muted:#d0cec9;
-  --line:#64615c;
+  --muted:#dfd2c3;
+  --line:#6a5747;
   --accent:#fbb400;
   --accent-ink:#fbb400;
   --accent-text:#1f2124;
@@ -1085,7 +1085,7 @@ button,input,select,textarea{font-family:var(--font-ui)}
   --title-main:#292929;--title-accent:#785600;color:var(--title-main);
 }
 [data-theme="dark"] .home-flyer #home-title{
-  --title-main:#e2e0dc;--title-accent:#ffca47;
+  --title-main:#f3e9db;--title-accent:#ffca47;
 }
 .home-flyer #home-title .home-title-accent{
   color:var(--title-accent);background:none;
@@ -1234,18 +1234,10 @@ button,input,select,textarea{font-family:var(--font-ui)}
 
 /* Gray paper and charcoal themes, with the same yellow accent in both. */
 :root{color-scheme:light;--header-bg:#cac8c2;--footer-bg:#d1cfca;--hero-paper:#c9c5bc}
-:root[data-theme="dark"]{color-scheme:dark;--header-bg:#373635;--footer-bg:#333231;--hero-paper:#a8a59e}
+:root[data-theme="dark"]{color-scheme:dark;--header-bg:#c8b8a0;--footer-bg:#211b17;--hero-paper:#c8b8a0}
 :root[data-theme] header{background-color:var(--header-bg)}
 :root[data-theme] footer{background-color:var(--footer-bg)}
 :root[data-theme="light"] .home-masthead{background:linear-gradient(var(--surface),var(--bg))}
-.theme-toggle{
-  display:grid;place-items:center;width:44px;height:44px;flex:none;
-  color:var(--accent-ink);background:var(--surface);border:1px solid var(--line);
-  border-radius:8px;cursor:pointer;font:inherit;
-}
-.theme-toggle .emoji{font-size:20px}
-.theme-toggle:hover,.theme-toggle:focus-visible{border-color:var(--accent-ink)}
-.theme-toggle:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
 
 /* Solid headline colors with a restrained extrusion for both gray themes. */
 .home-flyer #home-title{
@@ -1306,4 +1298,13 @@ main section.block::after,.home-offer .offer-row::before,footer::before{
 @keyframes hero-title-glint{
   from{background-position:100% 0}
   to{background-position:0 0}
+}
+
+/* Flyer palette: a warm paper header over charcoal-brown content. */
+:root[data-theme="dark"] header .bar > nav{
+  --nav-link:#352c25;--text:#221c17;--accent-detail:#775012;
+}
+:root[data-theme="dark"] header .menu-btn{border-color:#806f5b}
+@supports (mask-image: url("")){
+  :root[data-theme="dark"] header .menu-btn .emoji{background-color:#493621}
 }
