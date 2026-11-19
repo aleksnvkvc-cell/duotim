@@ -477,40 +477,20 @@
 })();
 
 (function () {
-  var preview = document.querySelector('.work-preview');
+  var preview = document.querySelector('.hero-work-preview .work-preview');
   if (!preview) return;
   var slides = Array.from(preview.querySelectorAll('.work-preview-slide'));
-  var controls = preview.querySelector('.work-preview-controls');
-  var status = preview.querySelector('[data-work-status]');
+  if (slides.length < 2) return;
+
+  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var canHover = window.matchMedia('(hover: hover)');
   var current = 0;
 
-  var spatialMotion = window.matchMedia('(hover: hover) and (pointer: fine) and (min-width: 641px) and (prefers-reduced-motion: no-preference)');
-  slides.forEach(function (slide) {
-    var image = slide.querySelector('img');
-    function resetTilt() {
-      image.style.removeProperty('--work-rx');
-      image.style.removeProperty('--work-ry');
-    }
-    slide.addEventListener('pointermove', function (event) {
-      if (!spatialMotion.matches || event.pointerType !== 'mouse') return;
-      var bounds = slide.getBoundingClientRect();
-      if (!bounds.width || !bounds.height) return;
-      var x = Math.max(-.5, Math.min(.5, (event.clientX - bounds.left) / bounds.width - .5));
-      var y = Math.max(-.5, Math.min(.5, (event.clientY - bounds.top) / bounds.height - .5));
-      image.style.setProperty('--work-rx', (-y * 8).toFixed(2) + 'deg');
-      image.style.setProperty('--work-ry', (x * 10).toFixed(2) + 'deg');
-    });
-    slide.addEventListener('pointerleave', resetTilt);
-  });
-
-  function show(index) {
-    current = (index + slides.length) % slides.length;
-    slides.forEach(function (slide, position) { slide.hidden = position !== current; });
-    status.textContent = (current + 1) + ' / ' + slides.length;
-  }
-
-  preview.querySelector('[data-work-prev]').addEventListener('click', function () { show(current - 1); });
-  preview.querySelector('[data-work-next]').addEventListener('click', function () { show(current + 1); });
-  show(0);
-  controls.hidden = false;
+  window.setInterval(function () {
+    if (reducedMotion.matches || document.hidden || preview.matches(':focus-within') ||
+        (canHover.matches && preview.matches(':hover'))) return;
+    slides[current].hidden = true;
+    current = (current + 1) % slides.length;
+    slides[current].hidden = false;
+  }, 4500);
 })();
