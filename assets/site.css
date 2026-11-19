@@ -400,7 +400,7 @@ header{background-image:linear-gradient(105deg,transparent 0%,rgba(255,255,255,.
 /* top bar: brushed metal from the business card, under the sheen (light: silver, dark: charcoal) */
 [data-theme="dark"] header{background-color:#505050}
 header::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='600'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.003 0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.09 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>") repeat}
-[data-theme="dark"] header::before{background:var(--brushed-metal) repeat}
+[data-theme="dark"] header::before{content:none}
 
 /* whole site: a faint sheen crosses the full page every 8 seconds, above the content but under clicks */
 html::before{content:"";position:fixed;inset:-10%;pointer-events:none;z-index:46;background:radial-gradient(ellipse 40% 30% at 25% 35%,rgba(251,180,0,.6),transparent 70%),radial-gradient(ellipse 35% 25% at 65% 60%,rgba(251,180,0,.6),transparent 70%),radial-gradient(ellipse 30% 22% at 45% 85%,rgba(251,180,0,.45),transparent 70%);background-size:200% 200%;background-repeat:no-repeat;filter:blur(22px);opacity:0;display:none}
@@ -1235,7 +1235,7 @@ button,input,select,textarea{font-family:var(--font-ui)}
 /* Gray paper and charcoal themes, with the same yellow accent in both. */
 :root{color-scheme:light;--header-bg:#cac8c2;--footer-bg:#d1cfca;--hero-paper:#c9c5bc}
 :root[data-theme="dark"]{color-scheme:dark;--header-bg:#c8b8a0;--footer-bg:#211b17;--hero-paper:#c8b8a0}
-:root[data-theme] header{background-color:var(--header-bg)}
+:root[data-theme] header{background:var(--header-bg) var(--brushed-metal) repeat}
 :root[data-theme] footer{background-color:var(--footer-bg)}
 :root[data-theme="light"] .home-masthead{background:linear-gradient(var(--surface),var(--bg))}
 
