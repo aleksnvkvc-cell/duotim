@@ -1323,13 +1323,14 @@ main section.block::after,.home-offer .offer-row::before,footer::before{
 
 @media (prefers-reduced-motion: no-preference) {
   .home-flyer .home-intro-word {
-    animation: intro-word-glow .46s ease-in-out;
+    animation: intro-word-glow .88s ease-in-out;
     animation-delay: calc(2.25s + var(--word-index) * .32s);
   }
 }
 
 @keyframes intro-word-glow {
-  50% { text-shadow: 0 0 6px var(--accent), 0 0 12px var(--accent); }
+  0%, 100% { text-shadow: 0 0 3px transparent, 0 0 10px transparent; }
+  50% { text-shadow: 0 0 3px #ffd56ec9, 0 0 10px #fbb40080; }
 }
 
 .hero-logo-on-dark,
