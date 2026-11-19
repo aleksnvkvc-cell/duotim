@@ -1278,3 +1278,27 @@ main section.block::after,.home-offer .offer-row::before,footer::before{
   clip-path:polygon(0 0,50% calc(100% - 2px),100% 0,100% 2px,50% 100%,0 2px);
 }
 @media(max-width:560px){main section.block{padding-block-start:14px}}
+
+/* Sweep a short highlight over the letters, then return to the solid fill. */
+@supports (background-clip:text){
+  @media(prefers-reduced-motion:no-preference){
+    .home-flyer #home-title .home-title-word{
+      --headline-ink:var(--text);
+      --headline-glint:#ffbd25;
+      color:transparent;
+      background:linear-gradient(108deg,var(--headline-ink) 44%,var(--headline-glint) 50%,var(--headline-ink) 56%)
+        100% 0 / 280% 100% no-repeat;
+      background-clip:text;
+      animation:home-title-in .38s ease-out both,hero-title-glint .85s ease-in-out both;
+      animation-delay:calc(var(--word-index,0) * .085s),calc(.85s + var(--word-index,0) * .095s);
+    }
+    .home-flyer #home-title .home-title-word.home-title-accent{
+      --headline-ink:var(--accent-ink);
+      --headline-glint:#fff;
+    }
+  }
+}
+@keyframes hero-title-glint{
+  from{background-position:100% 0}
+  to{background-position:0 0}
+}
