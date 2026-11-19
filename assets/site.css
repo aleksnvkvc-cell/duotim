@@ -1191,7 +1191,7 @@ button,input,select,textarea{font-family:var(--font-ui)}
 /* Fill the hero with the active photo and keep the signature V at its lower edge. */
 .home-flyer .hero.hero-chevron-top{--hero-v-height:clamp(16px,2.5vw,28px)}
 .home-flyer .hero-logo-panel{
-  position:relative;block-size:clamp(164px,26vw,310px);
+  position:relative;block-size:clamp(124px,15vw,184px);
   clip-path:polygon(0 0,100% 0,100% calc(100% - var(--hero-v-height) * .92),
                     50% calc(100% - var(--hero-v-height) * .09),
                     0 calc(100% - var(--hero-v-height) * .92));
@@ -1201,7 +1201,7 @@ button,input,select,textarea{font-family:var(--font-ui)}
   display:flex;justify-content:flex-start;align-items:center;
 }
 .home-flyer .hero-logo-panel .hero-logo{
-  z-index:2;width:clamp(100px,18vw,188px);
+  z-index:2;width:clamp(100px,15vw,162px);
   margin-inline-start:clamp(12px,7vw,112px);pointer-events:none;
 }
 .home-flyer .hero-chevron{
