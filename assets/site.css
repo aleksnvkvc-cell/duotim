@@ -1259,11 +1259,31 @@ main section.block,.home-offer .offer-row,footer{
   position:relative;border-top:0;
 }
 .home-flyer .home-masthead{border-bottom:0}
-main section.block::after,.home-offer .offer-row::before,footer::before{
-  content:"";position:absolute;inset:0 0 auto;height:clamp(7px,1.2vw,12px);
-  background:var(--accent-detail);pointer-events:none;
-  clip-path:polygon(0 0,50% calc(100% - 2px),100% 0,100% 2px,50% 100%,0 2px);
+main section.block::after,
+main .page-head::after,
+.home-offer .offer-row::before,
+footer::before {
+  content: "";
+  position: absolute;
+  inset: 1px 0 auto;
+  height: clamp(10px, 1.65vw, 18px);
+  pointer-events: none;
+  --divider-softness: .85px;
+  --divider-stroke: transparent calc(50% - 2px - var(--divider-softness)),
+    var(--accent-detail) calc(50% - 2px),
+    transparent 50%,
+    transparent calc(50% + 1px),
+    var(--accent-detail) calc(50% + 3px),
+    transparent calc(50% + 3px + var(--divider-softness));
+  background:
+    linear-gradient(to bottom left, var(--divider-stroke)) left center / 50.1% 100% no-repeat,
+    linear-gradient(to bottom right, var(--divider-stroke)) right center / 50.1% 100% no-repeat;
+  opacity: .48;
 }
+main .page-head { position: relative; }
+main section.block:nth-of-type(even)::after,
+footer::before { --divider-softness: 1.8px; opacity: .38; }
+.home-offer .offer-row::before { --divider-softness: .4px; opacity: .35; }
 @media(max-width:560px){main section.block{padding-block-start:14px}}
 
 /* Sweep a short highlight over the letters, then return to the solid fill. */
@@ -1401,4 +1421,16 @@ main section.block::after,.home-offer .offer-row::before,footer::before{
   0% { background-position: 100% 0; opacity: 0; }
   20%, 80% { opacity: 1; }
   100% { background-position: 0 0; opacity: 0; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :is(header, .topbar, .mobile-nav, main, footer) a[href]:is(:hover, :focus-visible) {
+    animation: site-link-glint .75s ease-out;
+  }
+}
+
+@keyframes site-link-glint {
+  0% { text-shadow: -9px 0 6px transparent; }
+  45% { text-shadow: 0 0 5px #ffbf35c9; }
+  100% { text-shadow: 9px 0 7px transparent; }
 }
