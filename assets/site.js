@@ -178,7 +178,7 @@
     text.split(/\s+/).forEach(function (word, index) {
       if (index) h.appendChild(document.createTextNode(' '));
       var span = document.createElement('span');
-      span.className = 'home-title-word' + (word === 'doma' ? ' home-title-dom' : '');
+      span.className = 'home-title-word' + (word === 'meri' ? ' home-title-accent' : '');
       span.setAttribute('aria-hidden', 'true');
       span.style.setProperty('--word-index', index);
       span.textContent = word;

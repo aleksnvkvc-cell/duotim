@@ -1082,7 +1082,7 @@ button,input,select,textarea{font-family:var(--font-ui)}
 
 /* Keep each headline word within its own space as it appears. */
 .home-flyer #home-title{color:var(--text)}
-.home-flyer #home-title .home-title-dom{
+.home-flyer #home-title .home-title-accent{
   color:var(--accent-ink);background:none;
 }
 .home-title-word{position:relative;display:inline-block}
