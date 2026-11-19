@@ -1001,7 +1001,7 @@ button,input,select,textarea{font-family:var(--font-ui)}
   letter-spacing:.08em;
 }
 .flyer-materials span{color:var(--accent)}
-.home-flyer .offer-row h3{color:var(--accent-ink)}
+.home-flyer .offer-row h3{color:var(--offer-heading,var(--accent-ink))}
 .home-flyer :is(.home-intro,.offer-featured-work,#radovi-pocetna){overflow-wrap:anywhere}
 
 
@@ -1085,7 +1085,7 @@ button,input,select,textarea{font-family:var(--font-ui)}
   --title-main:#292929;--title-accent:#785600;color:var(--title-main);
 }
 [data-theme="dark"] .home-flyer #home-title{
-  --title-main:#f3e9db;--title-accent:#ffca47;
+  --title-main:#fff8ed;--title-accent:#ffdb72;
 }
 .home-flyer #home-title .home-title-accent{
   color:var(--title-accent);background:none;
@@ -1249,20 +1249,6 @@ button,input,select,textarea{font-family:var(--font-ui)}
   text-shadow:0 1px var(--title-depth-edge),0 2px var(--title-depth-edge),0 3px 4px var(--title-depth-shadow);
 }
 
-/* Fine horizontal paper grain over the gray flyer palette. */
-:root[data-theme]{
-  --flyer-lines:repeating-linear-gradient(to bottom,
-    transparent 0 2px,rgba(255,251,238,.055) 2px 3px,
-    transparent 3px 7px,rgba(255,251,238,.035) 7px 8px,
-    transparent 8px 13px);
-}
-:root[data-theme] header::before,
-:root[data-theme] :is(body,.topbar,.mobile-nav,.home-flyer,.hero-logo-panel,footer){
-  background-image:var(--flyer-lines),var(--brushed-metal);
-}
-:root[data-theme] .home-masthead{
-  background-image:var(--flyer-lines),var(--brushed-metal),linear-gradient(var(--surface),var(--bg));
-}
 
 /* Echo the hero's yellow V at the boundaries between sections. */
 main section.block,.home-offer .offer-row,footer{
@@ -1308,3 +1294,6 @@ main section.block::after,.home-offer .offer-row::before,footer::before{
 @supports (mask-image: url("")){
   :root[data-theme="dark"] header .menu-btn .emoji{background-color:#493621}
 }
+
+:root[data-theme="dark"]{--offer-heading:#ffdb72}
+:root[data-theme="dark"] main :is(.page-title,.home-offer > h2){color:#fff8ed}
