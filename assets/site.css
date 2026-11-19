@@ -1434,3 +1434,14 @@ footer::before { --divider-softness: 1.8px; opacity: .38; }
   45% { text-shadow: 0 0 5px #ffbf35c9; }
   100% { text-shadow: 9px 0 7px transparent; }
 }
+
+@media (prefers-reduced-motion: no-preference) {
+  .home-flyer .hero.hero-chevron-top {
+    animation: hero-flyer-float 7s ease-in-out infinite;
+  }
+}
+
+@keyframes hero-flyer-float {
+  0%, 100% { translate: 0 2px; }
+  50% { translate: 0 -3px; }
+}
