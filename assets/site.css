@@ -1083,3 +1083,29 @@ button,input,select,textarea{font-family:var(--font-ui)}
   flex:0 1 auto;align-self:stretch;display:inline-flex;align-items:center;justify-content:center;
   min-height:44px;padding-inline:clamp(10px,3vw,24px);text-align:center;white-space:nowrap;
 }
+
+/* Keep each headline word within its own space as it appears. */
+.home-flyer #home-title{color:#fff6e8}
+.home-flyer #home-title .home-title-dom{
+  color:#ffca47;background:none;
+}
+.home-title-word{display:inline-block}
+.home-flyer .trust li{min-width:0;max-width:100%}
+.home-flyer .trust li::before{flex:none}
+@media(prefers-reduced-motion:no-preference){
+  .home-title-word{
+    animation:home-title-in .38s ease-out both;
+    animation-delay:calc(var(--word-index,0) * .085s);
+  }
+  .home-flyer .trust-revealed li{animation-name:home-trust-in;animation-duration:.42s}
+  .home-flyer .trust-revealed li:nth-child(odd){--trust-offset:-18px}
+  .home-flyer .trust-revealed li:nth-child(even){--trust-offset:18px}
+}
+@keyframes home-title-in{
+  from{opacity:0;transform:translateY(.12em)}
+  to{opacity:1;transform:none}
+}
+@keyframes home-trust-in{
+  from{opacity:0;transform:translateX(var(--trust-offset,-18px))}
+  to{opacity:1;transform:none}
+}

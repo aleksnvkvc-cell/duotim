@@ -173,6 +173,19 @@
   if (!h || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
   var text = h.textContent.trim();
   h.setAttribute('aria-label', text);
+  if (h.id === 'home-title') {
+    h.textContent = '';
+    text.split(/\s+/).forEach(function (word, index) {
+      if (index) h.appendChild(document.createTextNode(' '));
+      var span = document.createElement('span');
+      span.className = 'home-title-word' + (word === 'doma' ? ' home-title-dom' : '');
+      span.setAttribute('aria-hidden', 'true');
+      span.style.setProperty('--word-index', index);
+      span.textContent = word;
+      h.appendChild(span);
+    });
+    return;
+  }
   h.classList.add('birds');
   h.innerHTML = text.split(/\s+/).map(function (w, i) {
     var accent = i >= 2 && i <= 4 ? ' accent' : '';
