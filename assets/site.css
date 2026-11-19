@@ -1235,8 +1235,8 @@ button,input,select,textarea{font-family:var(--font-ui)}
 :root[data-theme] header{
   background-color:var(--header-bg);
   background-image:var(--brushed-metal),linear-gradient(105deg,#b8bbbd 0%,#eeeDE9 36%,#c3c6c8 72%,#dcdddb 100%);
-  background-position:center;
-  background-size:720px 720px,100% 100%;
+  background-position:0 0,center;
+  background-size:auto,100% 100%;
   background-repeat:repeat,no-repeat;
 }
 :root[data-theme] footer{background-color:var(--footer-bg)}
