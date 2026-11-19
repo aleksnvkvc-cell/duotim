@@ -997,7 +997,10 @@ button,input,select,textarea{font-family:var(--font-ui)}
   scroll-snap-align:none;
 }
 .home-flyer .home-intro{text-align:center}
-.home-flyer .home-intro h1{font-size:clamp(26px,4vw,46px);line-height:1.12;max-width:28ch;margin-inline:auto}
+.home-flyer .home-intro h1{
+  font:800 clamp(26px,4vw,46px)/1.12 "Manrope",var(--font-ui);
+  letter-spacing:-.035em;text-wrap:balance;max-width:28ch;margin-inline:auto;
+}
 .home-flyer .home-intro .lead{margin-inline:auto}
 .home-flyer .home-intro .cta{align-items:center}
 .home-flyer .home-intro .cta a{align-self:center}
