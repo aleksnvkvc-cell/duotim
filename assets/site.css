@@ -1307,3 +1307,13 @@ main section.block::after,.home-offer .offer-row::before,footer::before{
 
 :root[data-theme="dark"] header .bar > nav a{font-weight:650}
 :root[data-theme="dark"] header .bar > nav a[aria-current="page"]{font-weight:800}
+
+.hero-work-preview .work-preview-slide figcaption a {
+  display: inline-block;
+  margin: 5px 8px 0 0;
+  color: inherit;
+  font-size: clamp(11px, 1.4vw, 14px);
+  font-weight: 750;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
