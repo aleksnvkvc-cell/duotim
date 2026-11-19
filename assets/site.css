@@ -1204,8 +1204,7 @@ button,input,select,textarea{font-family:var(--font-ui)}
 .home-flyer .home-intro h1{margin-inline:0;text-wrap:pretty}
 .home-flyer .home-intro .lead{margin-inline:0}
 .home-flyer .home-intro .trust{justify-content:flex-start;gap:6px 13px;margin-top:16px}
-.home-flyer .hero-work-preview .hero-work-photo img{object-fit:contain}
-.home-flyer .hero-work-preview .hero-work-photo{inset-inline:22% 26%;background:#29231d}
+.home-flyer .hero-work-preview .hero-work-photo{inset-inline:22% 26%}
 .home-masthead .hero-work-preview .work-preview-slide figcaption{width:26%;padding-inline:clamp(5px,1.2vw,14px)}
 .home-flyer .hero.hero-chevron-top .hero-row{grid-template-columns:minmax(0,22fr) minmax(0,52fr) minmax(0,26fr)}
 .home-flyer .hero-logo-panel{block-size:clamp(142px,28vw,245px)}
