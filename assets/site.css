@@ -1319,17 +1319,18 @@ main section.block::after,.home-offer .offer-row::before,footer::before{
   text-underline-offset: 2px;
 }
 
-@supports (background-clip: text) {
-  @media (prefers-reduced-motion: no-preference) {
-    .home-flyer .home-intro-word {
-      display: inline-block;
-      background: linear-gradient(108deg, currentColor 44%, var(--title-accent) 50%, currentColor 56%);
-      background-size: 280% 100%;
-      background-position: 100% 0;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: hero-title-glint .46s linear both;
-      animation-delay: calc(2.25s + var(--word-index) * .32s);
-    }
+.home-flyer .home-intro .lead {
+  color: var(--text);
+  animation: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .home-flyer .home-intro-word {
+    animation: intro-word-glow .46s ease-in-out;
+    animation-delay: calc(2.25s + var(--word-index) * .32s);
   }
+}
+
+@keyframes intro-word-glow {
+  50% { text-shadow: 0 0 6px var(--accent), 0 0 12px var(--accent); }
 }
