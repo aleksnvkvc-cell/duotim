@@ -1261,3 +1261,6 @@ button,input,select,textarea{font-family:var(--font-ui)}
   .home-flyer .home-masthead > .hero-chevron-top{grid-column:2;grid-row:1}
   .home-flyer .home-intro .wrap{width:100%}
 }
+
+.home-offer > #ponuda-naslov,
+.home-offer .offer-row > h3{text-align:center}
