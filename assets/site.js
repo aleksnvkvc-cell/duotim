@@ -181,7 +181,6 @@
       span.className = 'home-title-word' + (word === 'doma' ? ' home-title-dom' : '');
       span.setAttribute('aria-hidden', 'true');
       span.style.setProperty('--word-index', index);
-      span.dataset.sweepWord = word;
       span.textContent = word;
       h.appendChild(span);
     });
