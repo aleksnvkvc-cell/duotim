@@ -103,8 +103,7 @@ nav a:hover::after,nav a[aria-current="page"]::after{width:100%}
 h1{
   font-size:clamp(40px,6vw,72px);line-height:1;margin:18px 0 22px;max-width:14ch;
   font-weight:800;letter-spacing:-.035em;
-  background:linear-gradient(100deg,var(--text) 35%,var(--accent-detail) 100%);
-  -webkit-background-clip:text;background-clip:text;color:transparent;
+  color:var(--text);
 }
 h2{font-weight:800;letter-spacing:-.03em}
 .lead{font-size:18px;color:var(--muted);max-width:54ch}
@@ -1025,7 +1024,7 @@ button,input,select,textarea{font-family:var(--font-ui)}
 .ig-follow img.brand-social-icon{border-radius:0}
 
 /* Natural depth comes from the photo and caption, with motion only on fine pointers. */
-.home-flyer .home-intro h1{background:none;color:var(--text);text-shadow:none}
+.home-flyer .home-intro h1{background:none;color:var(--text)}
 .home-flyer .home-intro{padding-bottom:clamp(20px,4vw,40px)}
 .home-masthead .offer-featured-work{border-top:1px solid var(--line)}
 .home-masthead .work-preview-slide:not([hidden]){perspective-origin:36% 50%}
@@ -1243,3 +1242,13 @@ button,input,select,textarea{font-family:var(--font-ui)}
 .theme-toggle .emoji{font-size:20px}
 .theme-toggle:hover,.theme-toggle:focus-visible{border-color:var(--accent-ink)}
 .theme-toggle:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
+
+/* Solid headline colors with a restrained extrusion for both gray themes. */
+.home-flyer #home-title{
+  --title-depth-edge:#aaa69d;--title-depth-shadow:rgba(24,20,15,.14);
+  text-shadow:0 1px var(--title-depth-edge),0 2px 3px var(--title-depth-shadow);
+}
+[data-theme="dark"] .home-flyer #home-title{
+  --title-depth-edge:#171717;--title-depth-shadow:rgba(0,0,0,.45);
+  text-shadow:0 1px var(--title-depth-edge),0 2px var(--title-depth-edge),0 3px 4px var(--title-depth-shadow);
+}
