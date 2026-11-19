@@ -1252,10 +1252,12 @@ button,input,select,textarea{font-family:var(--font-ui)}
   text-shadow:0 1px var(--title-depth-edge),0 2px var(--title-depth-edge),0 3px 4px var(--title-depth-shadow);
 }
 
-/* Use the dark theme’s original horizontal pattern in both themes. */
+/* Fine horizontal paper grain over the gray flyer palette. */
 :root[data-theme]{
-  --flyer-rule:rgba(255,251,238,.16);
-  --flyer-lines:repeating-linear-gradient(to bottom,transparent 0 5px,var(--flyer-rule) 5px 6px);
+  --flyer-lines:repeating-linear-gradient(to bottom,
+    transparent 0 2px,rgba(255,251,238,.055) 2px 3px,
+    transparent 3px 7px,rgba(255,251,238,.035) 7px 8px,
+    transparent 8px 13px);
 }
 :root[data-theme] header::before,
 :root[data-theme] :is(body,.topbar,.mobile-nav,.home-flyer,.hero-logo-panel,footer){
