@@ -1265,3 +1265,15 @@ button,input,select,textarea{font-family:var(--font-ui)}
 :root[data-theme] .home-masthead{
   background-image:var(--flyer-lines),var(--brushed-metal),linear-gradient(var(--surface),var(--bg));
 }
+
+/* Echo the hero's yellow V at the boundaries between sections. */
+main section.block,.home-offer .offer-row,footer{
+  position:relative;border-top:0;
+}
+.home-flyer .home-masthead{border-bottom:0}
+main section.block::after,.home-offer .offer-row::before,footer::before{
+  content:"";position:absolute;inset:0 0 auto;height:clamp(7px,1.2vw,12px);
+  background:var(--accent-detail);pointer-events:none;
+  clip-path:polygon(0 0,50% calc(100% - 2px),100% 0,100% 2px,50% 100%,0 2px);
+}
+@media(max-width:560px){main section.block{padding-block-start:14px}}
