@@ -211,13 +211,16 @@ body::after{
 @media(prefers-reduced-motion:reduce){.cta-link a{animation:none}}
 [id]{scroll-margin-top:96px}
 section.block{position:relative;overflow:hidden}
-section.block::before{
+section.block::before,
+main .page-head::before,
+.home-masthead::before,
+footer::after {
   content:"";position:absolute;right:-90px;top:50%;transform:translateY(-50%);
   width:420px;aspect-ratio:156/303;z-index:0;pointer-events:none;
   background:url(icon-light.png) center/contain no-repeat;
-  filter:blur(16px);opacity:.14;
+  filter:blur(var(--vertical-line-blur, 16px));opacity:.14;
 }
-section.block:nth-of-type(even)::before{right:auto;left:-90px}
+section.block:nth-of-type(even)::before{right:auto;left:-90px;--vertical-line-blur:8px}
 @media(max-width:560px){section.block::before{width:240px;right:-70px}section.block:nth-of-type(even)::before{left:-70px}}
 .icon-btn{padding:8px 12px;display:inline-flex;align-items:center;justify-content:center}
 .tap{
@@ -1445,3 +1448,18 @@ footer::before { --divider-softness: 1.8px; opacity: .38; }
   0%, 100% { translate: 0 2px; }
   50% { translate: 0 -3px; }
 }
+
+:is(main .page-head, .home-masthead, footer) {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+}
+
+main .page-head::before, .home-masthead::before, footer::after {
+  z-index: -1;
+  width: min(420px, 58vw);
+}
+
+main .page-head::before { --vertical-line-blur: 6px; }
+.home-masthead::before { --vertical-line-blur: 12px; }
+footer::after { --vertical-line-blur: 20px; }
