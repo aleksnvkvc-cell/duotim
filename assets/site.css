@@ -1082,10 +1082,7 @@ button,input,select,textarea{font-family:var(--font-ui)}
 
 /* Keep each headline word within its own space as it appears. */
 .home-flyer #home-title{
-  --title-main:#292929;--title-accent:#785600;color:var(--title-main);
-}
-[data-theme="dark"] .home-flyer #home-title{
-  --title-main:#fffdf9;--title-accent:#ffe28e;
+  --title-main:#ffffff;--title-accent:#ffe295;color:var(--title-main);
 }
 .home-flyer #home-title .home-title-accent{
   color:var(--title-accent);background:none;
@@ -1237,9 +1234,13 @@ button,input,select,textarea{font-family:var(--font-ui)}
 :root[data-theme="dark"]{color-scheme:dark;--header-bg:#d8d6cf;--footer-bg:#211b17;--hero-paper:#c8b8a0}
 :root[data-theme] header{
   background-color:var(--header-bg);
-  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='600'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.004 0.84' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .19  0 0 0 0 .17  0 0 0 0 .14  0 0 0 .24 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"),
-    repeating-linear-gradient(to bottom,transparent 0 3px,rgba(66,55,43,.075) 3px 4px,transparent 4px 7px);
-  background-position:0 0;background-size:auto;background-repeat:repeat;
+  background-image:
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22480%22%20height%3D%22180%22%20viewBox%3D%220%200%20480%20180%22%3E%3Cfilter%20id%3D%22grain%22%20color-interpolation-filters%3D%22sRGB%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%22.012%20.95%22%20numOctaves%3D%222%22%20stitchTiles%3D%22stitch%22%2F%3E%3CfeColorMatrix%20type%3D%22matrix%22%20values%3D%220%200%200%200%20.15%200%200%200%200%20.16%200%200%200%200%20.18%20.5%200%200%200%200%22%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%22480%22%20height%3D%22180%22%20filter%3D%22url(%23grain)%22%2F%3E%3C%2Fsvg%3E"),
+    repeating-linear-gradient(to bottom,rgba(255,255,255,.2) 0 1px,transparent 1px 3px,rgba(35,39,44,.13) 3px 4px,transparent 4px 6px),
+    linear-gradient(105deg,#b8bbbd 0%,#eeeDE9 36%,#c3c6c8 72%,#dcdddb 100%);
+  background-position:center;
+  background-size:480px 180px,auto,100% 100%;
+  background-repeat:repeat,repeat,no-repeat;
 }
 :root[data-theme] footer{background-color:var(--footer-bg)}
 :root[data-theme="light"] .home-masthead{background:linear-gradient(var(--surface),var(--bg))}
@@ -1272,6 +1273,7 @@ main section.block::after,.home-offer .offer-row::before,footer::before{
   @media(prefers-reduced-motion:no-preference){
     .home-flyer #home-title .home-title-word{
       --headline-ink:var(--title-main);
+      text-shadow:none;filter:drop-shadow(0 2px 1px rgba(0,0,0,.48));
       --headline-glint:#ffbd25;
       color:transparent;
       background:linear-gradient(108deg,var(--headline-ink) 44%,var(--headline-glint) 50%,var(--headline-ink) 56%)
