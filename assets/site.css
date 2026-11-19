@@ -1343,6 +1343,7 @@ main section.block::after,.home-offer .offer-row::before,footer::before{
   --offer-heading: #ffdb72;
   --accent-detail: var(--accent);
   background-color: #485463;
+  background-image: var(--brushed-metal);
   color: var(--text);
 }
 
