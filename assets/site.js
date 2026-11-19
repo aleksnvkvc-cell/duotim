@@ -179,6 +179,8 @@
       if (index) h.appendChild(document.createTextNode(' '));
       var span = document.createElement('span');
       span.className = 'home-title-word' + (word === 'meri' ? ' home-title-accent' : '');
+      if (word === 'ALU') span.classList.add('home-title-alu');
+      if (word === 'PVC') span.classList.add('home-title-pvc');
       span.setAttribute('aria-hidden', 'true');
       span.style.setProperty('--word-index', index);
       span.textContent = word;

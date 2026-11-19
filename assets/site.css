@@ -1568,3 +1568,31 @@ main section.block:nth-of-type(even)::after { --divider-softness: 2.4px; }
   0%, 5%, 100% { scale: 1; text-shadow: 0 0 6px transparent; }
   2.5% { scale: 1.035; text-shadow: 0 0 7px #ffc84f9c; }
 }
+
+.home-flyer #home-title :is(.home-title-alu, .home-title-pvc) {
+  display: inline-block;
+  padding: .025em .14em;
+  border: 2px solid #ffd36a;
+  border-radius: .05em;
+  background: var(--material-background);
+  color: var(--material-ink);
+  text-shadow: none;
+  filter: none;
+}
+
+.home-flyer #home-title .home-title-alu {
+  --material-background: #211c15;
+  --material-ink: #ffd36a;
+}
+
+.home-flyer #home-title .home-title-pvc {
+  --material-background: #ffd36a;
+  --material-ink: #211c15;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .home-flyer #home-title .home-title-word:is(.home-title-alu, .home-title-pvc) {
+    animation: home-title-in .38s ease-out both;
+    animation-delay: calc(var(--word-index, 0) * .085s);
+  }
+}
