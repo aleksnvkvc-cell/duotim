@@ -565,3 +565,42 @@
 
   schedule();
 })();
+
+(function () {
+  const headings = document.querySelectorAll('#radovi-pocetna .offer-row > h3');
+  if (!headings.length || !('IntersectionObserver' in window) ||
+      typeof Element.prototype.animate !== 'function') return;
+
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const observer = new IntersectionObserver(entries => {
+    for (const { target, isIntersecting } of entries) {
+      if (!isIntersecting || reducedMotion.matches) continue;
+      observer.unobserve(target);
+      const words = target.textContent.trim().split(/\s+/);
+      const fragment = document.createDocumentFragment();
+      const spans = words.map((word, index) => {
+        if (index) fragment.append(' ');
+        const span = document.createElement('span');
+        span.textContent = word;
+        span.style.display = 'inline-block';
+        fragment.append(span);
+        return span;
+      });
+      target.replaceChildren(fragment);
+      spans.forEach((span, index) => {
+        span.animate([
+          { opacity: .3, transform: 'perspective(480px) translateZ(-140px) translateY(5px)' },
+          { opacity: 1, transform: 'perspective(480px) translateZ(16px)', offset: .76 },
+          { opacity: 1, transform: 'none' }
+        ], {
+          duration: 520,
+          delay: index * 135,
+          easing: 'cubic-bezier(.22,.68,.29,1)',
+          fill: 'backwards'
+        });
+      });
+    }
+  }, { threshold: .5 });
+
+  headings.forEach(heading => observer.observe(heading));
+})();
