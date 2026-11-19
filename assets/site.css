@@ -316,7 +316,8 @@ section.block:nth-of-type(even)::before{right:auto;left:-90px}
 
 footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-size:14px;background:#cfd7d7}
 [data-theme="dark"] footer{background:#1e2023}
-footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+footer .wrap{display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center}
+footer .social{justify-content:center}
 .social{display:flex;gap:22px;flex-wrap:wrap}
 .social a{display:inline-flex;align-items:center;gap:8px;color:var(--muted);text-decoration:none}
 .social a:hover{color:var(--text)}
@@ -1124,6 +1125,8 @@ button,input,select,textarea{font-family:var(--font-ui)}
 /* Consistent gold line icons for the flyer-style header. Brand logos remain images. */
 @supports (mask-image: url("")) {
   :is(.topbar a[href^="tel:"] > .emoji,
+      footer .social a[href^="tel:"] > .emoji,
+      footer .social a[href^="https://wa.me/"] > .emoji,
       .topbar a[href^="mailto:"] > .emoji,
       .topbar .tb-map > a > .emoji,
       .topbar .tb-hours > .emoji,
@@ -1134,7 +1137,8 @@ button,input,select,textarea{font-family:var(--font-ui)}
     mask:var(--header-icon) center / contain no-repeat;
   }
   header .menu-btn .emoji{width:21px;height:21px;font-size:0}
-  .topbar a[href^="tel:"] > .emoji{--header-icon:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.9%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M7%203H4a1%201%200%200%200-1%201c0%209.4%207.6%2017%2017%2017a1%201%200%200%200%201-1v-3l-5-2-1.5%202a13%2013%200%200%201-7.5-7.5L9%208%207%203Z%22%2F%3E%3C%2Fsvg%3E")}
+  footer .social a[href^="https://wa.me/"] > .emoji{--header-icon:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.9%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M20%2011.5a8%208%200%200%201-8%208H5l1.5-3A8%208%200%201%201%2020%2011.5Z%22%2F%3E%3Cpath%20d%3D%22M9%2011.5h6%22%2F%3E%3C%2Fsvg%3E")}
+  .topbar a[href^="tel:"] > .emoji,footer .social a[href^="tel:"] > .emoji{--header-icon:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.9%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M7%203H4a1%201%200%200%200-1%201c0%209.4%207.6%2017%2017%2017a1%201%200%200%200%201-1v-3l-5-2-1.5%202a13%2013%200%200%201-7.5-7.5L9%208%207%203Z%22%2F%3E%3C%2Fsvg%3E")}
   .topbar a[href^="mailto:"] > .emoji{--header-icon:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.9%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%223%22%20y%3D%225%22%20width%3D%2218%22%20height%3D%2214%22%20rx%3D%222%22%2F%3E%3Cpath%20d%3D%22m4%207%208%206%208-6%22%2F%3E%3C%2Fsvg%3E")}
   .topbar .tb-map > a > .emoji{--header-icon:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.9%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M19%2010c0%205-7%2011-7%2011S5%2015%205%2010a7%207%200%201%201%2014%200Z%22%2F%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%2210%22%20r%3D%222.5%22%2F%3E%3C%2Fsvg%3E")}
   .topbar .tb-hours > .emoji{--header-icon:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.9%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%2212%22%20r%3D%229%22%2F%3E%3Cpath%20d%3D%22M12%207v5l3.5%202%22%2F%3E%3C%2Fsvg%3E")}
