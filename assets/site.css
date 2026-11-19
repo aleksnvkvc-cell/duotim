@@ -947,7 +947,7 @@ button,input,select,textarea{font-family:var(--font-ui)}
 .hero-chevron-edge,.hero-chevron-line{
   fill:none;stroke-linejoin:round;vector-effect:non-scaling-stroke;
 }
-.hero-chevron-edge{stroke:#5b4124;stroke-width:10;transform:translateY(3px)}
+.hero-chevron-edge{stroke:#394452;stroke-width:10;transform:translateY(3px)}
 .hero-chevron-line{stroke:var(--accent);stroke-width:6}
 @media(max-width:560px){
   .hero-chevron-edge{stroke-width:8}
@@ -1152,6 +1152,7 @@ button,input,select,textarea{font-family:var(--font-ui)}
 .home-flyer .hero.hero-chevron-top{
   --hero-v-height:clamp(16px,2.5vw,25px);
   width:min(100%,760px);margin-inline:auto;
+  background-color:#485463;
 }
 .home-flyer .hero-logo-panel{
   position:relative;block-size:clamp(124px,20vw,160px);
@@ -1230,8 +1231,8 @@ button,input,select,textarea{font-family:var(--font-ui)}
 .home-offer .offer-more > a{display:inline-block;position:relative}
 
 /* Gray paper and charcoal themes, with the same yellow accent in both. */
-:root{color-scheme:light;--header-bg:#cac8c2;--footer-bg:#d1cfca;--hero-paper:#c9c5bc}
-:root[data-theme="dark"]{color-scheme:dark;--header-bg:#d8d6cf;--footer-bg:#485463;--hero-paper:#c8b8a0}
+:root{color-scheme:light;--header-bg:#cac8c2;--footer-bg:#d1cfca;--hero-paper:#d8d9d5}
+:root[data-theme="dark"]{color-scheme:dark;--header-bg:#d8d6cf;--footer-bg:#485463;--hero-paper:#d8d9d5}
 :root[data-theme] header{
   background-color:var(--header-bg);
   background-image:
