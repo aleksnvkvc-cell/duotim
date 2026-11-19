@@ -976,7 +976,6 @@ button,input,select,textarea{font-family:var(--font-ui)}
 
 /* Carry the flyer palette from the logo panel into the homepage content. */
 .home-flyer{
-  --flyer-paper:var(--hero-paper);
   background:var(--bg);
   color:var(--text);
 }
@@ -1043,7 +1042,6 @@ button,input,select,textarea{font-family:var(--font-ui)}
 }
 
 /* Keep the masthead compact. */
-.home-flyer .hero-logo-panel{background:var(--flyer-paper)}
 .home-flyer .hero-chevron-top .hero-logo{width:clamp(122px,20vw,188px)}
 .home-flyer .hero-chevron{height:clamp(16px,2.5vw,28px)}
 .home-flyer .home-intro{padding-top:clamp(12px,2vw,24px)}
@@ -1152,7 +1150,6 @@ button,input,select,textarea{font-family:var(--font-ui)}
 .home-flyer .hero.hero-chevron-top{
   --hero-v-height:clamp(16px,2.5vw,25px);
   width:min(100%,760px);margin-inline:auto;
-  background-color:#394452;
 }
 .home-flyer .hero-logo-panel{
   position:relative;block-size:clamp(124px,20vw,160px);
@@ -1172,7 +1169,7 @@ button,input,select,textarea{font-family:var(--font-ui)}
   position:absolute;inset:auto 0 0;height:var(--hero-v-height);margin:0;
   pointer-events:none;z-index:3;
 }
-.home-flyer .hero-chevron-paper{display:none}
+.home-flyer :is(.hero-chevron-paper,.hero-chevron-edge){display:none}
 .hero-work-preview,.hero-work-preview .work-preview{position:absolute;inset:0}
 .hero-work-preview .hero-work-photo{
   position:absolute;inset-block:0;inset-inline:33.333333%;
@@ -1189,13 +1186,13 @@ button,input,select,textarea{font-family:var(--font-ui)}
   position:absolute;inset-inline-end:0;top:calc(50% - var(--hero-v-height) * .2);
   transform:translateY(-50%);width:33.333333%;
   margin:0;padding-inline:clamp(7px,2vw,18px);
-  border:0;color:#fff;overflow-wrap:anywhere;
+  border:0;color:var(--text);overflow-wrap:anywhere;
 }
 .hero-work-preview .work-preview-slide figcaption strong{
   font:800 clamp(14px,2.3vw,26px)/1.15 var(--font-heading);
 }
 .hero-work-preview .work-preview-slide figcaption p{
-  color:#edf1f6;font-size:clamp(11px,1.5vw,15px);line-height:1.35;margin-top:4px;
+  color:var(--muted);font-size:clamp(11px,1.5vw,15px);line-height:1.35;margin-top:4px;
 }
 @media(max-width:560px){
   .home-flyer .hero-logo-panel .hero-logo{width:min(80%,112px)}
@@ -1231,8 +1228,8 @@ button,input,select,textarea{font-family:var(--font-ui)}
 .home-offer .offer-more > a{display:inline-block;position:relative}
 
 /* Gray paper and charcoal themes, with the same yellow accent in both. */
-:root{color-scheme:light;--header-bg:#cac8c2;--footer-bg:#d1cfca;--hero-paper:#485463}
-:root[data-theme="dark"]{color-scheme:dark;--header-bg:#d8d6cf;--footer-bg:#485463;--hero-paper:#485463}
+:root{color-scheme:light;--header-bg:#cac8c2;--footer-bg:#d1cfca}
+:root[data-theme="dark"]{color-scheme:dark;--header-bg:#d8d6cf;--footer-bg:#485463}
 :root[data-theme] header{
   background-color:var(--header-bg);
   background-image:
@@ -1334,3 +1331,19 @@ main section.block::after,.home-offer .offer-row::before,footer::before{
 @keyframes intro-word-glow {
   50% { text-shadow: 0 0 6px var(--accent), 0 0 12px var(--accent); }
 }
+
+.hero-logo-on-dark,
+[data-theme="dark"] .hero-logo-on-light { display: none; }
+[data-theme="dark"] .hero-logo-on-dark { display: inline; }
+
+.home-flyer #radovi-pocetna {
+  --text: #fff;
+  --muted: #edf1f6;
+  --accent-ink: #ffdb72;
+  --offer-heading: #ffdb72;
+  --accent-detail: var(--accent);
+  background-color: #485463;
+  color: var(--text);
+}
+
+.home-flyer #ponuda-naslov { color: var(--text); }
