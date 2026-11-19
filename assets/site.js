@@ -179,10 +179,10 @@
     var inner = w;
     if (i === 0) inner = '<span class="win">' + w + '</span>';          // window: opens on its top edge
     if (i === 2) inner = '<span class="door">' + w + '</span>';         // door: swings open on its hinge
-    if (w === 'dom') inner = '<span class="house">' + w + '</span>';        // framed in a little house
-    // "i" comes out of the window, "za vaš" comes out of the door, once each one has opened
+    if (w === 'dom' || w === 'doma') inner = '<span class="house">' + w + '</span>';        // framed in a little house
+    // Reveal the connecting words after the window and door open.
     var emerge = { 1: '2.5s', 3: '3.1s', 4: '3.3s' }[i];
-    // light sweep: yellow over "PROZORI I", white over "VRATA ZA VAŠ", yellow over "DOM", left to right
+    // Sweep from left to right, alternating the gold and white highlights.
     var sw = i <= 1 ? ['#FBB400', 4.6, i] : (i <= 4 ? ['#ffffff', 5.3, i - 2] : ['#FBB400', 6.2, 0]);
     var sweepStyle = '--sweep:' + sw[0] + ';--s:' + (sw[1] + sw[2] * 0.1).toFixed(2) + 's;';
     var cls = 'bird' + (emerge ? ' emerge' : '') + accent + ' sweep';
