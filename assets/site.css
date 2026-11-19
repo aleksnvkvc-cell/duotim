@@ -4,29 +4,29 @@
   --font-ui:"DM Sans","Segoe UI",system-ui,Arial,sans-serif;
   --font-heading:"Bricolage Grotesque","Segoe UI",system-ui,Arial,sans-serif;
   --font-condensed:"Barlow Condensed","Arial Narrow",sans-serif;
-  --bg:#e8f0f0;
-  --surface:#f8f8f8;
-  --text:#484848;
-  --muted:#606060;
-  --line:rgba(104,104,104,.45);
+  --bg:#dfdeda;
+  --surface:#f3f2ef;
+  --text:#242323;
+  --muted:#474540;
+  --line:#a29f98;
   --accent:#fbb400;
-  --accent-ink:#505050;
-  --accent-text:#484848;
-  --nav-bg:rgba(232,240,240,.94);
+  --accent-ink:#715000;
+  --accent-text:#29241a;
+  --nav-bg:rgba(229,227,221,.98);
   --nav-link:var(--text);
   --accent-detail:#805900;
   --field-border:#747474;
 }
 [data-theme="dark"]{
-  --bg:#2c2e32;
-  --surface:#37393e;
+  --bg:#292929;
+  --surface:#373634;
   --text:#ffffff;
-  --muted:#c2c6cc;
-  --line:#4a4d53;
+  --muted:#d0cec9;
+  --line:#64615c;
   --accent:#fbb400;
   --accent-ink:#fbb400;
   --accent-text:#1f2124;
-  --nav-bg:rgba(44,46,50,.94);
+  --nav-bg:rgba(42,42,42,.98);
   --nav-link:var(--muted);
   --accent-detail:var(--accent);
   --field-border:var(--line);
@@ -977,15 +977,7 @@ button,input,select,textarea{font-family:var(--font-ui)}
 
 /* Carry the flyer palette from the logo panel into the homepage content. */
 .home-flyer{
-  --bg:#201b19;
-  --surface:#302824;
-  --text:#fff6e8;
-  --muted:#e1d0bf;
-  --line:#786554;
-  --accent:#fbb400;
-  --accent-ink:#ffca47;
-  --accent-detail:#ffca47;
-  --flyer-paper:#c9bca7;
+  --flyer-paper:var(--hero-paper);
   background:var(--bg);
   color:var(--text);
 }
@@ -1013,15 +1005,6 @@ button,input,select,textarea{font-family:var(--font-ui)}
 .home-flyer .offer-row h3{color:var(--accent-ink)}
 .home-flyer :is(.home-intro,.offer-featured-work,#radovi-pocetna){overflow-wrap:anywhere}
 
-/* Keep the white-to-gray finish on the actual word inside the house. */
-.home-flyer #home-title :is(.home-title-dom,.house){color:#fff;text-shadow:none}
-@supports(background-clip:text){
-  .home-flyer #home-title :is(.home-title-dom,.house){
-    background:linear-gradient(180deg,#fff 25%,#c4c4c4 100%);
-    background-clip:text;
-    color:transparent;
-  }
-}
 
 .home-flyer .home-back-top{text-align:center}
 .emoji{
@@ -1099,9 +1082,9 @@ button,input,select,textarea{font-family:var(--font-ui)}
 }
 
 /* Keep each headline word within its own space as it appears. */
-.home-flyer #home-title{color:#fff6e8}
+.home-flyer #home-title{color:var(--text)}
 .home-flyer #home-title .home-title-dom{
-  color:#ffca47;background:none;
+  color:var(--accent-ink);background:none;
 }
 .home-title-word{position:relative;display:inline-block}
 .home-flyer .trust li{min-width:0;max-width:100%}
@@ -1163,30 +1146,6 @@ button,input,select,textarea{font-family:var(--font-ui)}
   to{opacity:1;transform:none}
 }
 
-/* Clip the moving highlight directly to the headline letters. */
-@supports (background-clip:text){
-  @media(prefers-reduced-motion:no-preference){
-    .home-flyer #home-title .home-title-word{
-      --title-ink:#fff6e8;
-      --title-glint:#fbb400;
-      color:transparent;
-      background:linear-gradient(108deg,var(--title-ink) 43%,var(--title-glint) 50%,var(--title-ink) 57%)
-        100% 0 / 280% 100% no-repeat;
-      background-clip:text;
-      animation:home-title-in .38s ease-out both,
-                home-title-sweep 8s ease-in-out infinite both;
-      animation-delay:calc(var(--word-index,0) * .085s),calc(1.05s + var(--word-index,0) * .11s);
-    }
-    .home-flyer #home-title .home-title-word.home-title-dom{
-      --title-ink:#ffca47;
-      --title-glint:#fff;
-    }
-  }
-}
-@keyframes home-title-sweep{
-  0%{background-position:100% 0}
-  15%,100%{background-position:0 0}
-}
 
 /* Keep the slideshow in the center third of the hero. */
 .home-flyer .hero.hero-chevron-top{
@@ -1269,3 +1228,18 @@ button,input,select,textarea{font-family:var(--font-ui)}
 
 .home-offer .offer-more{display:flex;justify-content:center;align-items:center;width:100%;margin:8px 0 0;text-align:center}
 .home-offer .offer-more > a{display:inline-block;position:relative}
+
+/* Gray paper and charcoal themes, with the same yellow accent in both. */
+:root{color-scheme:light;--header-bg:#cac8c2;--footer-bg:#d1cfca;--hero-paper:#c9c5bc}
+:root[data-theme="dark"]{color-scheme:dark;--header-bg:#373635;--footer-bg:#333231;--hero-paper:#a8a59e}
+:root[data-theme] header{background-color:var(--header-bg)}
+:root[data-theme] footer{background-color:var(--footer-bg)}
+:root[data-theme="light"] .home-masthead{background:linear-gradient(var(--surface),var(--bg))}
+.theme-toggle{
+  display:grid;place-items:center;width:44px;height:44px;flex:none;
+  color:var(--accent-ink);background:var(--surface);border:1px solid var(--line);
+  border-radius:8px;cursor:pointer;font:inherit;
+}
+.theme-toggle .emoji{font-size:20px}
+.theme-toggle:hover,.theme-toggle:focus-visible{border-color:var(--accent-ink)}
+.theme-toggle:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
