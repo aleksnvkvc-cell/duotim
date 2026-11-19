@@ -1235,7 +1235,7 @@ button,input,select,textarea{font-family:var(--font-ui)}
 :root[data-theme] header{
   background-color:var(--header-bg);
   background-image:
-    url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22480%22%20height%3D%22180%22%20viewBox%3D%220%200%20480%20180%22%3E%3Cfilter%20id%3D%22grain%22%20color-interpolation-filters%3D%22sRGB%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%22.012%20.95%22%20numOctaves%3D%222%22%20stitchTiles%3D%22stitch%22%2F%3E%3CfeColorMatrix%20type%3D%22matrix%22%20values%3D%220%200%200%200%20.15%200%200%200%200%20.16%200%200%200%200%20.18%20.5%200%200%200%200%22%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%22480%22%20height%3D%22180%22%20filter%3D%22url(%23grain)%22%2F%3E%3C%2Fsvg%3E"),
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22480%22%20height%3D%22180%22%20viewBox%3D%220%200%20480%20180%22%20preserveAspectRatio%3D%22none%22%3E%3Cfilter%20id%3D%22grain%22%20color-interpolation-filters%3D%22sRGB%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%22.012%20.95%22%20numOctaves%3D%222%22%20stitchTiles%3D%22stitch%22%2F%3E%3CfeColorMatrix%20type%3D%22matrix%22%20values%3D%220%200%200%200%20.15%200%200%200%200%20.16%200%200%200%200%20.18%20.5%200%200%200%200%22%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%22480%22%20height%3D%22180%22%20filter%3D%22url(%23grain)%22%2F%3E%3C%2Fsvg%3E"),
     repeating-linear-gradient(to bottom,rgba(255,255,255,.2) 0 1px,transparent 1px 3px,rgba(35,39,44,.13) 3px 4px,transparent 4px 6px),
     linear-gradient(105deg,#b8bbbd 0%,#eeeDE9 36%,#c3c6c8 72%,#dcdddb 100%);
   background-position:center;
