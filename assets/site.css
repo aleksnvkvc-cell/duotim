@@ -1240,3 +1240,32 @@ button,input,select,textarea{font-family:var(--font-ui)}
   .home-flyer .hero-logo-panel .hero-logo{width:min(80%,112px)}
   .hero-work-preview .work-preview-slide figcaption strong{font-size:13px}
 }
+
+/* Keep the introduction beside the photographs and the service stories within easy reach. */
+.home-flyer .home-intro{text-align:start}
+.home-flyer .home-intro h1{margin-inline:0;text-wrap:pretty}
+.home-flyer .home-intro .lead{margin-inline:0}
+.home-flyer .home-intro .trust{justify-content:flex-start;gap:6px 13px;margin-top:16px}
+.home-services{margin-top:16px;padding-top:10px;border-top:1px solid var(--line)}
+.home-services h2{font-size:19px;margin:0 0 6px}
+.home-service h3{font-size:17px;line-height:1.25;margin:0}
+.home-service p{font-size:14px;color:var(--muted);line-height:1.4;margin:4px 0}
+.home-service a{font-size:14px;font-weight:700;color:var(--accent-ink)}
+.home-service-controls:not([hidden]){display:flex;align-items:center;gap:8px;margin-top:6px}
+.home-service-controls button{min-width:44px;min-height:44px;padding:4px 8px}
+.home-service-controls [data-service-count]{min-width:3ch;text-align:center;font-size:13px;color:var(--muted)}
+.home-flyer .hero-work-preview .hero-work-photo img{object-fit:contain}
+.home-flyer .hero-work-preview .hero-work-photo{inset-inline:22% 26%;background:#29231d}
+.home-masthead .hero-work-preview .work-preview-slide figcaption{width:26%;padding-inline:clamp(5px,1.2vw,14px)}
+.home-flyer .hero.hero-chevron-top .hero-row{grid-template-columns:minmax(0,22fr) minmax(0,52fr) minmax(0,26fr)}
+.home-flyer .hero-logo-panel{block-size:clamp(142px,28vw,245px)}
+@media(min-width:900px){
+  .home-flyer .home-masthead{
+    display:grid;grid-template-columns:minmax(0,4fr) minmax(0,6fr);
+    gap:clamp(20px,3vw,48px);align-items:center;
+    padding-inline:max(4%,calc((100% - 1120px) / 2));
+  }
+  .home-flyer .home-masthead > .home-intro{grid-column:1;grid-row:1}
+  .home-flyer .home-masthead > .hero-chevron-top{grid-column:2;grid-row:1}
+  .home-flyer .home-intro .wrap{width:100%}
+}

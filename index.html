@@ -22,7 +22,7 @@
 <meta name="twitter:image" content="https://aleksnvkvc-cell.github.io/duotim/assets/gallery/g3.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="assets/site.css?v=20261119-hero-thirds">
+<link rel="stylesheet" href="assets/site.css?v=20261119-home-services">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -188,10 +188,34 @@
       <div class="wrap">
         <h1 id="home-title">Prozori i vrata po meri vašeg <span class="home-title-dom">doma</span></h1>
         <p class="lead">Duo Tim radi aluminijumsku i PVC stolariju. Zakažite merenje u Žabarima, Kučevu, Požarevcu i okolini. Dobijate predračun pa odlučujete da li želite da naručite.</p>
-        <div class="cta">
-          <a class="btn btn-primary" href="tel:+381652764244" aria-label="Pozovite 065 276 4244">Pozovite</a>
-          <a class="btn btn-ghost" href="kontakt.html#upit">Pošaljite upit</a>
-        </div>
+        <section class="home-services" aria-labelledby="home-services-title">
+          <h2 id="home-services-title">Usluge</h2>
+          <div class="home-service" data-home-service>
+            <h3>Prozori i vrata po meri</h3>
+            <p>Izaberite modele za svoj dom, od prozora i balkonskih vrata do ulaznih vrata.</p>
+            <a href="katalog.html#prozori">Pogledajte detalje<span class="sr-only"> – Prozori i vrata po meri</span></a>
+          </div>
+          <div class="home-service" data-home-service>
+            <h3>Garažna vrata</h3>
+            <p>Pogledajte rolo i segmentne modele.</p>
+            <a href="katalog.html#garazna">Pogledajte detalje<span class="sr-only"> – Garažna vrata</span></a>
+          </div>
+          <div class="home-service" data-home-service>
+            <h3>Komarnici i zavese</h3>
+            <p>U ponudi su rolo, plise i fiksni komarnici, kao i rolo i trakaste zavese.</p>
+            <a href="katalog.html#komarnici">Pogledajte detalje<span class="sr-only"> – Komarnici i zavese</span></a>
+          </div>
+          <div class="home-service" data-home-service>
+            <h3>Merenje i montaža</h3>
+            <p>Pogledajte kako teče posao od merenja do ugradnje.</p>
+            <a href="usluge.html#kako-radimo">Pogledajte detalje<span class="sr-only"> – Merenje i montaža</span></a>
+          </div>
+          <div class="home-service-controls" hidden>
+            <button class="btn btn-ghost" type="button" data-service-prev aria-label="Prethodna usluga"><span class="emoji" aria-hidden="true">⬅️</span></button>
+            <span data-service-count aria-live="polite"></span>
+            <button class="btn btn-ghost" type="button" data-service-next aria-label="Sledeća usluga"><span class="emoji" aria-hidden="true">➡️</span></button>
+          </div>
+        </section>
         <ul class="trust" aria-label="Šta dobijate">
           <li>Preko 18 godina iskustva</li>
           <li>Merenje na terenu</li>
@@ -349,6 +373,6 @@
   </div>
 </footer>
 
-<script src="assets/site.js?v=20261119-auto-work" defer></script>
+<script src="assets/site.js?v=20261119-home-services" defer></script>
 </body>
 </html>
