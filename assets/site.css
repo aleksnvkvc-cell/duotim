@@ -1510,3 +1510,26 @@ main section.block:nth-of-type(even)::after { --divider-softness: 2.4px; }
   from { opacity: .62; translate: 0 10px; }
   to { opacity: 1; translate: 0 0; }
 }
+
+#ponuda-naslov > span { display: inline-block; }
+
+@media (prefers-reduced-motion: no-preference) {
+  #ponuda-naslov > span {
+    animation: home-offer-heading-enter .65s cubic-bezier(.22,.72,.26,1) both;
+  }
+
+  #ponuda-naslov > span:first-child { --offer-heading-entry: -28px; }
+  #ponuda-naslov > span:last-child { --offer-heading-entry: 28px; }
+
+  @supports (animation-timeline: view()) {
+    #ponuda-naslov > span {
+      animation-timeline: view();
+      animation-range: entry 0% entry 85%;
+    }
+  }
+}
+
+@keyframes home-offer-heading-enter {
+  from { opacity: .35; translate: var(--offer-heading-entry) 0; }
+  to { opacity: 1; translate: 0 0; }
+}
