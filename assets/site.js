@@ -509,3 +509,59 @@
     slides[current].hidden = false;
   }, 4500);
 })();
+
+(function () {
+  const offer = document.querySelector('#radovi-pocetna');
+  if (!offer) return;
+
+  const rows = Array.from(offer.querySelectorAll('.offer-row'));
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const hover = window.matchMedia('(hover: hover)');
+  const delay = 10000;
+  let timer;
+
+  function cancel() {
+    window.clearTimeout(timer);
+  }
+
+  function nextCategory() {
+    if (document.hidden || reducedMotion.matches || offer.matches(':focus-within') ||
+        (hover.matches && offer.querySelector('.offer-more a:hover'))) return null;
+
+    const readingPoint = window.innerHeight * .5;
+    const active = rows.findIndex(row => {
+      const rect = row.getBoundingClientRect();
+      return rect.top <= readingPoint && rect.bottom > readingPoint;
+    });
+    return active < 0 ? null : rows[active + 1];
+  }
+
+  function schedule() {
+    cancel();
+    const next = nextCategory();
+    if (!next) return;
+
+    timer = window.setTimeout(() => {
+      if (nextCategory() === next) {
+        next.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, delay);
+  }
+
+  window.addEventListener('scroll', schedule, { passive: true });
+  window.addEventListener('resize', schedule, { passive: true });
+  window.addEventListener('pageshow', schedule);
+  document.addEventListener('visibilitychange', schedule);
+  reducedMotion.addEventListener('change', schedule);
+  offer.addEventListener('focusin', cancel);
+  offer.addEventListener('focusout', () => window.requestAnimationFrame(schedule));
+  offer.addEventListener('touchstart', cancel, { passive: true });
+  offer.addEventListener('touchend', schedule, { passive: true });
+  for (const link of offer.querySelectorAll('.offer-more a')) {
+    link.addEventListener('pointerenter', cancel);
+    link.addEventListener('pointerleave', schedule);
+    link.addEventListener('click', cancel);
+  }
+
+  schedule();
+})();
