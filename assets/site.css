@@ -1156,3 +1156,10 @@ button,input,select,textarea{font-family:var(--font-ui)}
   70%{opacity:1;transform:perspective(480px) rotateY(6deg) scale(.98)}
   to{opacity:1;transform:none}
 }
+
+/* Thin horizontal strokes behind the hero logo. */
+[data-theme="dark"] .home-flyer .hero-logo-panel{
+  background-image:repeating-linear-gradient(
+    to bottom,transparent 0 4px,rgba(58,43,26,.16) 4px 5px
+  ),var(--brushed-metal);
+}
