@@ -1234,7 +1234,7 @@ button,input,select,textarea{font-family:var(--font-ui)}
 
 /* Gray paper and charcoal themes, with the same yellow accent in both. */
 :root{color-scheme:light;--header-bg:#cac8c2;--footer-bg:#d1cfca;--hero-paper:#c9c5bc}
-:root[data-theme="dark"]{color-scheme:dark;--header-bg:#c8b8a0;--footer-bg:#211b17;--hero-paper:#c8b8a0}
+:root[data-theme="dark"]{color-scheme:dark;--header-bg:#d8d6cf;--footer-bg:#211b17;--hero-paper:#c8b8a0}
 :root[data-theme] header{background:var(--header-bg) var(--brushed-metal) repeat}
 :root[data-theme] footer{background-color:var(--footer-bg)}
 :root[data-theme="light"] .home-masthead{background:linear-gradient(var(--surface),var(--bg))}
