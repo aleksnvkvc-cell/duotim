@@ -1121,3 +1121,8 @@ button,input,select,textarea{font-family:var(--font-ui)}
   from{opacity:0;transform:translateX(var(--trust-offset,-18px))}
   to{opacity:1;transform:none}
 }
+
+/* Compact wordmark for the home link in the header. */
+header .brand.brand-up{justify-content:center;min-height:44px}
+header .brand-up .up-body{padding:5px 8px}
+header .brand-up .up-tag{color:var(--accent);white-space:nowrap}
