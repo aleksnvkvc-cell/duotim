@@ -43,7 +43,7 @@ img{display:block;max-width:100%}
 /* header */
 header{
   position:sticky;top:0;z-index:10;
-  background:#cfd7d7;backdrop-filter:blur(8px);
+  background:#cfd7d7;
   border-bottom:1px solid var(--line);
 }
 [data-theme="dark"] header{background:#1e2023}
@@ -124,10 +124,6 @@ h2{font-size:clamp(28px,3.6vw,38px);line-height:1.15;margin-bottom:12px}
 .hero-row>div:first-child{position:relative;z-index:2}
 :is(.hero,.home-intro) .cta{animation:rise 1.1s cubic-bezier(.2,.7,.2,1) both}
 @keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
-body::after{
-  content:"";position:fixed;inset:0;pointer-events:none;z-index:50;opacity:.05;
-  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-}
 .tag{
   display:inline-block;font-size:12px;font-weight:700;letter-spacing:.08em;
   text-transform:uppercase;color:var(--accent-ink);margin-bottom:14px;
@@ -204,7 +200,7 @@ body::after{
 .cta-link{margin-top:16px;font-size:15px}
 .cta-link a{color:var(--accent);font-weight:700;text-decoration:none}
 .cta-link a:hover{text-decoration:underline}
-.cta-link a{display:inline-block;font-size:19px;animation:map-nudge 2.4s ease-in-out infinite}
+.cta-link a{display:inline-block;font-size:19px;}
 @keyframes map-nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(8px)}}
 @media(prefers-reduced-motion:reduce){.cta-link a{animation:none}}
 [id]{scroll-margin-top:96px}
@@ -278,12 +274,12 @@ section.block:nth-of-type(even)::before{right:auto;left:-90px;--vertical-line-bl
   filter:none;opacity:.4;
 }
 .tilt{transform-style:preserve-3d;transition:transform .45s ease-out}
-.spin{transform-style:preserve-3d;animation:logo-spin 10s ease-in-out infinite;will-change:transform}
+.spin{transform-style:preserve-3d;}
 .spin img{width:100%;height:auto;filter:none}
 .shadow{
   position:absolute;left:14%;right:14%;bottom:0;height:26px;
   background:radial-gradient(ellipse at center,rgba(251,180,0,.45),transparent 70%);
-  filter:blur(6px);animation:shadow-pulse 10s ease-in-out infinite;
+  filter:blur(6px);
 }
 @keyframes logo-spin{
   0%{transform:translateY(0) translateZ(-120px) rotateY(-18deg) rotateX(6deg)}
@@ -358,7 +354,7 @@ footer .social{justify-content:center}
 /* 3D logo fitted in the Istražite heading row */
 .deco3d{position:relative;width:min(480px,44vw);flex-shrink:0;pointer-events:none;perspective:900px;margin:-10px -3% 0 0;background:none;overflow:visible}
 .deco3d .tilt{transform-style:preserve-3d}
-.deco3d .spin{transform:rotateY(-20deg) rotateX(6deg) translateZ(90px);transform-style:preserve-3d;animation:logo-scatter 8s ease-in-out infinite;will-change:transform,opacity,filter}
+.deco3d .spin{transform:rotateY(-20deg) rotateX(6deg) translateZ(90px);transform-style:preserve-3d;}
 @keyframes logo-scatter{
   0%{opacity:1;filter:blur(0);transform:rotateY(-20deg) rotateX(6deg) translateZ(90px) translate(0,0) scale(1)}
   48%{opacity:1;filter:blur(0);transform:rotateY(-20deg) rotateX(6deg) translateZ(90px) translate(16px,-14px) rotateZ(20deg) scale(1)}
@@ -377,7 +373,7 @@ footer .social{justify-content:center}
   2%{transform:translateX(3px) rotate(.5deg)}
   3%{transform:translateX(0) rotate(0)}
 }
-.hero .btn-call{animation:call-shake 6s ease-in-out infinite,call-glow 3s ease-in-out infinite}
+.hero .btn-call{}
 .hero .btn-call + .btn-call{animation-delay:3s,3s}
 @keyframes call-glow{0%,100%{box-shadow:0 0 0 0 rgba(251,180,0,0)}50%{box-shadow:0 0 0 9px rgba(251,180,0,.35)}}
 @media(prefers-reduced-motion:reduce){.hero .btn-call{animation:none}}
@@ -427,7 +423,7 @@ html::before{content:"";position:fixed;inset:-10%;pointer-events:none;z-index:46
 
 /* hero: logo beside the call buttons, same look as the big logo, dissolves into dots and returns */
 .cta-row{display:flex;align-items:center;gap:28px;flex-wrap:wrap}
-.cta-logo{height:120px;width:auto;box-sizing:border-box;background:none;padding:0;border-radius:0;position:relative;z-index:2;filter:drop-shadow(0 0 16px rgba(251,180,0,.75));animation:logo-dots-fly 7s ease-in-out infinite}
+.cta-logo{height:120px;width:auto;box-sizing:border-box;background:none;padding:0;border-radius:0;position:relative;z-index:2;filter:drop-shadow(0 0 16px rgba(251,180,0,.75));}
 @keyframes logo-dots-fly{
   0%,30%{transform:translateX(0);opacity:1;-webkit-mask-image:none;mask-image:none}
   42%{transform:translateX(-80px);opacity:1;-webkit-mask-image:radial-gradient(circle,#000 2px,transparent 3px);mask-image:radial-gradient(circle,#000 2px,transparent 3px);-webkit-mask-size:8px 8px;mask-size:8px 8px}
@@ -438,7 +434,7 @@ html::before{content:"";position:fixed;inset:-10%;pointer-events:none;z-index:46
 @media(max-width:560px){.cta-logo{height:84px}}
 
 /* big logo: floats on wings and drifts up into the clouds, then comes back */
-.stage .spin{animation:logo-wings 12s ease-in-out infinite}
+.stage .spin{}
 @keyframes logo-wings{
   0%,100%{transform:translate(0,0) rotate(0) scale(1);opacity:1;filter:blur(0)}
   20%{transform:translate(-12px,-18px) rotate(-4deg) scale(1);opacity:1;filter:blur(0)}
@@ -451,7 +447,7 @@ html::before{content:"";position:fixed;inset:-10%;pointer-events:none;z-index:46
 @media(prefers-reduced-motion:reduce){.cta-logo,.stage .spin{animation:none}}
 
 /* hero headline words fly in like birds (see site.js) */
-.bird{display:inline-block;animation:bird-fly 1.5s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i) * .2s + .25s);will-change:transform,opacity}
+.bird{display:inline-block;animation:bird-fly 1.5s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i) * .2s + .25s);}
 @keyframes bird-fly{
   0%{transform:translate(calc(260px + var(--i) * 24px),150px) rotate(30deg) scale(.5);opacity:0}
   30%{opacity:1}
@@ -502,8 +498,6 @@ html:not([data-theme="dark"]) .spin img{filter:brightness(.9) drop-shadow(0 0 1p
 
 
 /* blue-light filter: a faint warm tint over the page, in the business card yellow */
-body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:45;background:#FBB400;opacity:.07;mix-blend-mode:multiply}
-[data-theme="dark"] body::before{opacity:.04}
 
 /* light theme contrast: yellow text is too pale on the light background, so text uses the darker gold ink (about 4.7:1) */
 html:not([data-theme="dark"]) .bird.accent{color:var(--accent-ink)}
@@ -533,7 +527,7 @@ html:has(.hero:not(.hero-chevron-top)){scroll-snap-type:y proximity}
 #istrazite{justify-content:flex-start;padding-top:20vh;padding-bottom:64px}
 
 /* hero 3D logo flies from one side of the screen to the other and back */
-.stage .spin{animation:logo-wings 12s ease-in-out infinite}
+.stage .spin{}
 @keyframes logo-across-hero{
   0%{transform:translate(0,0);opacity:.6;filter:blur(4px)}
   25%{transform:translate(-7vw,-14px);opacity:1;filter:blur(0)}
@@ -563,7 +557,7 @@ html,body{overflow-x:hidden}
 .reveal.in{opacity:1;transform:none}
 
 /* "Istražite" title, one 8s loop: grows from small, zooms in and out, slides down-right while the letters turn into a big arrow, the arrow fades out */
-.sec-title{position:relative;animation:sec-loop 8s ease-in-out infinite;transform-origin:0 0}
+.sec-title{position:relative;transform-origin:0 0}
 @keyframes sec-loop{
   0%{transform:translate(0,0) scale(.4);opacity:0}
   14%{transform:translate(0,0) scale(1.1);opacity:1}
@@ -574,7 +568,7 @@ html,body{overflow-x:hidden}
   76%{transform:translate(160px,120px) scale(.6);opacity:0}
   88%,100%{transform:translate(0,0) scale(.4);opacity:0}
 }
-.sec-arrow{position:absolute;left:-14px;top:-18px;width:150px;height:150px;color:var(--accent-ink);pointer-events:none;opacity:0;animation:sec-arrow-in 8s ease-in-out infinite;display:none}
+.sec-arrow{position:absolute;left:-14px;top:-18px;width:150px;height:150px;color:var(--accent-ink);pointer-events:none;opacity:0;display:none}
 @keyframes sec-arrow-in{
   0%,70%{opacity:0;transform:scale(.4)}
   76%{opacity:0;transform:scale(.6)}
@@ -624,7 +618,7 @@ body{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org
 
 /* hero slideshow: double-wing window with gallery photos behind the glass */
 .winshow{flex:0 0 auto;width:min(400px,34vw);perspective:1100px;position:relative;z-index:1;margin-right:2%}
-.win-tilt{transform:rotateY(-16deg) rotateX(4deg);transform-style:preserve-3d;animation:win-sway 9s ease-in-out infinite;will-change:transform}
+.win-tilt{transform:rotateY(-16deg) rotateX(4deg);transform-style:preserve-3d;}
 @keyframes win-sway{0%,100%{transform:rotateY(-16deg) rotateX(4deg) translateY(0)}50%{transform:rotateY(-7deg) rotateX(2deg) translateY(-12px) rotateZ(1deg)}}
 .win-frame{position:relative;aspect-ratio:1/1.08;background:#f4f4f1;border-radius:6px;box-shadow:0 34px 50px -26px rgba(0,0,0,.6),0 0 0 1px rgba(0,0,0,.18),0 0 34px rgba(251,180,0,.28)}
 .win-slides,.win-sashes{position:absolute;inset:12px}
@@ -1339,18 +1333,6 @@ main .page-head { position: relative; }
   animation: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .home-flyer .home-intro-word {
-    animation: intro-word-glow .88s ease-in-out;
-    animation-delay: calc(2.25s + var(--word-index) * .32s);
-  }
-}
-
-@keyframes intro-word-glow {
-  0%, 100% { text-shadow: 0 0 3px transparent, 0 0 10px transparent; }
-  50% { text-shadow: 0 0 3px #ffd56ec9, 0 0 10px #fbb40080; }
-}
-
 .hero-logo-on-dark,
 [data-theme="dark"] .hero-logo-on-light { display: none; }
 [data-theme="dark"] .hero-logo-on-dark { display: inline; }
@@ -1374,13 +1356,8 @@ main .page-head { position: relative; }
     animation: hero-logo-mark-open .85s cubic-bezier(.22,.74,.25,1) .12s both;
   }
 
-  .home-flyer .hero-work-preview .work-preview-slide:not([hidden]) .hero-work-photo {
-    perspective: 900px;
-  }
-
   .home-flyer .hero-work-preview .work-preview-slide:not([hidden]) .hero-work-photo img {
-    transform-origin: left center;
-    animation: hero-flyer-open .72s cubic-bezier(.22,.72,.25,1) both;
+    animation: hero-slide-fade .28s ease-out both;
   }
 }
 
@@ -1389,10 +1366,9 @@ main .page-head { position: relative; }
   to { opacity: 1; transform: perspective(420px) rotateY(0); }
 }
 
-@keyframes hero-flyer-open {
-  from { opacity: 0; transform: rotateY(-78deg); }
-  45% { opacity: 1; }
-  to { opacity: 1; transform: rotateY(0); }
+@keyframes hero-slide-fade {
+  from { opacity: .35; }
+  to { opacity: 1; }
 }
 
 @supports (mask-composite: exclude) {
@@ -1433,17 +1409,6 @@ main .page-head { position: relative; }
   100% { text-shadow: 9px 0 7px transparent; }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .home-flyer .hero.hero-chevron-top {
-    animation: hero-flyer-float 7s ease-in-out infinite;
-  }
-}
-
-@keyframes hero-flyer-float {
-  0%, 100% { translate: 0 2px; }
-  50% { translate: 0 -3px; }
-}
-
 :is(main .page-head, .home-masthead, footer) {
   position: relative;
   isolation: isolate;
@@ -1463,51 +1428,6 @@ main .page-head::after,
 .home-flyer .home-masthead::after { --divider-softness: .85px; }
 main section.block:nth-of-type(even)::after { --divider-softness: 2.4px; }
 .home-offer .offer-row::before { --divider-softness: 1.2px; }
-
-@supports (mask: linear-gradient(#000, transparent)) {
-  @media (prefers-reduced-motion: no-preference) {
-    main section.block::after,
-    main .page-head::after,    .home-flyer .home-masthead::after,
-    .home-offer .offer-row::before,
-    footer::before {
-      mask:
-        linear-gradient(to bottom left, var(--divider-stroke)) left center / 50.1% 100% no-repeat,
-        linear-gradient(to bottom right, var(--divider-stroke)) right center / 50.1% 100% no-repeat;
-      background: linear-gradient(100deg, var(--accent-detail) 43%, #fff4bb 50%, var(--accent-detail) 57%) 100% 0 / 280% 100%;
-      animation: site-divider-glint 12s ease-in-out infinite;
-    }
-
-    main section.block:nth-of-type(even)::after { animation-delay: -3s; }
-    .home-offer .offer-row:nth-of-type(even)::before,
-    footer::before { animation-delay: -6s; }
-  }
-}
-
-@keyframes site-divider-glint {
-  0% { background-position: 100% 0; }
-  24%, 100% { background-position: 0 0; }
-}
-
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    :is(main, footer) :is(h1, h2, h3, h4, h5, h6),
-    .catalog-page .media-section > :is(p, ul),
-    .catalog-page .gallery.kat > a {
-      animation: site-scroll-reveal linear both;
-      animation-timeline: view();
-      animation-range: entry 0% entry 85%;
-    }
-
-    .catalog-page .gallery.kat > a:nth-child(even) {
-      animation-range: entry 10% entry 100%;
-    }
-  }
-}
-
-@keyframes site-scroll-reveal {
-  from { opacity: .62; translate: 0 10px; }
-  to { opacity: 1; translate: 0 0; }
-}
 
 #ponuda-naslov > span { display: inline-block; }
 
@@ -1530,41 +1450,6 @@ main section.block:nth-of-type(even)::after { --divider-softness: 2.4px; }
 @keyframes home-offer-heading-enter {
   from { opacity: .35; translate: var(--offer-heading-entry) 0; }
   to { opacity: 1; translate: 0 0; }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .topbar > .wrap > :is(a[href^="tel:"], a[href^="mailto:"], .tb-hours),
-  .topbar > .wrap > .tb-map > a,
-  .contact-list a.tap {
-    animation: contact-detail-pulse var(--contact-cycle, 12s) ease-in-out infinite;
-    animation-delay: calc(var(--contact-step, 0) * 2.4s);
-  }
-
-  .topbar > .wrap > a[href^="tel:"]:nth-child(2) { --contact-step: 1; }
-  .topbar > .wrap > a[href^="mailto:"] { --contact-step: 2; }
-  .topbar > .wrap > .tb-map > a { --contact-step: 3; }
-  .topbar > .wrap > .tb-hours { --contact-step: 4; }
-
-  .contact-list a.tap { --contact-cycle: 24s; animation-name: contact-page-pulse; }
-  .contact-list .pair a:nth-of-type(1) { --contact-step: 1; }
-  .contact-list .pair a:nth-of-type(2) { --contact-step: 2; }
-  .contact-list .pair a:nth-of-type(3) { --contact-step: 3; }
-  .contact-list .pair a:nth-of-type(4) { --contact-step: 4; }
-  .contact-list .pair a:nth-of-type(5) { --contact-step: 5; }
-  .contact-list .pair a:nth-of-type(6) { --contact-step: 6; }
-  .contact-list a[href^="mailto:"] { --contact-step: 7; }
-  .contact-list a[href*="facebook.com"] { --contact-step: 8; }
-  .contact-list a[href*="instagram.com"] { --contact-step: 9; }
-}
-
-@keyframes contact-detail-pulse {
-  0%, 10%, 100% { scale: 1; text-shadow: 0 0 6px transparent; }
-  5% { scale: 1.035; text-shadow: 0 0 7px #ffc84f9c; }
-}
-
-@keyframes contact-page-pulse {
-  0%, 5%, 100% { scale: 1; text-shadow: 0 0 6px transparent; }
-  2.5% { scale: 1.035; text-shadow: 0 0 7px #ffc84f9c; }
 }
 
 .home-flyer #home-title :is(.home-title-alu, .home-title-pvc) {
