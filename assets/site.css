@@ -1074,3 +1074,12 @@ button,input,select,textarea{font-family:var(--font-ui)}
 [data-theme="dark"] .home-masthead{
   background-image:var(--brushed-metal),linear-gradient(var(--surface),var(--bg));
 }
+
+.home-flyer .home-intro .cta{
+  flex-direction:row;flex-wrap:nowrap;justify-content:center;align-items:stretch;
+  gap:clamp(6px,2vw,12px);
+}
+.home-flyer .home-intro .cta .btn{
+  flex:0 1 auto;align-self:stretch;display:inline-flex;align-items:center;justify-content:center;
+  min-height:44px;padding-inline:clamp(10px,3vw,24px);text-align:center;white-space:nowrap;
+}
