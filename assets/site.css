@@ -1317,3 +1317,18 @@ main section.block::after,.home-offer .offer-row::before,footer::before{
   text-decoration: underline;
   text-underline-offset: 2px;
 }
+
+@supports (background-clip: text) {
+  @media (prefers-reduced-motion: no-preference) {
+    .home-flyer .home-intro-word {
+      display: inline-block;
+      background: linear-gradient(108deg, currentColor 44%, var(--title-accent) 50%, currentColor 56%);
+      background-size: 280% 100%;
+      background-position: 100% 0;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: hero-title-glint .46s linear both;
+      animation-delay: calc(2.25s + var(--word-index) * .32s);
+    }
+  }
+}

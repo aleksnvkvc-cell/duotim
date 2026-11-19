@@ -184,6 +184,21 @@
       span.textContent = word;
       h.appendChild(span);
     });
+
+    var intro = h.parentElement.querySelector('.lead');
+    if (intro) {
+      var words = intro.textContent.trim().split(/\s+/);
+      var fragment = document.createDocumentFragment();
+      words.forEach(function (word, index) {
+        if (index) fragment.appendChild(document.createTextNode(' '));
+        var span = document.createElement('span');
+        span.className = 'home-intro-word';
+        span.style.setProperty('--word-index', index);
+        span.textContent = word;
+        fragment.appendChild(span);
+      });
+      intro.replaceChildren(fragment);
+    }
     return;
   }
   h.classList.add('birds');
