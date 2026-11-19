@@ -1081,9 +1081,14 @@ button,input,select,textarea{font-family:var(--font-ui)}
 }
 
 /* Keep each headline word within its own space as it appears. */
-.home-flyer #home-title{color:var(--text)}
+.home-flyer #home-title{
+  --title-main:#292929;--title-accent:#785600;color:var(--title-main);
+}
+[data-theme="dark"] .home-flyer #home-title{
+  --title-main:#e2e0dc;--title-accent:#ffca47;
+}
 .home-flyer #home-title .home-title-accent{
-  color:var(--accent-ink);background:none;
+  color:var(--title-accent);background:none;
 }
 .home-title-word{position:relative;display:inline-block}
 .home-flyer .trust li{min-width:0;max-width:100%}
@@ -1283,7 +1288,7 @@ main section.block::after,.home-offer .offer-row::before,footer::before{
 @supports (background-clip:text){
   @media(prefers-reduced-motion:no-preference){
     .home-flyer #home-title .home-title-word{
-      --headline-ink:var(--text);
+      --headline-ink:var(--title-main);
       --headline-glint:#ffbd25;
       color:transparent;
       background:linear-gradient(108deg,var(--headline-ink) 44%,var(--headline-glint) 50%,var(--headline-ink) 56%)
@@ -1293,7 +1298,7 @@ main section.block::after,.home-offer .offer-row::before,footer::before{
       animation-delay:calc(var(--word-index,0) * .085s),calc(.85s + var(--word-index,0) * .095s);
     }
     .home-flyer #home-title .home-title-word.home-title-accent{
-      --headline-ink:var(--accent-ink);
+      --headline-ink:var(--title-accent);
       --headline-glint:#fff;
     }
   }
