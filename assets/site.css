@@ -1266,3 +1266,5 @@ button,input,select,textarea{font-family:var(--font-ui)}
 .home-offer .offer-row > h3{text-align:center}
 
 .home-offer .catalog-type-list{text-align:center;list-style-position:inside;padding-inline-start:0}
+
+.home-offer .offer-row > a{display:table;margin-inline:auto;text-align:center}
