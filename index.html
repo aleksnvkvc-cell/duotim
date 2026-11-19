@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="sr-Latn">
+<html lang="sr-Latn" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -24,7 +24,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="assets/site.css?v=20261118-catalog-restored">
+<link rel="stylesheet" href="assets/site.css?v=20261119-dark-compact">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -80,7 +80,7 @@
   ]
 }
 </script>
-<script>try{var t=localStorage.getItem("duotim-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script></head>
+</head>
 <body id="vrh">
 
 <div class="topbar" role="region" aria-label="Kontakt podaci" style="background:#1e2023;color:#fff;font-size:13px">
@@ -112,9 +112,6 @@
       </ul>
     </nav>
     <div class="actions">
-      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Tamna tema" aria-pressed="false">
-        <span class="emoji" aria-hidden="true">💡</span>
-      </button>
       <a class="btn btn-primary icon-btn" href="tel:+381652764244" aria-label="Pozovite 065 276 4244"><span class="emoji" aria-hidden="true">📞</span></a>
       <button class="menu-btn" id="menuBtn" type="button" aria-label="Otvori meni" aria-expanded="false" aria-controls="mobileNav">
         <span class="emoji menu-open" aria-hidden="true">📋</span><span class="emoji menu-close" aria-hidden="true">❌</span>
@@ -141,20 +138,21 @@
 
   <div class="home-masthead">
     <div class="hero hero-chevron-top">
-      <div class="wrap hero-row">
-        <div class="hero-logo" role="img" aria-label="Duo Tim">
-          <img class="logo-light" src="assets/logo-light.png" alt="">
-          <img class="logo-white" src="assets/logo-white.png" alt="">
+      <div class="hero-logo-panel">
+        <div class="wrap hero-row">
+          <div class="hero-logo" role="img" aria-label="Duo Tim">
+            <img class="logo-light" src="assets/logo-light.png" alt="">
+            <img class="logo-white" src="assets/logo-white.png" alt="">
+          </div>
         </div>
       </div>
-    </div>
-  
-    <div class="hero-chevron" aria-hidden="true">
-      <svg viewBox="0 0 1000 100" preserveAspectRatio="none" focusable="false">
-        <path class="hero-chevron-paper" d="M0 0H1000V8L500 86 0 8Z"/>
-        <path class="hero-chevron-edge" d="M-12 6.128 500 86 1012 6.128"/>
-        <path class="hero-chevron-line" d="M-12 6.128 500 86 1012 6.128"/>
-      </svg>
+      <div class="hero-chevron" aria-hidden="true">
+        <svg viewBox="0 0 1000 100" preserveAspectRatio="none" focusable="false">
+          <path class="hero-chevron-paper" d="M0 0H1000V8L500 91 0 8Z"/>
+          <path class="hero-chevron-edge" d="M-12 6.008 500 91 1012 6.008"/>
+          <path class="hero-chevron-line" d="M-12 6.008 500 91 1012 6.008"/>
+        </svg>
+      </div>
     </div>
     <section class="home-intro" aria-labelledby="home-title">
       <div class="wrap">
@@ -269,44 +267,19 @@
       </article>
       <article class="offer-row">
         <h3>Komarnici</h3>
-        <div class="catalog-flyer-examples">
-          <figure>
-            <svg viewBox="265 157 320 425" width="320" height="425" aria-hidden="true" focusable="false">
-              <image href="assets/katalog/komarnici-zavese-flajer.webp" width="1152" height="1536"/>
-            </svg>
-            <figcaption>Rolo komarnik</figcaption>
-          </figure>
-          <figure>
-            <svg viewBox="663 458 271 474" width="271" height="474" aria-hidden="true" focusable="false">
-              <image href="assets/katalog/komarnici-zavese-flajer.webp" width="1152" height="1536"/>
-            </svg>
-            <figcaption>Plise komarnik</figcaption>
-          </figure>
-          <figure>
-            <svg viewBox="224 649 438 270" width="438" height="270" aria-hidden="true" focusable="false">
-              <image href="assets/katalog/komarnici-zavese-flajer.webp" width="1152" height="1536"/>
-            </svg>
-            <figcaption>Fiksni komarnici</figcaption>
-          </figure>
-        </div>
+        <ul class="catalog-type-list">
+          <li>Rolo komarnici</li>
+          <li>Plise komarnici</li>
+          <li>Fiksni komarnici</li>
+        </ul>
         <a href="katalog.html#komarnici">Pogledaj još<span class="sr-only"> – Komarnici</span></a>
       </article>
       <article class="offer-row">
         <h3>Rolo i trakaste zavese</h3>
-        <div class="catalog-flyer-examples">
-          <figure>
-            <svg viewBox="210 1077 451 432" width="451" height="432" aria-hidden="true" focusable="false">
-              <image href="assets/katalog/komarnici-zavese-flajer.webp" width="1152" height="1536"/>
-            </svg>
-            <figcaption>Rolo zavese</figcaption>
-          </figure>
-          <figure>
-            <svg viewBox="670 1018 297 474" width="297" height="474" aria-hidden="true" focusable="false">
-              <image href="assets/katalog/komarnici-zavese-flajer.webp" width="1152" height="1536"/>
-            </svg>
-            <figcaption>Trakaste zavese</figcaption>
-          </figure>
-        </div>
+        <ul class="catalog-type-list">
+          <li>Rolo zavese</li>
+          <li>Trakaste zavese</li>
+        </ul>
         <a href="katalog.html#zavese">Pogledaj još<span class="sr-only"> – Rolo i trakaste zavese</span></a>
       </article>
       <p class="home-more home-back-top"><a class="btn btn-ghost" href="#vrh"><span class="emoji" aria-hidden="true">⬆️</span> Vrati na vrh</a></p>
@@ -347,6 +320,6 @@
   </div>
 </footer>
 
-<script src="assets/site.js?v=20261118-spatial" defer></script>
+<script src="assets/site.js?v=20261119-dark-compact" defer></script>
 </body>
 </html>

@@ -1,25 +1,4 @@
 (function () {
-  var root = document.documentElement;
-  var btn = document.getElementById('themeToggle');
-
-  var saved = null;
-  try { saved = localStorage.getItem('duotim-theme'); } catch (e) {}
-
-  var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-  function apply(theme) {
-    root.setAttribute('data-theme', theme);
-    btn.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
-  }
-
-  apply(saved || (prefersDark ? 'dark' : 'light'));
-
-  btn.addEventListener('click', function () {
-    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    apply(next);
-    try { localStorage.setItem('duotim-theme', next); } catch (e) {}
-  });
-
   // mouse tilt for the 3D logo (home only)
   var hero = document.querySelector('.hero');
   var tilt = document.getElementById('tilt');
@@ -190,7 +169,7 @@
 
 // hero headline: each word flies in like a bird and lands in place
 (function () {
-  var h = document.querySelector('.hero h1');
+  var h = document.querySelector('.home-intro h1, .hero h1');
   if (!h || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
   var text = h.textContent.trim();
   h.setAttribute('aria-label', text);
@@ -275,9 +254,9 @@
 
 // hero lead: types out once after the hero has risen in; the height is held so the buttons below do not jump
 (function () {
-  var p = document.querySelector('.hero .lead');
+  var p = document.querySelector('.home-intro .lead, .hero .lead');
   if (!p || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
-  var trust = document.querySelector('.hero .trust');
+  var trust = document.querySelector('.home-intro .trust, .hero .trust');
   function revealTrust() {
     if (trust) trust.classList.replace('trust-waiting', 'trust-revealed');
   }

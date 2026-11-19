@@ -86,13 +86,6 @@ nav a:hover::after,nav a[aria-current="page"]::after{width:100%}
 .mobile-nav a:not(.btn):hover,.mobile-nav a[aria-current="page"]{color:var(--accent-ink)}
 .mobile-nav .btn{display:block;text-align:center;margin:18px 4% 22px}
 
-.theme-toggle{
-  display:grid;place-items:center;flex:0 0 44px;width:44px;height:44px;padding:0;
-  cursor:pointer;background:transparent;color:var(--text);
-  border:1px solid var(--line);border-radius:999px;
-}
-.theme-toggle:hover,.theme-toggle:focus-visible{border-color:var(--accent)}
-.theme-toggle:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
 
 .btn{
   display:inline-block;padding:12px 22px;border-radius:8px;
@@ -892,8 +885,7 @@ button,input,select,textarea{font-family:var(--font-ui)}
 
 .emoji{display:inline-grid;place-items:center;flex:none;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;line-height:1}
 .topbar .emoji{font-size:16px}
-.menu-btn .emoji,.theme-toggle .emoji,.icon-btn .emoji,.lb-btn .emoji{font-size:20px}
-.theme-toggle[aria-pressed="true"] .emoji{filter:drop-shadow(0 0 4px var(--accent))}
+.menu-btn .emoji,.icon-btn .emoji,.lb-btn .emoji{font-size:20px}
 .map-fallback .emoji{font-size:36px}
 
 /* Open, expandable photo and catalog sections. */
@@ -936,7 +928,7 @@ button,input,select,textarea{font-family:var(--font-ui)}
 .work-preview-controls button{min-width:44px;min-height:44px;padding:8px 12px}
 
 /* The hero ends in the yellow V from the Duo Tim brochure. */
-.hero.hero-chevron-top{background:var(--surface)}
+
 .hero-chevron{height:clamp(36px,8vw,88px);margin-top:-1px}
 .hero-chevron svg{display:block;width:100%;height:100%;overflow:hidden}
 .hero-chevron-paper{fill:var(--flyer-paper,var(--surface))}
@@ -985,20 +977,20 @@ button,input,select,textarea{font-family:var(--font-ui)}
   color:var(--text);
 }
 .home-flyer .hero.hero-chevron-top{
-  background:var(--flyer-paper);
+  background:none;
   min-height:0;
   padding:0;
 }
 .home-flyer .hero-logo img.logo-light{display:block}
 .home-flyer .hero-logo img.logo-white{display:none}
 .home-flyer .home-intro{text-align:center}
-.home-flyer .home-intro h1{max-width:22ch;margin-inline:auto}
+.home-flyer .home-intro h1{font-size:clamp(26px,4vw,46px);line-height:1.12;max-width:28ch;margin-inline:auto}
 .home-flyer .home-intro .lead{margin-inline:auto}
 .home-flyer .home-intro .cta{align-items:center}
 .home-flyer .home-intro .cta a{align-self:center}
 .home-flyer .home-intro .trust{justify-content:center}
 .flyer-materials{
-  font:700 clamp(28px,5vw,52px)/1 var(--font-heading);
+  font:700 clamp(20px,3.1vw,32px)/1 var(--font-heading);
   letter-spacing:.08em;
 }
 .flyer-materials span{color:var(--accent)}
@@ -1006,9 +998,9 @@ button,input,select,textarea{font-family:var(--font-ui)}
 .home-flyer :is(.home-intro,.offer-featured-work,#radovi-pocetna){overflow-wrap:anywhere}
 
 /* Keep the white-to-gray finish on the actual word inside the house. */
-.home-flyer #home-title .home-title-dom{color:#fff;text-shadow:none}
+.home-flyer #home-title :is(.home-title-dom,.house){color:#fff;text-shadow:none}
 @supports(background-clip:text){
-  .home-flyer #home-title .home-title-dom{
+  .home-flyer #home-title :is(.home-title-dom,.house){
     background:linear-gradient(180deg,#fff 25%,#c4c4c4 100%);
     background-clip:text;
     color:transparent;
@@ -1020,13 +1012,6 @@ button,input,select,textarea{font-family:var(--font-ui)}
   filter:brightness(0) saturate(100%) invert(74%) sepia(95%) saturate(1192%) hue-rotate(357deg) brightness(100%) contrast(102%);
 }
 
-.catalog-flyer-examples{display:grid;grid-template-columns:repeat(3,minmax(0,220px));gap:12px;margin:12px 0}
-.catalog-flyer-examples figure{min-width:0;margin:0}
-.catalog-flyer-examples svg{display:block;width:100%;height:clamp(130px,28vw,200px);overflow:hidden}
-.catalog-flyer-examples figcaption{margin-top:4px;color:var(--muted);font-size:14px}
-@media(max-width:560px){
-  .catalog-flyer-examples{grid-template-columns:repeat(2,minmax(0,1fr))}
-}
 
 /* The preview sits inside the same masthead as the logo and signature V. */
 .home-masthead{background:linear-gradient(var(--surface),var(--bg));border-bottom:1px solid var(--line)}
@@ -1041,7 +1026,6 @@ button,input,select,textarea{font-family:var(--font-ui)}
 .ig-follow img.brand-social-icon{border-radius:0}
 
 /* Natural depth comes from the photo and caption, with motion only on fine pointers. */
-.home-flyer .home-intro :is(h1,.lead,.cta){animation:none}
 .home-flyer .home-intro h1{background:none;color:var(--text);text-shadow:none}
 .home-flyer .home-intro{padding-bottom:clamp(20px,4vw,40px)}
 .home-masthead .offer-featured-work{border-top:1px solid var(--line)}
@@ -1061,8 +1045,9 @@ button,input,select,textarea{font-family:var(--font-ui)}
 }
 
 /* Keep the masthead compact. */
-.home-flyer .hero-chevron-top .hero-logo{width:clamp(150px,28vw,270px)}
-.home-flyer .hero-chevron{height:clamp(24px,4vw,46px)}
+.home-flyer .hero-logo-panel{background:var(--flyer-paper)}
+.home-flyer .hero-chevron-top .hero-logo{width:clamp(135px,23vw,220px)}
+.home-flyer .hero-chevron{height:clamp(20px,3vw,36px)}
 .home-flyer .home-intro{padding-top:clamp(12px,2vw,24px)}
 
 .offer-examples{display:grid;grid-template-columns:repeat(2,minmax(0,220px));gap:12px;margin:12px 0}
@@ -1073,3 +1058,6 @@ button,input,select,textarea{font-family:var(--font-ui)}
 @media(max-width:700px){
   .home-flyer .offer-examples{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
+
+.catalog-type-list{padding-inline-start:1.25em;margin:8px 0}
+:root[data-theme="dark"]{color-scheme:dark}
