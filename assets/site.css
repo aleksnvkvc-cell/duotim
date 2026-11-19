@@ -1,9 +1,9 @@
-@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow+Semi+Condensed:wght@700&family=Source+Sans+3:wght@400..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700&family=Bricolage+Grotesque:wght@600..800&family=DM+Sans:wght@400..800&display=swap");
 
 :root{
-  --font-ui:"Source Sans 3","Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
-  --font-heading:"Agency FB","Barlow Semi Condensed","Arial Narrow",sans-serif;
-  --font-condensed:"Kionsa","Calcio","Barlow Condensed","Arial Narrow",sans-serif;
+  --font-ui:"DM Sans","Segoe UI",system-ui,Arial,sans-serif;
+  --font-heading:"Bricolage Grotesque","Segoe UI",system-ui,Arial,sans-serif;
+  --font-condensed:"Barlow Condensed","Arial Narrow",sans-serif;
   --bg:#e8f0f0;
   --surface:#f8f8f8;
   --text:#484848;
@@ -876,7 +876,7 @@ h1,h3,h4,h5,h6,h2.h3,.tile strong{
   letter-spacing:normal;
 }
 h2:not(.h3){
-  font-family:var(--font-condensed);
+  font-family:var(--font-heading);
   font-weight:700;
 }
 h2:not(.h3){letter-spacing:normal}
@@ -998,7 +998,7 @@ button,input,select,textarea{font-family:var(--font-ui)}
 }
 .home-flyer .home-intro{text-align:center}
 .home-flyer .home-intro h1{
-  font:800 clamp(26px,4vw,46px)/1.12 "Manrope",var(--font-ui);
+  font:800 clamp(26px,4vw,46px)/1.12 var(--font-heading);
   letter-spacing:-.035em;text-wrap:balance;max-width:28ch;margin-inline:auto;
 }
 .home-flyer .home-intro .lead{margin-inline:auto}
