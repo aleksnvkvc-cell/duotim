@@ -1263,7 +1263,7 @@ main section.block,.home-offer .offer-row,footer{
 }
 .home-flyer .home-masthead{border-bottom:0}
 main section.block::after,
-main .page-head::after,
+main .page-head::after,.home-flyer .home-masthead::after,
 .home-offer .offer-row::before,
 footer::before {
   content: "";
@@ -1461,14 +1461,15 @@ main .page-head::before { --vertical-line-blur: 6px; }
 .home-masthead::before { --vertical-line-blur: 12px; }
 footer::after { --vertical-line-blur: 20px; }
 
-main .page-head::after { --divider-softness: .85px; }
+main .page-head::after,
+.home-flyer .home-masthead::after { --divider-softness: .85px; }
 main section.block:nth-of-type(even)::after { --divider-softness: 2.4px; }
 .home-offer .offer-row::before { --divider-softness: 1.2px; }
 
 @supports (mask: linear-gradient(#000, transparent)) {
   @media (prefers-reduced-motion: no-preference) {
     main section.block::after,
-    main .page-head::after,
+    main .page-head::after,    .home-flyer .home-masthead::after,
     .home-offer .offer-row::before,
     footer::before {
       mask:
