@@ -1267,4 +1267,5 @@ button,input,select,textarea{font-family:var(--font-ui)}
 
 .home-offer .catalog-type-list{text-align:center;list-style-position:inside;padding-inline-start:0}
 
-.home-offer .offer-row > a{display:table;margin-inline:auto;text-align:center}
+.home-offer .offer-more{display:flex;justify-content:center;align-items:center;width:100%;margin:8px 0 0;text-align:center}
+.home-offer .offer-more > a{display:inline-block;position:relative}
