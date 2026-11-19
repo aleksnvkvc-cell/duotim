@@ -1376,3 +1376,29 @@ main section.block::after,.home-offer .offer-row::before,footer::before{
   45% { opacity: 1; }
   to { opacity: 1; transform: rotateY(0); }
 }
+
+@supports (mask-composite: exclude) {
+  @media (prefers-reduced-motion: no-preference) {
+    header .brand-up .up-body { position: relative; }
+
+    header .brand-up .up-body::after {
+      content: "";
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      padding: 2px;
+      pointer-events: none;
+      background: linear-gradient(110deg, transparent 42%, #ffda76 48%, #fff5d5 50%, #ffda76 52%, transparent 58%) 100% 0 / 280% 100%;
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask-composite: exclude;
+      opacity: 0;
+      animation: home-button-glint 1.25s ease-in-out .45s;
+    }
+  }
+}
+
+@keyframes home-button-glint {
+  0% { background-position: 100% 0; opacity: 0; }
+  20%, 80% { opacity: 1; }
+  100% { background-position: 0 0; opacity: 0; }
+}
