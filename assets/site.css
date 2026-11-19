@@ -1131,11 +1131,11 @@ button,input,select,textarea{font-family:var(--font-ui)}
 
 
 
-/* Animate the letters separately while the original center mark stays in place. */
+/* Bring in the letters from both sides and open the center mark. */
 @media(prefers-reduced-motion:no-preference){
   .hero-logo-letter{
-    animation:hero-logo-letter-enter .52s cubic-bezier(.2,.7,.25,1) both;
-    animation-delay:calc(.08s + var(--logo-step,0) * .14s);
+    animation:hero-logo-letter-enter .72s cubic-bezier(.22,.75,.28,1) both;
+    animation-delay:calc(.16s + var(--logo-step,0) * .18s);
   }
   .hero-logo-letter--left{--logo-offset:-108px}
   .hero-logo-letter--right{--logo-offset:108px}
@@ -1349,3 +1349,30 @@ main section.block::after,.home-offer .offer-row::before,footer::before{
 }
 
 .home-flyer #ponuda-naslov { color: var(--text); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-logo-mark {
+    transform-origin: 40% 50%;
+    animation: hero-logo-mark-open .85s cubic-bezier(.22,.74,.25,1) .12s both;
+  }
+
+  .home-flyer .hero-work-preview .work-preview-slide:not([hidden]) .hero-work-photo {
+    perspective: 900px;
+  }
+
+  .home-flyer .hero-work-preview .work-preview-slide:not([hidden]) .hero-work-photo img {
+    transform-origin: left center;
+    animation: hero-flyer-open .72s cubic-bezier(.22,.72,.25,1) both;
+  }
+}
+
+@keyframes hero-logo-mark-open {
+  from { opacity: 0; transform: perspective(420px) rotateY(-65deg); }
+  to { opacity: 1; transform: perspective(420px) rotateY(0); }
+}
+
+@keyframes hero-flyer-open {
+  from { opacity: 0; transform: rotateY(-78deg); }
+  45% { opacity: 1; }
+  to { opacity: 1; transform: rotateY(0); }
+}
