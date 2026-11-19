@@ -543,7 +543,7 @@
 
     timer = window.setTimeout(() => {
       if (nextCategory() === next) {
-        next.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        next.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     }, delay);
   }
