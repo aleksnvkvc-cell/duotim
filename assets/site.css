@@ -82,6 +82,7 @@ nav a:hover::after,nav a[aria-current="page"]::after{width:100%}
   display:flex;align-items:center;min-height:52px;padding:0 4%;
   font-size:17px;text-decoration:none;color:var(--text);
   border-top:1px solid var(--line);
+  justify-content:center;text-align:center;
 }
 .mobile-nav a:not(.btn):hover,.mobile-nav a[aria-current="page"]{color:var(--accent-ink)}
 .mobile-nav .btn{display:block;text-align:center;margin:18px 4% 22px}
@@ -322,9 +323,18 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:1
 .social .social-ico{width:22px;height:22px;flex-shrink:0;object-fit:contain}
 .ico{width:22px;height:22px;margin-right:10px;vertical-align:middle;object-fit:contain;flex-shrink:0}
 
+@media(max-width:960px){
+  header .bar > nav{display:none}
+  header .menu-btn{display:flex}
+}
+@media(min-width:961px){
+  header .bar{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr)}
+  header .bar > .brand{justify-self:start}
+  header .bar > nav{grid-column:2;justify-self:center}
+  header .bar > .actions{grid-column:3;justify-self:end}
+  header .mobile-nav.open{display:none}
+}
 @media(max-width:800px){
-  nav{display:none}
-  .menu-btn{display:flex}
   .contact{grid-template-columns:1fr}
   .hero{padding:64px 0 56px}
   section.block{padding:60px 0}
