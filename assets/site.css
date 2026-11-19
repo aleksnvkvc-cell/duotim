@@ -18,8 +18,8 @@
   --field-border:#747474;
 }
 [data-theme="dark"]{
-  --bg:#382820;
-  --surface:#453229;
+  --bg:#302218;
+  --surface:#3e2c20;
   --text:#ffffff;
   --muted:#dfd2c3;
   --line:#6a5747;
@@ -1231,7 +1231,7 @@ button,input,select,textarea{font-family:var(--font-ui)}
 
 /* Gray paper and charcoal themes, with the same yellow accent in both. */
 :root{color-scheme:light;--header-bg:#cac8c2;--footer-bg:#d1cfca;--hero-paper:#c9c5bc}
-:root[data-theme="dark"]{color-scheme:dark;--header-bg:#d8d6cf;--footer-bg:#30211b;--hero-paper:#c8b8a0}
+:root[data-theme="dark"]{color-scheme:dark;--header-bg:#d8d6cf;--footer-bg:#291c14;--hero-paper:#c8b8a0}
 :root[data-theme] header{
   background-color:var(--header-bg);
   background-image:
