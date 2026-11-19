@@ -1188,39 +1188,54 @@ button,input,select,textarea{font-family:var(--font-ui)}
   15%,100%{background-position:0 0}
 }
 
-/* Logo and a compact work preview share the flyer panel. */
+/* Fill the hero with the active photo and keep the signature V at its lower edge. */
+.home-flyer .hero.hero-chevron-top{--hero-v-height:clamp(16px,2.5vw,28px)}
 .home-flyer .hero-logo-panel{
-  --text:#211b16;--muted:#43372b;--line:#766451;--accent-ink:#57350d;
+  clip-path:polygon(0 0,100% 0,100% calc(100% - var(--hero-v-height) * .92),
+                    50% calc(100% - var(--hero-v-height) * .09),
+                    0 calc(100% - var(--hero-v-height) * .92));
 }
 .home-flyer .hero.hero-chevron-top .hero-row{
-  display:grid;grid-template-columns:minmax(112px,1fr) minmax(0,2fr);
-  gap:clamp(12px,3vw,36px);padding:12px 0;align-items:center;
+  width:100%;min-height:clamp(164px,26vw,310px);
+  display:flex;justify-content:flex-start;align-items:center;
 }
-.home-flyer .hero-logo-panel .hero-logo{justify-self:center;width:clamp(122px,18vw,188px)}
-.hero-work-preview{color:var(--text);min-width:0}
-.hero-work-preview h2{font-size:clamp(17px,2.3vw,24px);margin:0}
-.hero-work-preview .work-preview-slide:not([hidden]){
-  grid-template-columns:minmax(80px,1.1fr) minmax(0,1fr);gap:12px;margin:5px 0;
+.home-flyer .hero-logo-panel .hero-logo{
+  z-index:2;width:clamp(100px,18vw,188px);
+  margin-inline-start:clamp(12px,7vw,112px);pointer-events:none;
 }
-.hero-work-photo{
-  min-width:0;height:clamp(78px,15svh,124px);
-  background:#28211b;clip-path:polygon(0 0,100% 0,100% 88%,50% 100%,0 88%);
+.home-flyer .hero-chevron{
+  position:absolute;inset:auto 0 0;height:var(--hero-v-height);margin:0;
+  pointer-events:none;z-index:3;
 }
-.home-flyer .hero-work-preview .work-preview-slide .hero-work-photo img{
+.home-flyer .hero-chevron-paper{display:none}
+.hero-work-preview,.hero-work-preview .work-preview,
+.hero-work-preview .hero-work-photo{position:absolute;inset:0}
+.hero-work-preview .work-preview:focus-visible{outline:2px solid var(--accent);outline-offset:-6px}
+.home-masthead .hero-work-preview .work-preview-slide:not([hidden]){
+  position:absolute;inset:0;display:block;margin:0;perspective:none;
+}
+.hero-work-preview .hero-work-photo::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,rgba(227,214,191,.9) 0%,rgba(227,214,191,.8) 23%,
+    rgba(26,20,17,.12) 46%,rgba(26,20,17,.78) 72%,rgba(26,20,17,.94) 100%);
+}
+.home-flyer .hero-work-preview .hero-work-photo img{
   display:block;width:100%;height:100%;aspect-ratio:auto;object-fit:cover;
-  background:transparent;border:0;transform:none;
+  object-position:center;background:none;border:0;transform:none;
 }
-.home-flyer .hero-work-preview .hero-work-photo img.work-preview-portrait{
-  object-fit:contain;
+.home-masthead .hero-work-preview .work-preview-slide figcaption{
+  position:absolute;inset-inline-end:clamp(12px,7vw,112px);top:50%;
+  transform:translateY(-50%);width:min(34%,320px);
+  margin:0;padding-inline-start:clamp(6px,1vw,14px);
+  border-color:var(--accent);color:#fff6e8;
 }
-.hero-work-preview .work-preview-slide figcaption{padding-inline-start:8px;border-color:var(--accent-ink)}
-.hero-work-preview .work-preview-slide figcaption strong{font-size:clamp(14px,2vw,17px);line-height:1.2}
-.hero-work-preview .work-preview-slide figcaption p{font-size:13px;line-height:1.28;margin-top:3px}
-.hero-work-preview .work-preview-controls{gap:7px}
-.hero-work-preview .work-preview-controls button{min-height:40px;padding:4px 8px}
-.hero-work-preview .work-preview-controls .emoji{filter:brightness(0) opacity(.78)}
-.hero-work-link{margin-inline-start:4px;color:var(--accent-ink);font-size:14px;font-weight:700}
+.hero-work-preview .work-preview-slide figcaption strong{
+  font:800 clamp(14px,2.3vw,26px)/1.15 var(--font-heading);
+}
+.hero-work-preview .work-preview-slide figcaption p{
+  color:#f7e5d0;font-size:clamp(11px,1.5vw,15px);line-height:1.35;margin-top:4px;
+}
 @media(max-width:560px){
-  .home-flyer .hero.hero-chevron-top .hero-row{grid-template-columns:minmax(0,1fr);gap:8px;padding:6px 0}
-  .home-flyer .hero-logo-panel .hero-logo{width:112px}
+  .home-flyer .hero-logo-panel .hero-logo{width:clamp(86px,26vw,112px)}
+  .home-masthead .hero-work-preview .work-preview-slide figcaption{width:42%}
 }
