@@ -531,6 +531,9 @@
         (hover.matches && offer.querySelector('.offer-more a:hover'))) return null;
 
     const readingPoint = window.innerHeight * .5;
+    const bounds = offer.getBoundingClientRect();
+    if (bounds.top > readingPoint || bounds.bottom <= readingPoint) return null;
+
     const active = rows.findIndex(row => {
       const rect = row.getBoundingClientRect();
       return rect.top <= readingPoint && rect.bottom > readingPoint;
@@ -550,7 +553,14 @@
     }, delay);
   }
 
-  window.addEventListener('scroll', schedule, { passive: true });
+  let scrollFrame = 0;
+  window.addEventListener('scroll', () => {
+    if (scrollFrame) return;
+    scrollFrame = window.requestAnimationFrame(() => {
+      scrollFrame = 0;
+      schedule();
+    });
+  }, { passive: true });
   window.addEventListener('resize', schedule, { passive: true });
   window.addEventListener('pageshow', schedule);
   document.addEventListener('visibilitychange', schedule);
