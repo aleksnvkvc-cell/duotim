@@ -1271,7 +1271,7 @@ footer::before {
   inset: 1px 0 auto;
   height: clamp(10px, 1.65vw, 18px);
   pointer-events: none;
-  --divider-softness: .85px;
+  --divider-softness: 1.8px;
   --divider-stroke: transparent calc(50% - 2px - var(--divider-softness)),
     var(--accent-detail) calc(50% - 2px),
     transparent 50%,
@@ -1281,12 +1281,9 @@ footer::before {
   background:
     linear-gradient(to bottom left, var(--divider-stroke)) left center / 50.1% 100% no-repeat,
     linear-gradient(to bottom right, var(--divider-stroke)) right center / 50.1% 100% no-repeat;
-  opacity: .48;
+  opacity: .38;
 }
 main .page-head { position: relative; }
-main section.block:nth-of-type(even)::after,
-footer::before { --divider-softness: 1.8px; opacity: .38; }
-.home-offer .offer-row::before { --divider-softness: .4px; opacity: .35; }
 @media(max-width:560px){main section.block{padding-block-start:14px}}
 
 /* Sweep a short highlight over the letters, then return to the solid fill. */
