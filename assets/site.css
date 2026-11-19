@@ -1099,7 +1099,7 @@ button,input,select,textarea{font-family:var(--font-ui)}
 .home-flyer #home-title .home-title-dom{
   color:#ffca47;background:none;
 }
-.home-title-word{display:inline-block}
+.home-title-word{position:relative;display:inline-block}
 .home-flyer .trust li{min-width:0;max-width:100%}
 .home-flyer .trust li::before{flex:none}
 @media(prefers-reduced-motion:no-preference){
@@ -1156,4 +1156,27 @@ button,input,select,textarea{font-family:var(--font-ui)}
 @keyframes hero-logo-letter-enter{
   from{opacity:0;transform:translateX(var(--logo-offset))}
   to{opacity:1;transform:none}
+}
+
+/* A diagonal highlight follows the words after their entrance. */
+@supports (background-clip:text){
+  @media(prefers-reduced-motion:no-preference){
+    #home-title .home-title-word::after{
+      content:attr(data-sweep-word);
+      position:absolute;inset:0;pointer-events:none;
+      color:transparent;
+      background:linear-gradient(108deg,transparent 45%,var(--title-glint,#fbb400) 50%,transparent 55%)
+        100% 0 / 280% 100% no-repeat;
+      background-clip:text;
+      animation:home-title-sweep 8s ease-in-out infinite both;
+      animation-delay:calc(1.05s + var(--word-index,0) * .11s);
+    }
+    #home-title .home-title-dom{--title-glint:#fff}
+  }
+}
+@keyframes home-title-sweep{
+  0%{background-position:100% 0;opacity:0}
+  2%{opacity:1}
+  11%{opacity:1}
+  14%,100%{background-position:0 0;opacity:0}
 }
