@@ -84,8 +84,15 @@
   ]
 }
 </script>
+<style>
+/* UI UX Pro Max: accessible keyboard navigation without changing the flyer design */
+.skip-to-content{position:fixed;top:8px;left:8px;z-index:9999;padding:10px 16px;background:#fbb400;color:#242323;font-weight:700;text-decoration:none;transform:translateY(-160%)}
+.skip-to-content:focus{transform:none;outline:3px solid #242323;outline-offset:2px}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+</style>
 </head>
 <body id="vrh">
+<a class="skip-to-content" href="#glavni-sadrzaj">Preskoči na glavni sadržaj</a>
 
 <div class="topbar" role="region" aria-label="Kontakt podaci" style="background-color:#1e2023;color:#fff;font-size:13px">
   <div class="wrap" style="display:flex;flex-wrap:wrap;gap:6px 22px;align-items:center;justify-content:center;padding:8px 0">
@@ -137,7 +144,7 @@
   </div>
 </header>
 
-<main class="home-depth home-flyer">
+<main id="glavni-sadrzaj" class="home-depth home-flyer" tabindex="-1">
 
   <div class="home-masthead">
     <div class="hero hero-chevron-top">
