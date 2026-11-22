@@ -1487,3 +1487,41 @@ main section.block:nth-of-type(even)::after { --divider-softness: 2.4px; }
     animation-delay: calc(var(--word-index, 0) * .085s);
   }
 }
+
+
+/* UI/UX Pro Max pass — home hero clarity, mobile balance and accessibility. */
+.home-flyer .home-masthead{padding-block:clamp(20px,3vw,42px)}
+.home-flyer .hero.hero-chevron-top{min-width:0}
+.home-flyer .home-intro h1{line-height:1.12;letter-spacing:-.025em}
+.home-flyer .home-intro .lead{line-height:1.65;max-width:62ch}
+.home-flyer .hero-work-preview .hero-work-photo img{object-fit:cover;object-position:center}
+.home-flyer .hero-work-preview .work-preview-slide figcaption{line-height:1.35}
+.home-flyer :is(a,button,[tabindex="0"]):focus-visible{
+  outline:3px solid #fbb400;outline-offset:4px;
+}
+@media(max-width:899px){
+  .home-flyer .home-masthead{display:flex;flex-direction:column;align-items:center;gap:clamp(16px,3vw,28px)}
+  .home-flyer .home-masthead > .hero{order:0}
+  .home-flyer .home-masthead > .home-intro{order:1;width:100%}
+  .home-flyer .home-intro{text-align:center}
+  .home-flyer .home-intro h1,.home-flyer .home-intro .lead{margin-inline:auto}
+  .home-flyer .home-intro .trust{justify-content:center}
+  .home-flyer .hero.hero-chevron-top{width:min(100%,760px)}
+}
+@media(max-width:560px){
+  .home-flyer .home-masthead{padding-block:18px 24px}
+  .home-flyer .hero-logo-panel{block-size:clamp(155px,47vw,235px)}
+  .home-flyer .hero-logo-panel .hero-logo{width:min(94%,122px)}
+  .home-flyer .hero-work-preview .hero-work-photo{inset-inline:24% 28%}
+  .home-masthead .hero-work-preview .work-preview-slide figcaption{width:28%;padding-inline:6px}
+  .home-flyer .hero-work-preview .work-preview-slide figcaption strong{font-size:clamp(12px,3.2vw,15px)}
+  .home-flyer .hero-work-preview .work-preview-slide figcaption p{font-size:11px}
+  .home-flyer .home-intro .wrap{padding-inline:18px}
+  .home-flyer .home-intro h1{font-size:clamp(29px,8vw,42px)}
+  .home-flyer .home-intro .trust{gap:8px 12px}
+}
+@media(prefers-reduced-motion:reduce){
+  .home-flyer .hero-logo-letter,.home-flyer .hero-logo-mark,
+  .home-flyer .hero-work-preview img,.home-flyer #home-title *,
+  #ponuda-naslov > span{animation:none!important;transition:none!important}
+}
