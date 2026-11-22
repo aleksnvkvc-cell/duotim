@@ -1538,3 +1538,51 @@ main section.block:nth-of-type(even)::after { --divider-softness: 2.4px; }
   scroll-behavior:auto!important;
 }
 html{scroll-behavior:auto!important}
+
+.home-flyer .hero-logo-panel {
+  --hero-logo-band: clamp(56px, 10vw, 76px);
+  block-size: calc(var(--hero-logo-band) + clamp(155px, 29vw, 245px));
+}
+
+.home-flyer .hero.hero-chevron-top .hero-row {
+  height: var(--hero-logo-band);
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.home-flyer .hero-logo-panel .hero-logo {
+  width: clamp(88px, 16vw, 135px);
+}
+
+.home-flyer .hero-logo-panel .hero-logo-art {
+  max-height: calc(var(--hero-logo-band) - 10px);
+}
+
+.home-flyer .hero-work-preview { inset-block: var(--hero-logo-band) 0; }
+.home-flyer .hero-work-preview .hero-work-photo { inset-inline: 26%; }
+
+.home-flyer .hero-work-preview .work-preview-slide figcaption {
+  inset: 0 0 var(--hero-v-height);
+  width: auto;
+  transform: none;
+  display: grid;
+  grid-template-columns: minmax(0, 26fr) minmax(0, 48fr) minmax(0, 26fr);
+  align-items: center;
+  padding: 0;
+  pointer-events: none;
+}
+
+.home-flyer .hero-work-preview figcaption > strong,
+.home-flyer .hero-work-description {
+  padding-inline: clamp(5px, 1.4vw, 14px);
+  pointer-events: auto;
+}
+
+.home-flyer .hero-work-preview figcaption > strong { grid-column: 1; }
+.home-flyer .hero-work-description { grid-column: 3; }
+.home-flyer .hero-work-description p { margin-top: 0; }
+
+@media (max-width: 560px) {
+  .home-flyer .hero-logo-panel {
+    block-size: calc(var(--hero-logo-band) + clamp(155px, 47vw, 235px));
+  }
+}
