@@ -1525,3 +1525,16 @@ main section.block:nth-of-type(even)::after { --divider-softness: 2.4px; }
   .home-flyer .hero-work-preview img,.home-flyer #home-title *,
   #ponuda-naslov > span{animation:none!important;transition:none!important}
 }
+
+
+/* Permanent static presentation: animations and transitions are disabled for everyone. */
+*,*::before,*::after{
+  animation-name:none!important;
+  animation-duration:0s!important;
+  animation-delay:0s!important;
+  transition-property:none!important;
+  transition-duration:0s!important;
+  transition-delay:0s!important;
+  scroll-behavior:auto!important;
+}
+html{scroll-behavior:auto!important}
