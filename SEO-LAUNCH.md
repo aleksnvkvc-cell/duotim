@@ -1,0 +1,14 @@
+# SEO launch checklist
+- Configure verified custom domain in GitHub Pages and DNS; enforce HTTPS.
+- Run python3 scripts/migrate_domain.py https://YOUR-DOMAIN/ first as dry run, then with --apply; run python3 scripts/seo_audit.py.
+- Verify canonical URLs, redirects, root robots.txt, sitemap, image URLs, and 404 behavior on production.
+- Verify Google Search Console and Bing Webmaster Tools; submit sitemap.xml.
+- Verify Google Business Profile, consistent address and phones, real service areas, and genuine customer reviews. No fabricated locations or reviews.
+- Configure analytics only with actual measurement ID and appropriate privacy/consent controls. Track successful inquiries and phone/WhatsApp clicks separately.
+- Run mobile and desktop Lighthouse, PageSpeed Insights, keyboard checks and contact form tests.
+- Use Search Console and Keyword Planner to validate query demand; do not treat target phrases as measured volumes.
+- Publish real project case studies with permission; seek relevant supplier and local business citations, not purchased links.
+- No hreflang until real translated pages exist. No artificial city doorway pages.
+- Google guidance: https://developers.google.com/search/docs/fundamentals/seo-starter-guide
+- Image guidance: https://developers.google.com/search/docs/appearance/google-images
+- AI guidance: https://developers.google.com/search/docs/appearance/ai-features
