@@ -376,7 +376,7 @@
 
       target.animate([
         { textShadow: 'none' },
-        { textShadow: '-2px 0 #5eabffb3, 2px 0 #ffc347bf', offset: .48 },
+        { textShadow: '-1px 0 #5eabff66, 1px 0 #ffc34780', offset: .48 },
         { textShadow: 'none' }
       ], { duration: 350, delay: index * 95, easing: 'ease-in-out' });
     });

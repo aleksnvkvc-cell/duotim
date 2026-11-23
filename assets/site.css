@@ -1652,3 +1652,18 @@ html{scroll-behavior:auto!important}
   transform: translateY(2px);
   box-shadow: 0 1px 1px #17130d55;
 }
+
+body:has(.home-flyer) header nav a,
+.home-flyer .home-page-links a {
+  font-weight: 750;
+  text-shadow: none;
+}
+
+body:has(.home-flyer) header nav a {
+  color: #201b14;
+}
+
+.home-flyer .home-page-links a {
+  text-decoration-thickness: 1px;
+  text-underline-offset: .17em;
+}
