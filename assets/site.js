@@ -225,73 +225,23 @@
   box.addEventListener('focusin', load);
 })();
 
-// Static mode: no automatic hero rotation or automatic category scrolling.
-
 (function () {
   const preview = document.querySelector('.hero-work-preview');
   if (!preview) return;
 
   const slides = Array.from(preview.querySelectorAll('.work-preview-slide'));
-  const controls = preview.querySelector('.hero-tour-controls');
-  if (!controls || slides.length < 2) return;
+  if (slides.length < 2) return;
 
-  const play = controls.querySelector('[data-tour-play]');
-  const status = controls.querySelector('[data-tour-status]');
-  let index = 0;
-  let timer = null;
-
-  function step(direction, announce) {
-    slides[index].hidden = true;
-    index = (index + direction + slides.length) % slides.length;
-    slides[index].hidden = false;
-    if (announce) status.textContent = slides[index].querySelector('figcaption strong').textContent + ', kadar ' + (index + 1) + ' od ' + slides.length;
-  }
-
-  function pause() {
-    if (timer === null) return;
-    window.clearInterval(timer);
-    timer = null;
-    play.textContent = 'Pokreni obilazak';
-  }
-
-  play.addEventListener('click', () => {
-    if (timer !== null) {
-      pause();
-      return;
-    }
-    step(1, false);
-    play.textContent = 'Pauziraj obilazak';
-    timer = window.setInterval(() => step(1, false), 5000);
-  });
-
-  controls.querySelector('[data-tour-prev]').addEventListener('click', () => { pause(); step(-1, true); });
-  controls.querySelector('[data-tour-next]').addEventListener('click', () => { pause(); step(1, true); });
-  preview.addEventListener('focusin', event => {
-    if (event.target.closest('figcaption a')) pause();
-  });
-  document.addEventListener('visibilitychange', () => { if (document.hidden) pause(); });
-  window.addEventListener('pagehide', pause);
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  let scrollAnchor = window.scrollY;
-  let scrollFrame = 0;
+  const hover = window.matchMedia('(hover: hover)');
+  let current = 0;
 
-  window.addEventListener('scroll', () => {
-    if (scrollFrame) return;
-    scrollFrame = window.requestAnimationFrame(() => {
-      scrollFrame = 0;
-      const position = Math.max(0, window.scrollY);
-      const rect = preview.getBoundingClientRect();
-      if (timer !== null || reducedMotion.matches || document.hidden ||
-          preview.matches(':focus-within') || rect.bottom < 80 || rect.top >= window.innerHeight) {
-        scrollAnchor = position;
-        return;
-      }
-      const distance = position - scrollAnchor;
-      if (Math.abs(distance) < 110) return;
-      scrollAnchor = position;
-      step(Math.sign(distance), false);
-    });
-  }, { passive: true });
+  window.setInterval(() => {
+    if (document.hidden || reducedMotion.matches || preview.matches(':focus-within') ||
+        (hover.matches && preview.matches(':hover'))) return;
 
-  controls.hidden = false;
+    slides[current].hidden = true;
+    current = (current + 1) % slides.length;
+    slides[current].hidden = false;
+  }, 3500);
 })();
