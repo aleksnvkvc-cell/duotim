@@ -349,3 +349,17 @@
     }
   }
 })();
+
+(function () {
+  if (typeof Element.prototype.animate !== 'function' ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  document.querySelectorAll('.home-intro .home-action').forEach((button, index) => {
+    button.animate([
+      { transform: 'perspective(300px) rotateY(-9deg) translateY(3px)' },
+      { transform: 'perspective(300px) rotateY(5deg) translateY(-2px)',
+        boxShadow: '-4px 1px #5eabff96, 4px 1px #ffc3479c', offset: .52 },
+      { transform: 'none' }
+    ], { duration: 440, delay: 280 + index * 95, easing: 'ease-out' });
+  });
+})();
