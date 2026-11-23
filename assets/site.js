@@ -300,3 +300,43 @@
     revealDescription(slides[current]);
   }, 3500);
 })();
+
+(function () {
+  const logo = document.querySelector('.hero-logo-art');
+  const materials = document.querySelectorAll('#home-title .home-title-alu, #home-title .home-title-pvc');
+  if (!logo || typeof Element.prototype.animate !== 'function' ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  for (const letter of logo.querySelectorAll('.hero-logo-letter')) {
+    const offset = letter.classList.contains('hero-logo-letter--left') ? -16 : 16;
+    letter.animate([
+      { opacity: 0, transform: 'translateX(' + offset + 'px)' },
+      { opacity: 1, transform: 'translateX(0)' }
+    ], { duration: 410, delay: Number(letter.style.getPropertyValue('--logo-step')) * 90, easing: 'ease-out', fill: 'backwards' });
+  }
+
+  logo.querySelector('.hero-logo-mark')?.animate(
+    [{ opacity: 0 }, { opacity: 1 }],
+    { duration: 380, easing: 'ease-out' }
+  );
+
+  let letterIndex = 0;
+  for (const material of materials) {
+    const fragment = document.createDocumentFragment();
+    for (const character of material.textContent) {
+      const letter = document.createElement('span');
+      letter.style.display = 'inline-block';
+      letter.textContent = character;
+      fragment.append(letter);
+    }
+    material.replaceChildren(fragment);
+    for (const letter of material.children) {
+      letter.animate([
+        { opacity: 0, transform: 'translateY(5px) scale(.78)' },
+        { opacity: 1, transform: 'translateY(-1px) scale(1.08)', offset: .72 },
+        { opacity: 1, transform: 'none' }
+      ], { duration: 310, delay: 160 + letterIndex * 68, easing: 'ease-out', fill: 'backwards' });
+      letterIndex++;
+    }
+  }
+})();
