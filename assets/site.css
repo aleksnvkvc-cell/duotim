@@ -1636,3 +1636,11 @@ html{scroll-behavior:auto!important}
 :root[data-theme="dark"] .home-flyer .home-masthead {
   background-image: var(--home-background-glint), var(--brushed-metal), linear-gradient(var(--surface), var(--bg));
 }
+
+.home-flyer .hero-logo-art {
+  filter: drop-shadow(0 1px 0 #182235) drop-shadow(0 2px 1px #18223580);
+}
+
+.home-flyer #home-title :is(.home-title-alu, .home-title-pvc) {
+  box-shadow: 0 2px 0 #775618, 0 3px 2px #17130d70;
+}

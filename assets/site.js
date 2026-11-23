@@ -307,6 +307,14 @@
   if (!logo || typeof Element.prototype.animate !== 'function' ||
       window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
+  const restingShadow = getComputedStyle(logo).filter;
+  logo.animate([
+    { transform: 'perspective(420px) rotateY(-14deg) scale(.96)', filter: restingShadow },
+    { transform: 'perspective(420px) rotateY(8deg) scale(1.04)',
+      filter: 'drop-shadow(-5px 1px 0 #5eabff96) drop-shadow(5px -1px 0 #ffc3479c)', offset: .48 },
+    { transform: 'none', filter: restingShadow }
+  ], { duration: 620, delay: 110, easing: 'ease-in-out' });
+
   for (const letter of logo.querySelectorAll('.hero-logo-letter')) {
     const offset = letter.classList.contains('hero-logo-letter--left') ? -16 : 16;
     letter.animate([
@@ -333,9 +341,10 @@
     for (const letter of material.children) {
       letter.animate([
         { opacity: 0, transform: 'translateY(5px) scale(.78)' },
-        { opacity: 1, transform: 'translateY(-1px) scale(1.08)', offset: .72 },
-        { opacity: 1, transform: 'none' }
-      ], { duration: 310, delay: 160 + letterIndex * 68, easing: 'ease-out', fill: 'backwards' });
+        { opacity: 1, transform: 'perspective(220px) translateZ(12px) rotateY(8deg)',
+          textShadow: '-2px 0 #5eabff, 2px 0 #ffd36a', offset: .58 },
+        { opacity: 1, transform: 'none', textShadow: 'none' }
+      ], { duration: 380, delay: 160 + letterIndex * 68, easing: 'ease-out', fill: 'backwards' });
       letterIndex++;
     }
   }
