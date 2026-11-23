@@ -236,6 +236,42 @@
   const hover = window.matchMedia('(hover: hover)');
   let current = 0;
 
+  // Keep words together while revealing their letters in order.
+  function revealCaption(slide) {
+    if (reducedMotion.matches || typeof Element.prototype.animate !== 'function') return;
+
+    for (const line of slide.querySelectorAll('figcaption strong, figcaption p')) {
+      if (!line.hasAttribute('aria-label')) {
+        const label = line.textContent.trim();
+        line.setAttribute('aria-label', label);
+        const fragment = document.createDocumentFragment();
+        label.split(/\s+/).forEach((word, index) => {
+          if (index) fragment.append(' ');
+          const group = document.createElement('span');
+          group.style.whiteSpace = 'nowrap';
+          for (const letter of word) {
+            const span = document.createElement('span');
+            span.className = 'slide-letter';
+            span.textContent = letter;
+            group.append(span);
+          }
+          fragment.append(group);
+        });
+        line.replaceChildren(fragment);
+      }
+
+      line.querySelectorAll('.slide-letter').forEach((letter, index) => {
+        letter.animate([{ opacity: .15 }, { opacity: 1 }], {
+          duration: 190,
+          delay: Math.min(index * 16, 560),
+          easing: 'ease-out',
+          fill: 'backwards'
+        });
+      });
+    }
+  }
+
+  revealCaption(slides[current]);
   window.setInterval(() => {
     if (document.hidden || reducedMotion.matches || preview.matches(':focus-within') ||
         (hover.matches && preview.matches(':hover'))) return;
@@ -243,5 +279,6 @@
     slides[current].hidden = true;
     current = (current + 1) % slides.length;
     slides[current].hidden = false;
+    revealCaption(slides[current]);
   }, 3500);
 })();
