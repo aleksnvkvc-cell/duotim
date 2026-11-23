@@ -271,5 +271,27 @@
   });
   document.addEventListener('visibilitychange', () => { if (document.hidden) pause(); });
   window.addEventListener('pagehide', pause);
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let scrollAnchor = window.scrollY;
+  let scrollFrame = 0;
+
+  window.addEventListener('scroll', () => {
+    if (scrollFrame) return;
+    scrollFrame = window.requestAnimationFrame(() => {
+      scrollFrame = 0;
+      const position = Math.max(0, window.scrollY);
+      const rect = preview.getBoundingClientRect();
+      if (timer !== null || reducedMotion.matches || document.hidden ||
+          preview.matches(':focus-within') || rect.bottom < 80 || rect.top >= window.innerHeight) {
+        scrollAnchor = position;
+        return;
+      }
+      const distance = position - scrollAnchor;
+      if (Math.abs(distance) < 110) return;
+      scrollAnchor = position;
+      step(Math.sign(distance), false);
+    });
+  }, { passive: true });
+
   controls.hidden = false;
 })();
