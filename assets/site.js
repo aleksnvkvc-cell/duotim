@@ -309,11 +309,14 @@
 
   const restingShadow = getComputedStyle(logo).filter;
   logo.animate([
-    { transform: 'perspective(420px) rotateY(-14deg) scale(.96)', filter: restingShadow },
-    { transform: 'perspective(420px) rotateY(8deg) scale(1.04)',
-      filter: 'drop-shadow(-5px 1px 0 #5eabff96) drop-shadow(5px -1px 0 #ffc3479c)', offset: .48 },
-    { transform: 'none', filter: restingShadow }
-  ], { duration: 520, delay: 110, easing: 'ease-in-out' });
+    { transform: 'perspective(360px) translateZ(-32px) rotateY(-19deg) rotateX(8deg)',
+      filter: 'drop-shadow(-8px 1px 0 #5eabff70) drop-shadow(7px -1px 0 #ffc34770)' },
+    { transform: 'perspective(360px) translateZ(26px) rotateY(10deg) rotateX(-5deg)',
+      filter: 'drop-shadow(-5px 0 0 #5eabffb0) drop-shadow(5px 0 0 #ffc347b0)', offset: .46 },
+    { transform: 'perspective(360px) translateZ(-5px) rotateY(-3deg)',
+      filter: 'drop-shadow(-1px 1px 0 #5eabff50) drop-shadow(1px 2px 1px #18223580)', offset: .78 },
+    { transform: 'perspective(360px) translateZ(0) rotateY(0) rotateX(0)', filter: restingShadow }
+  ], { duration: 560, delay: 90, easing: 'cubic-bezier(.22,.72,.25,1)' });
 
   for (const letter of logo.querySelectorAll('.hero-logo-letter')) {
     const offset = letter.classList.contains('hero-logo-letter--left') ? -16 : 16;
