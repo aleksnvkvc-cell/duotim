@@ -226,3 +226,50 @@
 })();
 
 // Static mode: no automatic hero rotation or automatic category scrolling.
+
+(function () {
+  const preview = document.querySelector('.hero-work-preview');
+  if (!preview) return;
+
+  const slides = Array.from(preview.querySelectorAll('.work-preview-slide'));
+  const controls = preview.querySelector('.hero-tour-controls');
+  if (!controls || slides.length < 2) return;
+
+  const play = controls.querySelector('[data-tour-play]');
+  const status = controls.querySelector('[data-tour-status]');
+  let index = 0;
+  let timer = null;
+
+  function step(direction, announce) {
+    slides[index].hidden = true;
+    index = (index + direction + slides.length) % slides.length;
+    slides[index].hidden = false;
+    if (announce) status.textContent = slides[index].querySelector('figcaption strong').textContent + ', kadar ' + (index + 1) + ' od ' + slides.length;
+  }
+
+  function pause() {
+    if (timer === null) return;
+    window.clearInterval(timer);
+    timer = null;
+    play.textContent = 'Pokreni obilazak';
+  }
+
+  play.addEventListener('click', () => {
+    if (timer !== null) {
+      pause();
+      return;
+    }
+    step(1, false);
+    play.textContent = 'Pauziraj obilazak';
+    timer = window.setInterval(() => step(1, false), 5000);
+  });
+
+  controls.querySelector('[data-tour-prev]').addEventListener('click', () => { pause(); step(-1, true); });
+  controls.querySelector('[data-tour-next]').addEventListener('click', () => { pause(); step(1, true); });
+  preview.addEventListener('focusin', event => {
+    if (event.target.closest('figcaption a')) pause();
+  });
+  document.addEventListener('visibilitychange', () => { if (document.hidden) pause(); });
+  window.addEventListener('pagehide', pause);
+  controls.hidden = false;
+})();

@@ -27,7 +27,7 @@
 <meta name="twitter:image:alt" content="DUO TIM · aleksnvkvc-cell.github.io/duotim/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="assets/site.css?v=20261122-hero-layout">
+<link rel="stylesheet" href="assets/site.css?v=20261123-mini-tour">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700&amp;family=Bricolage+Grotesque:wght@600..800&amp;family=DM+Sans:wght@400..800&amp;display=swap">
 <script type="application/ld+json">
 {
@@ -195,6 +195,12 @@
               <figcaption><strong>Od merenja do montaže</strong><div class="hero-work-description"><p>Merenje, ugradnja i servis.</p><a href="usluge.html">Usluge</a> <a href="kontakt.html">Kontakt</a></div></figcaption>
             </figure>
           </div>
+          <div class="hero-tour-controls" hidden>
+            <button type="button" data-tour-prev aria-label="Prethodni kadar">‹</button>
+            <button type="button" data-tour-play>Pokreni obilazak</button>
+            <button type="button" data-tour-next aria-label="Sledeći kadar">›</button>
+            <span class="sr-only" data-tour-status aria-live="polite"></span>
+          </div>
         </section>
       </div>
       <div class="hero-chevron" aria-hidden="true">
@@ -209,135 +215,23 @@
       <div class="wrap">
         <h1 id="home-title"><span class="home-title-alu">ALU</span> i <span class="home-title-pvc">PVC</span> stolarija po <span class="home-title-accent">meri</span></h1>
         <p class="lead">Duo Tim radi aluminijumsku i PVC stolariju. Zakažite merenje u Žabarima, Kučevu, Požarevcu i okolini. Dobijate predračun pa odlučujete da li želite da naručite.</p>
-        <ul class="trust" aria-label="Šta dobijate">
-          <li>Preko 18 godina iskustva</li>
-          <li>Merenje na terenu</li>
-          <li>Predračun pre naručivanja</li>
-          <li>Montaža i servis</li>
-          <li>Žabari, Kučevo, Požarevac, Petrovac na Mlavi</li>
-        </ul>
       </div>
     </section>
   </div>
 
   <section class="block" id="radovi-pocetna" aria-labelledby="ponuda-naslov">
     <div class="wrap home-offer">
-      <h2 id="ponuda-naslov"><span>Šta</span> <span>nudimo</span></h2>
-      <article class="offer-row">
-        <h3>Prozori i balkonska vrata</h3>
-        <div class="offer-examples">
-          <figure>
-            <img src="assets/katalog/p01.svg" alt="" loading="lazy">
-            <figcaption>Dvokrilni prozor sa spoljnom roletnom</figcaption>
-          </figure>
-          <figure>
-            <img src="assets/katalog/p02.svg" alt="" loading="lazy">
-            <figcaption>Prozor sa roletnom i nadgradnom kutijom</figcaption>
-          </figure>
-          <figure>
-            <img src="assets/katalog/p03.svg" alt="" loading="lazy">
-            <figcaption>Klizni prozor</figcaption>
-          </figure>
-          <figure>
-            <img src="assets/katalog/p04.svg" alt="" loading="lazy">
-            <figcaption>Jednokrilni prozori, otvaranje na kip i krilo</figcaption>
-          </figure>
-        </div>
-        <p class="offer-more"><a href="katalog.html#prozori">Pogledaj još<span class="sr-only"> – Prozori i balkonska vrata</span></a></p>
-      </article>
-      <article class="offer-row">
-        <h3>Ulazna vrata</h3>
-        <div class="offer-examples">
-          <figure>
-            <img src="assets/katalog/u01.svg" alt="" loading="lazy">
-            <figcaption>Bela ulazna vrata sa horizontalnim linijama</figcaption>
-          </figure>
-          <figure>
-            <img src="assets/katalog/u02.svg" alt="" loading="lazy">
-            <figcaption>Bela ulazna vrata sa bočnim krilom i staklima</figcaption>
-          </figure>
-          <figure>
-            <img src="assets/katalog/u03.svg" alt="" loading="lazy">
-            <figcaption>Bela ulazna vrata sa lučnim staklom</figcaption>
-          </figure>
-          <figure>
-            <img src="assets/katalog/u04.svg" alt="" loading="lazy">
-            <figcaption>Antracit vrata sa staklenim umetcima</figcaption>
-          </figure>
-        </div>
-        <p class="offer-more"><a href="katalog.html#ulazna">Pogledaj još<span class="sr-only"> – Ulazna vrata</span></a></p>
-      </article>
-      <article class="offer-row">
-        <h3>Sobna vrata</h3>
-        <div class="offer-examples">
-          <figure>
-            <img src="assets/katalog/s01.svg" alt="" loading="lazy">
-            <figcaption>Bela sobna vrata</figcaption>
-          </figure>
-          <figure>
-            <img src="assets/katalog/s02.svg" alt="" loading="lazy">
-            <figcaption>Sobna vrata sa staklom, dekor drveta</figcaption>
-          </figure>
-          <figure>
-            <img src="assets/katalog/s03.svg" alt="" loading="lazy">
-            <figcaption>Siva sobna vrata</figcaption>
-          </figure>
-          <figure>
-            <img src="assets/katalog/s04.svg" alt="" loading="lazy">
-            <figcaption>Sobna vrata, svetli dekor drveta</figcaption>
-          </figure>
-        </div>
-        <p class="offer-more"><a href="katalog.html#sobna">Pogledaj još<span class="sr-only"> – Sobna vrata</span></a></p>
-      </article>
-      <article class="offer-row">
-        <h3>Garažna vrata</h3>
-        <div class="offer-examples">
-          <figure>
-            <img src="assets/katalog/g04.svg" alt="" loading="lazy">
-            <figcaption>Rolo garažna vrata</figcaption>
-          </figure>
-          <figure>
-            <img src="assets/katalog/g01.svg" alt="" loading="lazy">
-            <figcaption>Segmentna vrata sa prozorčićima</figcaption>
-          </figure>
-          <figure>
-            <img src="assets/katalog/g02.svg" alt="" loading="lazy">
-            <figcaption>Segmentna vrata, dekor drveta</figcaption>
-          </figure>
-          <figure>
-            <img src="assets/katalog/g03.svg" alt="" loading="lazy">
-            <figcaption>Segmentna vrata, tamna</figcaption>
-          </figure>
-        </div>
-        <p class="offer-more"><a href="katalog.html#garazna">Pogledaj još<span class="sr-only"> – Garažna vrata</span></a></p>
-      </article>
-      <article class="offer-row">
-        <h3>Komarnici</h3>
-        <ul class="catalog-type-list">
-          <li>Rolo komarnici</li>
-          <li>Plise komarnici</li>
-          <li>Fiksni komarnici</li>
-        </ul>
-        <p class="offer-more"><a href="katalog.html#komarnici">Pogledaj još<span class="sr-only"> – Komarnici</span></a></p>
-      </article>
-      <article class="offer-row">
-        <h3>Rolo i trakaste zavese</h3>
-        <ul class="catalog-type-list">
-          <li>Rolo zavese</li>
-          <li>Trakaste zavese</li>
-        </ul>
-        <p class="offer-more"><a href="katalog.html#zavese">Pogledaj još<span class="sr-only"> – Rolo i trakaste zavese</span></a></p>
-      </article>
-      <p class="home-more home-back-top"><a class="btn btn-ghost" href="#vrh"><span class="emoji" aria-hidden="true">⬆️</span> Vrati na vrh</a></p>
-    </div>
-  </section>
-
-  <section class="block" aria-labelledby="dopuna-naslov">
-    <div class="wrap">
-      <h2 id="dopuna-naslov">Stolarija po meri za kuće, stanove i lokale</h2>
-      <p>Za zamenu starih prozora ili opremanje novog objekta, počinjemo od otvora i načina na koji koristite prostor. Kod prozora i balkonskih vrata dogovaramo broj krila, način otvaranja i da li su potrebni roletna ili komarnik. Uz ulazna vrata možete razmotriti bočni stakleni deo ako u hodniku nedostaje dnevnog svetla.</p>
-      <p style="margin-top:12px">Kada birate između aluminijuma i PVC-a, pogledajte koje <a href="profili.html">profile za stolariju</a> koristimo i kako izgledaju ugrađeni prozori, ulazna i garažna vrata u <a href="radovi.html">galeriji radova</a>. Na fotografijama su i radovi iz Aleksandrovca, Žabara, Kučeva i Požarevca.</p>
-      <p style="margin-top:12px">Duo Tim je iz Vlaškog Dola. Pogledajte <a href="okolna-sela.html">gde dolazimo na merenje i montažu</a>. Ako već znate šta menjate, u <a href="kontakt.html#upit">upitu za predračun</a> pošaljite mesto ugradnje, broj otvora i približne mere.</p>
+      <h2 id="ponuda-naslov">Šta nudimo</h2>
+      <ul class="home-page-links">
+        <li><a href="profili.html"><strong>Profili</strong></a><span>PVC i aluminijumski sistemi.</span></li>
+        <li><a href="usluge.html"><strong>Usluge</strong></a><span>Merenje, izrada, montaža i servis.</span></li>
+        <li><a href="katalog.html"><strong>Katalog</strong></a><span>Modeli prozora, vrata, roletni i komarnika.</span></li>
+        <li><a href="radovi.html"><strong>Radovi</strong></a><span>Fotografije ugrađene stolarije.</span></li>
+        <li><a href="o-nama.html"><strong>O nama</strong></a><span>Upoznajte Duo Tim iz Vlaškog Dola.</span></li>
+        <li><a href="kontakt.html#upit"><strong>Kontakt</strong></a><span>Pošaljite mere i zatražite predračun.</span></li>
+        <li><a href="okolna-sela.html"><strong>Područje rada</strong></a><span>Proverite gde dolazimo na teren.</span></li>
+      </ul>
+      <p class="home-more home-back-top"><a class="btn btn-ghost" href="#vrh">Vrati na vrh</a></p>
     </div>
   </section>
 
@@ -375,6 +269,6 @@
   </div>
 </footer>
 
-<script src="assets/site.js?v=20261122-static-fast" defer></script>
+<script src="assets/site.js?v=20261123-mini-tour" defer></script>
 </body>
 </html>
