@@ -1602,7 +1602,7 @@ html{scroll-behavior:auto!important}
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: #485463 var(--brushed-metal);
+  background: var(--home-background-glint), var(--brushed-metal) #485463;
   clip-path: polygon(0 1px, 50% var(--offer-divider-depth), 100% 1px, 100% 100%, 0 100%);
 }
 
@@ -1621,4 +1621,19 @@ html{scroll-behavior:auto!important}
 
 @media (max-width: 560px) {
   .home-flyer #radovi-pocetna { padding-block-start: calc(var(--offer-divider-depth) + 12px); }
+}
+
+.home-flyer {
+  --home-background-glint: linear-gradient(118deg,
+    transparent 18%, rgba(255,255,255,.025) 30%,
+    rgba(255,249,227,.14) 41%, rgba(255,255,255,.045) 49%,
+    transparent 61%);
+}
+
+:root[data-theme="light"] .home-flyer .home-masthead {
+  background-image: var(--home-background-glint), linear-gradient(var(--surface), var(--bg));
+}
+
+:root[data-theme="dark"] .home-flyer .home-masthead {
+  background-image: var(--home-background-glint), var(--brushed-metal), linear-gradient(var(--surface), var(--bg));
 }
