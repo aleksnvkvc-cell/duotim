@@ -361,3 +361,26 @@
     ], { duration: 380, delay: 1590 + index * 420, easing: 'ease-out' });
   });
 })();
+
+(function () {
+  if (!document.querySelector('.home-flyer') ||
+      !('IntersectionObserver' in window) ||
+      typeof Element.prototype.animate !== 'function') return;
+
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const observer = new IntersectionObserver(entries => {
+    const visible = entries.filter(entry => entry.isIntersecting);
+    visible.forEach(({ target }, index) => {
+      observer.unobserve(target);
+      if (reducedMotion.matches) return;
+
+      target.animate([
+        { textShadow: 'none' },
+        { textShadow: '-2px 0 #5eabffb3, 2px 0 #ffc347bf', offset: .48 },
+        { textShadow: 'none' }
+      ], { duration: 350, delay: index * 95, easing: 'ease-in-out' });
+    });
+  }, { threshold: .5 });
+
+  document.querySelectorAll('header nav a, .home-page-links a').forEach(link => observer.observe(link));
+})();
