@@ -240,7 +240,7 @@
   function revealCaption(slide) {
     if (reducedMotion.matches || typeof Element.prototype.animate !== 'function') return;
 
-    for (const line of slide.querySelectorAll('figcaption strong, figcaption p')) {
+    for (const line of slide.querySelectorAll('figcaption strong')) {
       if (!line.hasAttribute('aria-label')) {
         const label = line.textContent.trim();
         line.setAttribute('aria-label', label);
@@ -252,6 +252,7 @@
           for (const letter of word) {
             const span = document.createElement('span');
             span.className = 'slide-letter';
+            span.style.display = 'inline-block';
             span.textContent = letter;
             group.append(span);
           }
@@ -261,9 +262,13 @@
       }
 
       line.querySelectorAll('.slide-letter').forEach((letter, index) => {
-        letter.animate([{ opacity: .15 }, { opacity: 1 }], {
-          duration: 190,
-          delay: Math.min(index * 16, 560),
+        letter.animate([
+          { opacity: 0, transform: 'translateY(4px) scale(.62)' },
+          { opacity: 1, transform: 'translateY(-2px) scale(1.12)', offset: .65 },
+          { opacity: 1, transform: 'none' }
+        ], {
+          duration: 260,
+          delay: index * 26,
           easing: 'ease-out',
           fill: 'backwards'
         });
@@ -271,7 +276,19 @@
     }
   }
 
+  function revealDescription(slide) {
+    if (reducedMotion.matches) return;
+    const description = slide.querySelector('.hero-work-description p');
+    if (!description || typeof description.animate !== 'function') return;
+    description.animate([
+      { opacity: 0, textShadow: '0 0 14px #fff, 0 0 24px #fff' },
+      { opacity: .95, textShadow: '0 0 8px #fff, 0 0 14px #fff', offset: .35 },
+      { opacity: 1, textShadow: '0 0 0 transparent, 0 0 0 transparent' }
+    ], { duration: 560, easing: 'ease-out' });
+  }
+
   revealCaption(slides[current]);
+  revealDescription(slides[current]);
   window.setInterval(() => {
     if (document.hidden || reducedMotion.matches || preview.matches(':focus-within') ||
         (hover.matches && preview.matches(':hover'))) return;
@@ -280,5 +297,6 @@
     current = (current + 1) % slides.length;
     slides[current].hidden = false;
     revealCaption(slides[current]);
+    revealDescription(slides[current]);
   }, 3500);
 })();
