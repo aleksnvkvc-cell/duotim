@@ -27,7 +27,7 @@
 <meta name="twitter:image:alt" content="DUO TIM · aleksnvkvc-cell.github.io/duotim/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="assets/site.css?v=20261123-background-glint">
+<link rel="stylesheet" href="assets/site.css?v=20261123-white-inner-window">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700&amp;family=Bricolage+Grotesque:wght@600..800&amp;family=DM+Sans:wght@400..800&amp;display=swap">
 <script type="application/ld+json">
 {
@@ -150,6 +150,14 @@
                 <clipPath id="hero-logo-d"><rect x="0" width="79" height="314"/></clipPath>
                 <clipPath id="hero-logo-u"><rect x="79" width="83" height="314"/></clipPath>
                 <clipPath id="hero-logo-o"><rect x="162" width="93" height="314"/></clipPath>
+                <filter id="hero-logo-window-colors" color-interpolation-filters="sRGB">
+                  <feColorMatrix values="1 0 0 0 0  1 0 0 0 0  1 0 0 0 0  0 0 0 1 0"/>
+                  <feComponentTransfer>
+                    <feFuncR type="discrete" tableValues="1 1"/>
+                    <feFuncG type="discrete" tableValues="1 .706"/>
+                    <feFuncB type="discrete" tableValues="1 0"/>
+                  </feComponentTransfer>
+                </filter>
                 <clipPath id="hero-logo-emblem"><rect x="255" width="171" height="314"/></clipPath>
                 <clipPath id="hero-logo-t"><rect x="426" width="80" height="314"/></clipPath>
                 <clipPath id="hero-logo-i"><rect x="506" width="37" height="314"/></clipPath>
@@ -158,7 +166,7 @@
               <g class="hero-logo-letter hero-logo-letter--left" style="--logo-step:0"><use href="#hero-logo-source" clip-path="url(#hero-logo-d)"/></g>
               <g class="hero-logo-letter hero-logo-letter--left" style="--logo-step:1"><use href="#hero-logo-source" clip-path="url(#hero-logo-u)"/></g>
               <g class="hero-logo-letter hero-logo-letter--left" style="--logo-step:2"><use href="#hero-logo-source" clip-path="url(#hero-logo-o)"/></g>
-              <g class="hero-logo-mark"><use href="#hero-logo-source" clip-path="url(#hero-logo-emblem)"/></g>
+              <g class="hero-logo-mark"><use href="#hero-logo-source" clip-path="url(#hero-logo-emblem)" filter="url(#hero-logo-window-colors)"/></g>
               <g class="hero-logo-letter hero-logo-letter--right" style="--logo-step:0"><use href="#hero-logo-source" clip-path="url(#hero-logo-t)"/></g>
               <g class="hero-logo-letter hero-logo-letter--right" style="--logo-step:1"><use href="#hero-logo-source" clip-path="url(#hero-logo-i)"/></g>
               <g class="hero-logo-letter hero-logo-letter--right" style="--logo-step:2"><use href="#hero-logo-source" clip-path="url(#hero-logo-m)"/></g>
