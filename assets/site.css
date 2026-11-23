@@ -1591,3 +1591,9 @@ html{scroll-behavior:auto!important}
 .home-page-links li { padding: .7rem 0; border-bottom: 1px solid var(--line); }
 .home-page-links a { color: var(--accent-ink); }
 .home-page-links span { display: block; color: var(--muted); font-size: .9rem; }
+
+.home-flyer .hero-logo-art { filter: brightness(0) invert(1); }
+[data-theme="light"] .home-flyer .hero-logo {
+  background: #485463;
+  border-radius: 6px;
+}
