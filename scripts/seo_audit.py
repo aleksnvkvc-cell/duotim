@@ -39,7 +39,8 @@ class Page(HTMLParser):
             json.loads(self.data)
             self.in_json = False
 
-urls = {x.text for x in ET.parse('sitemap.xml').findall('.//{*}loc')}
+SITEMAP_NS = {'sm': 'http://www.sitemaps.org/schemas/sitemap/0.9'}
+urls = {loc.text for loc in ET.parse('sitemap.xml').findall('sm:url/sm:loc', SITEMAP_NS)}
 titles, descriptions, expected = set(), set(), set()
 errors = []
 for f in sorted(Path('.').glob('*.html')):
