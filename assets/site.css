@@ -1591,17 +1591,11 @@ html{scroll-behavior:auto!important}
 .home-page-links a { color: var(--accent-ink); }
 .home-page-links span { display: block; color: var(--muted); font-size: .9rem; }
 
-.home-flyer .hero-logo-letter { filter: brightness(0) invert(1); }
-[data-theme="light"] .home-flyer .hero-logo {
-  background: #485463;
-  border-radius: 6px;
-}
-
 .home-flyer #radovi-pocetna .home-offer-background {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: var(--home-background-glint), var(--brushed-metal) #485463;
+  background: var(--brushed-metal) #485463;
   clip-path: polygon(0 1px, 50% var(--offer-divider-depth), 100% 1px, 100% 100%, 0 100%);
 }
 
@@ -1615,52 +1609,21 @@ html{scroll-behavior:auto!important}
     0 4px, 50% calc(var(--offer-divider-depth) + 3px), 100% 4px,
     100% 5px, 50% calc(var(--offer-divider-depth) + 4px), 0 5px
   );
-  opacity: .72;
+  opacity: .38;
 }
 
 @media (max-width: 560px) {
   .home-flyer #radovi-pocetna { padding-block-start: calc(var(--offer-divider-depth) + 12px); }
 }
 
-.home-flyer {
-  --home-background-glint: linear-gradient(118deg,
-    transparent 18%, rgba(255,255,255,.025) 30%,
-    rgba(255,249,227,.14) 41%, rgba(255,255,255,.045) 49%,
-    transparent 61%);
-}
-
-:root[data-theme="light"] .home-flyer .home-masthead {
-  background-image: var(--home-background-glint), linear-gradient(var(--surface), var(--bg));
-}
-
-:root[data-theme="dark"] .home-flyer .home-masthead {
-  background-image: var(--home-background-glint), var(--brushed-metal), linear-gradient(var(--surface), var(--bg));
-}
-
-.home-flyer .hero-logo-art {
-  filter: drop-shadow(0 1px 0 #182235) drop-shadow(0 2px 1px #18223580);
-}
-
-.home-flyer #home-title :is(.home-title-alu, .home-title-pvc) {
-  box-shadow: 0 2px 0 #775618, 0 3px 2px #17130d70;
-}
-
-.home-flyer .home-intro .home-action {
-  box-shadow: 0 2px 0 #775618, 0 4px 4px #17130d55;
-}
 .home-flyer .home-intro .home-action:active {
   transform: translateY(2px);
-  box-shadow: 0 1px 1px #17130d55;
 }
 
 body:has(.home-flyer) header nav a,
 .home-flyer .home-page-links a {
   font-weight: 750;
   text-shadow: none;
-}
-
-body:has(.home-flyer) header nav a {
-  color: #201b14;
 }
 
 .home-flyer .home-page-links a {
