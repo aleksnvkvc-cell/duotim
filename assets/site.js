@@ -268,3 +268,25 @@
   });
   sync();
 })();
+
+/* One compact flyer masthead: contacts and navigation share one surface. */
+(function () {
+  const contacts = document.querySelector('body > .topbar');
+  const header = document.querySelector('body > header');
+  if (!contacts || !header) return;
+  header.classList.add('flyer-unified-header');
+  header.prepend(contacts);
+  const style = document.createElement('style');
+  style.textContent = `
+    :root[data-theme] .flyer-unified-header {position:relative;top:auto;border-bottom:2px solid var(--accent);}
+    .flyer-unified-header > .topbar {background:transparent!important;color:var(--nav-link)!important;z-index:2;border:0;}
+    .flyer-unified-header > .topbar a {color:inherit!important;}
+    .flyer-unified-header > .topbar .wrap {padding:5px 0!important;}
+    .flyer-unified-header > .bar {height:auto;min-height:48px;}
+    @media(max-width:800px) {
+      .flyer-unified-header > .topbar .wrap {gap:2px 10px!important;}
+      .flyer-unified-header > .bar {min-height:44px;}
+    }
+  `;
+  document.head.appendChild(style);
+})();
