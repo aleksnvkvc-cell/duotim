@@ -279,7 +279,7 @@
   const style = document.createElement('style');
   style.textContent = `
     :root[data-theme] .flyer-unified-header {position:relative;top:auto;border-bottom:2px solid var(--accent);}
-    .flyer-unified-header > .topbar {background:transparent!important;color:var(--nav-link)!important;z-index:2;border:0;}
+    .flyer-unified-header > .topbar {background:#25272a!important;color:#fff!important;z-index:2;border:0;}
     .flyer-unified-header > .topbar a {color:inherit!important;}
     .flyer-unified-header > .topbar .wrap {padding:5px 0!important;}
     .flyer-unified-header > .bar {height:auto;min-height:48px;}
