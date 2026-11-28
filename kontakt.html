@@ -508,7 +508,10 @@
       ', otvaranje: ' + sels.join(' / ') + ($('kRol').checked ? ', sa roletnom' : '') + ($('kMreza').checked ? ', sa komarnikom' : '') + ', komada: ' + ($('kKom').value || 1);
   }
   ['kVrsta', 'kMat', 'kKrila', 'kW', 'kH', 'kBoja', 'kRol', 'kMreza', 'kPomN', 'kPomStr', 'kPomL', 'kPomD', 'kGarTip', 'kGarPr'].forEach(function (id) { $(id).addEventListener('input', draw); $(id).addEventListener('change', draw); });
-  var items = [], itemsData = [], lastText = '';
+  var items = [], itemsData = [], lastText = '', editing = -1;
+  function syncMessage() { if (!lastText) return; var ta = document.querySelector('#upitForm textarea[name="poruka"]'); var base = ta.value; if (base.endsWith(lastText)) { base = base.slice(0,-lastText.length).trimEnd(); lastText = items.join('\n'); ta.value = base + (base && lastText ? '\n' : '') + lastText; } }
+  function editItem(i) { var d=itemsData[i]; editing=i; $('kVrsta').value=d.vrsta; $('kMat').value=d.materijal; $('kW').value=d.sirina; $('kH').value=d.visina; $('kKom').value=d.komada; Array.from($('kBoja').options).forEach(function(o){if(o.text===d.boja) $('kBoja').value=o.value;}); $('kRol').checked=d.roletna; $('kMreza').checked=d.komarnik; if(d.vrsta==='Prozor'){ $('kKrila').value=d.krila; draw(); d.otvaranje.split(' / ').forEach(function(v,j){var s=$('kOtv').querySelectorAll('select')[j];if(s)s.value=v;}); } if(d.vrsta==='Vrata'){var l=d.pomocna.includes('levo'), rr=d.pomocna.includes('desno'); $('kPomN').value=Number(l)+Number(rr); $('kPomStr').value=l?'Levo':'Desno'; $('kPomL').value=d.pomocna.includes('levo fiksno')?'Da':'Ne'; $('kPomD').value=d.pomocna.includes('desno fiksno')?'Da':'Ne';} if(d.vrsta==='Garažna vrata'){ $('kGarTip').value=d.garTip; $('kGarPr').value=d.garProzori?'Da':'Ne'; } draw(); $('kVrsta').dispatchEvent(new Event('change',{bubbles:true})); $('kDodaj').textContent='Sačuvaj izmene'; $('kOk').textContent='Izmenite stavku i sačuvajte.'; $('kVrsta').focus(); }
+  function saveItem(){ if(editing>=0){items[editing]=summary();itemsData[editing]=data();editing=-1; $('kDodaj').textContent='Dodaj još stavki';syncMessage();}else{items.push(summary());itemsData.push(data());}renderList(); }
   function data() {
     var vr = $('kVrsta').value, d = { vrsta: vr, materijal: $('kMat').value, sirina: +$('kW').value || 0, visina: +$('kH').value || 0,
       boja: $('kBoja').options[$('kBoja').selectedIndex].text, komada: +$('kKom').value || 1, roletna: $('kRol').checked, komarnik: $('kMreza').checked, opis: summary().replace(/^- /, '') };
@@ -518,23 +521,23 @@
     return d;
   }
   window.duotimStavke = function () { return itemsData.slice(); };
-  window.duotimStavkeReset = function () { items = []; itemsData = []; lastText = ''; renderList(); $('kOk').textContent = ''; };
+  window.duotimStavkeReset = function () { items = []; itemsData = []; lastText = ''; editing=-1; $('kDodaj').textContent='Dodaj još stavki'; renderList(); $('kOk').textContent = ''; };
   function renderList() {
     var ul = $('kList'); ul.innerHTML = '';
     items.forEach(function (t, i) {
       var li = document.createElement('li'), span = document.createElement('span');
       span.textContent = (i + 1) + '. ' + t.replace(/^- /, '');
-      var b = document.createElement('button'); b.type = 'button'; b.textContent = 'Ukloni';
-      b.addEventListener('click', function () { items.splice(i, 1); itemsData.splice(i, 1); renderList(); $('kOk').textContent = 'Stavka je uklonjena.'; });
-      li.appendChild(span); li.appendChild(b); ul.appendChild(li);
+      var b = document.createElement('button'); b.type = 'button'; b.textContent = 'Obriši'; var edit=document.createElement('button'); edit.type='button'; edit.textContent='Izmeni'; edit.addEventListener('click',function(){editItem(i);});
+      b.addEventListener('click', function () { items.splice(i, 1); itemsData.splice(i, 1); if(editing===i){editing=-1;$('kDodaj').textContent='Dodaj još stavki';}else if(editing>i)editing--; syncMessage(); renderList(); $('kOk').textContent = 'Stavka je uklonjena.'; });
+      li.appendChild(span); var controls=document.createElement('div'); controls.style.display='flex';controls.style.gap='6px';controls.appendChild(edit);controls.appendChild(b);li.appendChild(controls); ul.appendChild(li);
     });
   }
   $('kDodaj').addEventListener('click', function () {
-    items.push(summary()); itemsData.push(data()); renderList();
+    saveItem();
     $('kOk').textContent = 'Stavka je dodata. Dodajte sledeću ili ubacite listu u poruku.';
   });
   $('kAdd').addEventListener('click', function () {
-    if (!items.length) { items.push(summary()); itemsData.push(data()); renderList(); }
+    if (editing>=0 || !items.length) saveItem();
     var list = items.slice();
     var text = list.join('\n');
     var ta = document.querySelector('#upitForm textarea[name="poruka"]');
