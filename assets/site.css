@@ -1632,3 +1632,8 @@ body:has(.home-flyer) header nav a,
 }
 
 #konf .konf-draw svg{height:auto;aspect-ratio:1;max-height:320px} #konf .konf-draw #model-view{overflow:hidden} #konf .konf-size{position:static;display:block;text-align:center;margin-top:8px} @media(max-width:760px){#konf .konf-body{grid-template-columns:1fr}}
+
+/* Center the logo within the full hero logo band. */
+.home-flyer .hero.hero-chevron-top .hero-row {display:grid;grid-template-columns:minmax(0,1fr);justify-items:center;align-items:center;width:100%;max-width:none;margin-inline:auto;padding-inline:0;}
+.home-flyer .hero-logo-panel .hero-row > .hero-logo {grid-column:1 / -1;justify-self:center;align-self:center;margin:0;position:relative;inset:auto;}
+.home-flyer .hero-logo-panel .hero-logo-art {margin-inline:auto;}
