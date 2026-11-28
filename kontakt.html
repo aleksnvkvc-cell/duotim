@@ -277,7 +277,7 @@
           <h3>Složite svoj prozor ili vrata</h3>
           <p class="konf-sub">Izaberite tip, mere i boju. Klikom na dugme opis ide u poruku.</p>
           <div class="konf-body">
-            <div class="konf-draw"><svg id="konfSvg" viewBox="0 0 300 300" role="img" aria-label="Crtež izabranog prozora"></svg><span class="konf-size" id="konfSize"></span></div>
+            <div class="konf-draw"><svg id="konfSvg" viewBox="0 0 300 300" role="img" aria-label="Crtež izabranog prozora"></svg><div id="model-view" hidden style="height:320px;width:100%;background:#485463"></div><p id="model-status" role="status"></p><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><button class="btn" type="button" id="model-load">Prikaži 3D</button><button class="btn" type="button" id="model-action" hidden>Otvori / zatvori</button><button class="btn" type="button" id="model-rotate" hidden>Rotiraj</button><button class="btn" type="button" id="model-2d" hidden>2D crtež</button></div><span class="konf-size" id="konfSize"></span></div>
             <div class="konf-fields">
               <label>Vrsta<select id="kVrsta"><option>Prozor</option><option>Vrata</option><option>Garažna vrata</option></select></label>
               <label>Materijal<select id="kMat"><option>PVC</option><option>ALU</option></select></label>
@@ -549,6 +549,7 @@
   draw();
 })();
 </script>
+<script type="module" src="assets/configurator-3d.js"></script>
 <script src="assets/site.js?v=20261122-static-fast" defer></script>
 </body>
 </html>
