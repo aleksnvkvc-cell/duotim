@@ -310,3 +310,30 @@
   style.textContent = 'header .bar{justify-content:flex-end} @media(min-width:801px){header .bar > nav > ul{gap:clamp(10px,2vw,26px)}}';
   document.head.appendChild(style);
 })();
+
+/* Consistent flyer navigation on desktop and mobile. */
+(function () {
+  const order = ['index.html','o-nama.html','usluge.html','profili.html','katalog.html','radovi.html','kontakt.html'];
+  function key(a) {
+    const href = a.getAttribute('href');
+    if (href === './' || href === 'index.html') return 'index.html';
+    return href;
+  }
+  document.querySelectorAll('header nav ul, header .mobile-nav').forEach(function (list) {
+    const items = Array.from(list.children);
+    const ranked = items.map(function (node) {
+      const a = node.matches('a') ? node : node.querySelector('a');
+      return {node:node,a:a,rank:a ? order.indexOf(key(a)) : -1};
+    }).filter(function (item) { return item.rank >= 0; });
+    ranked.sort(function (a,b) { return a.rank-b.rank; });
+    const fragment = document.createDocumentFragment();
+    ranked.forEach(function (item) {
+      if (key(item.a) === 'radovi.html') item.a.textContent = 'Galerija';
+      fragment.appendChild(item.node);
+    });
+    list.prepend(fragment);
+  });
+  document.querySelectorAll('main a[href="radovi.html"]').forEach(function (a) {
+    if (a.textContent.trim() === 'Radovi') a.textContent = 'Galerija';
+  });
+})();
