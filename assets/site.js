@@ -245,3 +245,26 @@
     slides[current].hidden = false;
   }, 3500);
 })();
+
+/* Hero-yellow back-to-top chevron. */
+(function () {
+  if (document.querySelector('.back-to-top')) return;
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'back-to-top';
+  button.setAttribute('aria-label', 'Vrati na vrh');
+  button.title = 'Vrati na vrh';
+  button.innerHTML = '<svg viewBox="0 0 48 48" width="48" height="48" aria-hidden="true" focusable="false"><path d="M7 29 L24 15 L41 29" fill="none" stroke="var(--accent, #fbb400)" stroke-width="6" stroke-linejoin="miter"/></svg>';
+  button.style.cssText = 'position:fixed;right:max(16px,env(safe-area-inset-right));bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:100;width:48px;height:48px;padding:0;border:0;background:transparent;box-shadow:none;cursor:pointer;line-height:0;';
+  document.body.appendChild(button);
+  function sync() { button.style.display = window.scrollY < 320 && document.activeElement !== button ? 'none' : 'block'; }
+  window.addEventListener('scroll', sync, {passive:true});
+  window.addEventListener('pageshow', sync);
+  button.addEventListener('blur', sync);
+  button.addEventListener('click', function () {
+    window.scrollTo({top:0, behavior:'instant'});
+    button.blur();
+    sync();
+  });
+  sync();
+})();
