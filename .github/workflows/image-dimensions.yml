@@ -1,5 +1,9 @@
 name: Image dimensions
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/image-dimensions.yml'
 permissions:
   contents: write
 jobs:

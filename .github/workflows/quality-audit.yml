@@ -16,6 +16,10 @@ jobs:
           sleep 2
           CHROME_PATH=$(node -e "console.log(require('playwright').chromium.executablePath())") npx lighthouse http://localhost:8766/ --chrome-flags="--headless --no-sandbox" --output=json --output-path=./lighthouse-home.json
           CHROME_PATH=$(node -e "console.log(require('playwright').chromium.executablePath())") npx lighthouse http://localhost:8766/kontakt.html --chrome-flags="--headless --no-sandbox" --output=json --output-path=./lighthouse-contact.json
+      - name: Summarize audit findings
+        if: always()
+        run: |
+          node -e "const fs=require('fs'); for(const f of ['lighthouse-home.json','lighthouse-contact.json']) if(fs.existsSync(f)){const x=JSON.parse(fs.readFileSync(f)); console.log(f,JSON.stringify(Object.fromEntries(Object.entries(x.categories).map(([k,v])=>[k,v.score]))));} if(fs.existsSync('axe-report.json')) console.log(fs.readFileSync('axe-report.json','utf8'));"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
