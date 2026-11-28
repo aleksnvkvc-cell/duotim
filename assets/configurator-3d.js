@@ -56,3 +56,9 @@ load.addEventListener('click',async()=>{
     $('konf').addEventListener('input',refresh);$('konf').addEventListener('change',refresh);new ResizeObserver(draw).observe(view);initialized=true;refresh();status.textContent='Ilustrativni 3D prikaz; nije proizvodni nacrt.';
   }catch(e){view.hidden=true;svg.style.display='';load.hidden=false;status.textContent='3D nije dostupan. Koristite 2D crtež.';}finally{load.disabled=false;}
 });
+
+// Automatically load the preview when the configurator approaches the viewport.
+if ('IntersectionObserver' in window) {
+ const observer = new IntersectionObserver(entries => { if(entries.some(e=>e.isIntersecting)){observer.disconnect();if(!initialized&&!load.disabled)load.click();} }, {rootMargin:'150px'});
+ observer.observe($('konf'));
+} else { load.click(); }
