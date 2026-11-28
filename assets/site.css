@@ -813,8 +813,8 @@ button.ur-cat{font:inherit;color:inherit;text-align:left;cursor:pointer;width:10
 .konf-pom{display:grid;gap:10px}
 
 /* konfigurator bez crteža: samo polja */
-.konf-draw{display:none!important}
-.konf-body{display:block!important}
+.konf-draw{display:block!important;aspect-ratio:auto;min-width:0;padding:12px}
+.konf-body{display:grid!important}
 @media(min-width:561px){.konf-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px;align-items:end}.konf-fields>.konf-two,.konf-fields>.konf-otv,.konf-fields>.konf-pom{grid-column:1/-1}.konf-pom{grid-template-columns:1fr 1fr}.konf-otv{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px}}
 
 .ur-tiles{margin-top:24px}
@@ -1630,3 +1630,5 @@ body:has(.home-flyer) header nav a,
   text-decoration-thickness: 1px;
   text-underline-offset: .17em;
 }
+
+#konf .konf-draw svg{height:auto;aspect-ratio:1;max-height:320px} #konf .konf-draw #model-view{overflow:hidden} #konf .konf-size{position:static;display:block;text-align:center;margin-top:8px} @media(max-width:760px){#konf .konf-body{grid-template-columns:1fr}}
