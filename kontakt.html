@@ -26,7 +26,7 @@
 <meta name="twitter:image:alt" content="Duo Tim – ALU i PVC stolarija">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="assets/site.css?v=20261128-3d-fix">
+<link rel="stylesheet" href="assets/site.css?v=20261128-stability">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700&amp;family=Bricolage+Grotesque:wght@600..800&amp;family=DM+Sans:wght@400..800&amp;display=swap">
 <script type="application/ld+json">
 {
@@ -292,12 +292,12 @@
                 <label id="kPomLL">Levo fiksno<select id="kPomL"><option>Da</option><option>Ne</option></select></label>
                 <label id="kPomDL">Desno fiksno<select id="kPomD"><option>Da</option><option>Ne</option></select></label>
               </div>
-              <div class="konf-two"><label>Širina (cm)<input id="kW" type="number" min="30" max="400" value="140"></label><label>Visina (cm)<input id="kH" type="number" min="30" max="300" value="140"></label></div>
+              <div class="konf-two"><label>Širina (cm)<input id="kW" type="number" required min="30" max="400" value="140"></label><label>Visina (cm)<input id="kH" type="number" required min="30" max="300" value="140"></label></div>
               <label>Boja<select id="kBoja"><option value="#f3f3f0">Bela</option><option value="#b8762f">Zlatni hrast</option><option value="#7b3f20">Orah</option><option value="#4a2f1d">Tamni hrast</option><option value="#3b3f45">Antracit</option><option value="#5b3b2b">Braon</option><option value="#3c4046">Jednostrani antracit</option></select></label>
               <div id="kOtv" class="konf-otv"></div>
               <label class="konf-check"><input id="kRol" type="checkbox"> Spoljna roletna</label>
               <label class="konf-check"><input id="kMreza" type="checkbox"> Komarnik</label>
-              <label>Komada<input id="kKom" type="number" min="1" max="50" value="1"></label>
+              <label>Komada<input id="kKom" type="number" required min="1" max="50" value="1"></label>
             </div>
           </div>
           <div class="konf-actions">
@@ -365,6 +365,7 @@
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     var f = e.target;
+    if (window.duotimPrepare && !window.duotimPrepare()) return;
     var btn = f.querySelector('button[value=direct]');
     var body = 'Ime: ' + f.ime.value + '\nTelefon: ' + f.telefon.value + '\n\n' + f.poruka.value;
     if (e.submitter && e.submitter.value === 'whatsapp') {
@@ -509,9 +510,10 @@
   }
   ['kVrsta', 'kMat', 'kKrila', 'kW', 'kH', 'kBoja', 'kRol', 'kMreza', 'kPomN', 'kPomStr', 'kPomL', 'kPomD', 'kGarTip', 'kGarPr'].forEach(function (id) { $(id).addEventListener('input', draw); $(id).addEventListener('change', draw); });
   var items = [], itemsData = [], lastText = '', editing = -1;
-  function syncMessage() { if (!lastText) return; var ta = document.querySelector('#upitForm textarea[name="poruka"]'); var base = ta.value; if (base.endsWith(lastText)) { base = base.slice(0,-lastText.length).trimEnd(); lastText = items.join('\n'); ta.value = base + (base && lastText ? '\n' : '') + lastText; } }
+  function syncMessage() { if (!lastText) return; var ta = document.querySelector('#upitForm textarea[name="poruka"]'); var base = ta.value; if (base.includes(lastText)) { base = base.replace(lastText,'').trimEnd(); lastText = items.join('\n'); ta.value = base + (base && lastText ? '\n' : '') + lastText; } }
   function editItem(i) { var d=itemsData[i]; editing=i; $('kVrsta').value=d.vrsta; $('kMat').value=d.materijal; $('kW').value=d.sirina; $('kH').value=d.visina; $('kKom').value=d.komada; Array.from($('kBoja').options).forEach(function(o){if(o.text===d.boja) $('kBoja').value=o.value;}); $('kRol').checked=d.roletna; $('kMreza').checked=d.komarnik; if(d.vrsta==='Prozor'){ $('kKrila').value=d.krila; draw(); d.otvaranje.split(' / ').forEach(function(v,j){var s=$('kOtv').querySelectorAll('select')[j];if(s)s.value=v;}); } if(d.vrsta==='Vrata'){var l=d.pomocna.includes('levo'), rr=d.pomocna.includes('desno'); $('kPomN').value=Number(l)+Number(rr); $('kPomStr').value=l?'Levo':'Desno'; $('kPomL').value=d.pomocna.includes('levo fiksno')?'Da':'Ne'; $('kPomD').value=d.pomocna.includes('desno fiksno')?'Da':'Ne';} if(d.vrsta==='Garažna vrata'){ $('kGarTip').value=d.garTip; $('kGarPr').value=d.garProzori?'Da':'Ne'; } draw(); $('kVrsta').dispatchEvent(new Event('change',{bubbles:true})); $('kDodaj').textContent='Sačuvaj izmene'; $('kOk').textContent='Izmenite stavku i sačuvajte.'; $('kVrsta').focus(); }
-  function saveItem(){ if(editing>=0){items[editing]=summary();itemsData[editing]=data();editing=-1; $('kDodaj').textContent='Dodaj još stavki';syncMessage();}else{items.push(summary());itemsData.push(data());}renderList(); }
+  function validItem(){ return ['kW','kH','kKom'].every(function(id){var el=$(id); if(!el.value || !el.checkValidity()){el.reportValidity();return false;}return true;}); }
+  function saveItem(){ if(!validItem())return false; if(editing>=0){items[editing]=summary();itemsData[editing]=data();editing=-1; $('kDodaj').textContent='Dodaj još stavki';syncMessage();}else{items.push(summary());itemsData.push(data());}renderList(); return true; }
   function data() {
     var vr = $('kVrsta').value, d = { vrsta: vr, materijal: $('kMat').value, sirina: +$('kW').value || 0, visina: +$('kH').value || 0,
       boja: $('kBoja').options[$('kBoja').selectedIndex].text, komada: +$('kKom').value || 1, roletna: $('kRol').checked, komarnik: $('kMreza').checked, opis: summary().replace(/^- /, '') };
@@ -520,6 +522,7 @@
     if (vr === 'Garažna vrata') { d.garTip = $('kGarTip').value; d.garProzori = d.garTip === 'Dvokrilna' && $('kGarPr').value === 'Da'; }
     return d;
   }
+  window.duotimPrepare = function () { if(editing>=0 && !saveItem())return false; if(items.length) { var ta=document.querySelector('#upitForm textarea[name="poruka"]'); var base=ta.value; if(lastText && base.includes(lastText))base=base.replace(lastText,'').trimEnd(); lastText=items.join('\n'); ta.value=base+(base?'\n':'')+lastText; } return true; };
   window.duotimStavke = function () { return itemsData.slice(); };
   window.duotimStavkeReset = function () { items = []; itemsData = []; lastText = ''; editing=-1; $('kDodaj').textContent='Dodaj još stavki'; renderList(); $('kOk').textContent = ''; };
   function renderList() {
@@ -533,11 +536,11 @@
     });
   }
   $('kDodaj').addEventListener('click', function () {
-    saveItem();
+    if(!saveItem())return;
     $('kOk').textContent = 'Stavka je dodata. Dodajte sledeću ili ubacite listu u poruku.';
   });
   $('kAdd').addEventListener('click', function () {
-    if (editing>=0 || !items.length) saveItem();
+    if ((editing>=0 || !items.length) && !saveItem()) return;
     var list = items.slice();
     var text = list.join('\n');
     var ta = document.querySelector('#upitForm textarea[name="poruka"]');
@@ -552,7 +555,7 @@
   draw();
 })();
 </script>
-<script type="module" src="assets/configurator-3d.js?v=20261128-3d-fix"></script>
-<script src="assets/site.js?v=20261122-static-fast" defer></script>
+<script type="module" src="assets/configurator-3d.js?v=20261128-stability"></script>
+<script src="assets/site.js?v=20261128-stability" defer></script>
 </body>
 </html>

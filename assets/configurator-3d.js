@@ -19,11 +19,11 @@ load.addEventListener('click',async()=>{
       const materials=new Set();turn.traverse(o=>{if(o.geometry)o.geometry.dispose();if(o.material)materials.add(o.material);});materials.forEach(m=>m.dispose());turn.clear();hinges=[];opened=false;
       const rawW=Math.max(30,Math.min(400,+value('kW')||100)),rawH=Math.max(30,Math.min(300,+value('kH')||100)),scale=3.5/Math.max(rawW,rawH),w=rawW*scale,h=rawH*scale;
       const t=Math.min(w,h)*.065,alu=value('kMat')==='ALU',color=value('kBoja');
-      const frame=new T.MeshStandardMaterial({color,metalness:alu?.55:.08,roughness:alu?.35:.65});
+      const frame=new T.MeshStandardMaterial({color,metalness:alu ? .55 : .08,roughness:alu ? .35 : .65});
       const glass=new T.MeshStandardMaterial({color:0x90b9ce,transparent:true,opacity:.55,roughness:.15});
       const metal=new T.MeshStandardMaterial({color:0x9ba2a8,metalness:.7,roughness:.3});
       const box=(parent,mat,a,b,c,x,y,z=0)=>{const m=new T.Mesh(new T.BoxGeometry(Math.max(.001,a),Math.max(.001,b),c),mat);m.position.set(x,y,z);parent.add(m);};
-      const depth=alu?.16:.23;
+      const depth=alu ? .16 : .23;
       for(const sign of [-1,1]){box(turn,frame,t,h,depth,sign*(w-t)/2,0);box(turn,frame,w,t,depth,0,sign*(h-t)/2);}
       const type=value('kVrsta'),gar=type==='Garažna vrata',door=type==='Vrata';
       if(gar&&value('kGarTip')==='Rolo'){

@@ -1,0 +1,13 @@
+name: Browser audit
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-save @playwright/test
+      - run: npx playwright install --with-deps chromium
+      - run: npx playwright test scripts/browser-audit.spec.cjs --reporter=list
