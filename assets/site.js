@@ -290,3 +290,23 @@
   `;
   document.head.appendChild(style);
 })();
+
+/* Home belongs to the same navigation list, not a separate button. */
+(function () {
+  const bar = document.querySelector('header .bar');
+  if (!bar) return;
+  const brand = bar.querySelector('.brand-up');
+  const list = bar.querySelector('nav ul');
+  if (!brand || !list) return;
+  const home = document.createElement('a');
+  home.href = brand.getAttribute('href') || './';
+  home.textContent = 'Početna';
+  if (/\/(?:index\.html)?$/.test(location.pathname)) home.setAttribute('aria-current','page');
+  const li = document.createElement('li');
+  li.appendChild(home);
+  list.prepend(li);
+  brand.remove();
+  const style = document.createElement('style');
+  style.textContent = 'header .bar{justify-content:flex-end} @media(min-width:801px){header .bar > nav > ul{gap:clamp(10px,2vw,26px)}}';
+  document.head.appendChild(style);
+})();
